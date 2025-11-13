@@ -131,9 +131,9 @@ export default function SimpleEVApp() {
   };
 
   const AI_RESPONSES = useMemo(() => [
-    'Off-peak rates start at 11 PM. You\'ll save £0.45 by waiting.',
-    'Your cheapest window tomorrow is 12 AM - 6 AM. Consider charging then.',
-    'If you enable V2G, you could earn £2-3 during tonight\'s peak window.',
+          'Off-peak rates start at 11 PM. You\'ll save £0.45 by waiting.',
+          'Your cheapest window tomorrow is 12 AM - 6 AM. Consider charging then.',
+          'If you enable V2G, you could earn £2-3 during tonight\'s peak window.',
   ], []);
 
   const handleAiSend = useCallback(() => {
@@ -144,14 +144,14 @@ export default function SimpleEVApp() {
     
     setTimeout(() => {
       const randomResponse = AI_RESPONSES[Math.floor(Math.random() * AI_RESPONSES.length)];
-      setAiMessages(prev => [...prev, { role: 'assistant', text: randomResponse }]);
-    }, 600);
+        setAiMessages(prev => [...prev, { role: 'assistant', text: randomResponse }]);
+      }, 600);
   }, [aiInput, AI_RESPONSES]);
 
   return (
-    <div className="min-h-screen bg-slate-900">
+    <div className="min-h-screen bg-slate-900 pt-[112px]">
       {/* Header */}
-      <div className="bg-slate-900 sticky top-[56px] z-50 border-b border-slate-800">
+      <div className="bg-slate-900 fixed top-[56px] left-0 right-0 z-50 border-b border-slate-800">
         <div className="max-w-md mx-auto px-4 py-2 flex items-center justify-between">
           <button onClick={() => setProfileOpen(true)} className="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-slate-300 hover:bg-slate-600 transition">
             <span className="text-sm font-bold">K</span>
@@ -337,7 +337,7 @@ export default function SimpleEVApp() {
                 <div className="flex gap-2 mb-4">
                 {WEEK_DAYS.map((day, idx) => (
                   <WeekDayBox key={idx} day={day} active={PLUG_IN_STREAK[idx]} />
-                ))}
+                  ))}
                 </div>
 
                 {/* Earnings from flex */}
