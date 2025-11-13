@@ -70,38 +70,6 @@ export default function AssetsView() {
         </button>
       </div>
 
-      {/* V2G & FLEX */}
-      <div className="px-4 pb-6">
-        <h3 className="text-xs font-semibold text-slate-400 mb-4 uppercase">V2G & Flex Programs</h3>
-        
-        <div className="space-y-3">
-          <div className="bg-slate-800 rounded-lg p-4">
-            <div className="flex items-start justify-between mb-2">
-              <div>
-                <p className="text-sm font-semibold text-white">National Grid - Peak Response</p>
-                <p className="text-xs text-slate-400 mt-1">Next payout: 5 Dec</p>
-              </div>
-              <span className="text-xs bg-emerald-500/20 text-emerald-300 px-2 py-1 rounded-full font-semibold">Active</span>
-            </div>
-            <p className="text-xs text-slate-300 mt-3">£42.30 earned • 28.5 kWh exported</p>
-          </div>
-
-          <div className="bg-slate-800 rounded-lg p-4">
-            <p className="text-sm font-semibold text-white mb-3">Local DNO - Flexibility</p>
-            <p className="text-xs text-slate-400 mb-3">Available to enroll</p>
-            <button className="text-sm text-cyan-400 hover:text-cyan-300 font-medium">
-              Learn more →
-            </button>
-          </div>
-
-          <div className="bg-slate-800 rounded-lg p-4">
-            <p className="text-xs text-slate-400 mb-2">Battery health impact</p>
-            <p className="text-sm font-semibold text-white">~2% annual degradation</p>
-            <p className="text-xs text-slate-300 mt-2">Expected battery life: 8-10 years</p>
-          </div>
-        </div>
-      </div>
-
       {/* NOTIFICATIONS */}
       <div className="px-4 pb-6">
         <h3 className="text-xs font-semibold text-slate-400 mb-4 uppercase">Notifications</h3>
