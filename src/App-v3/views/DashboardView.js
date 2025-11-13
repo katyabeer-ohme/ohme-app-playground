@@ -98,11 +98,12 @@ export default function DashboardView({ setScheduleOpen, setView }) {
               Boost charge
             </button>
             <button className="bg-slate-700 hover:bg-slate-600 text-white py-1.5 px-2 rounded-lg font-medium text-xs transition">
-              Stop session
-            </button>
-            <button className="bg-slate-700 hover:bg-slate-600 text-white py-1.5 px-2 rounded-lg font-medium text-xs transition">
               Change target
             </button>
+            <button className="bg-slate-700 hover:bg-slate-600 text-white py-1.5 px-2 rounded-lg font-medium text-xs transition">
+              Stop session
+            </button>
+          
           </div>
         </div>
       </div>

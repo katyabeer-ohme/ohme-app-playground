@@ -126,10 +126,20 @@ export default function DashboardView({ setScheduleOpen, setView, goalsExpanded,
             <p className="text-xs text-slate-300">2.1 kW</p>
           </div>
           <p className="text-xs text-slate-300 mb-4">Adding +23% between 11 AM and ~3:45 PM</p>
-          <div className="flex gap-2">
-            <button className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white py-2 px-3 rounded-lg font-medium text-xs transition">Boost charge</button>
-            <button className="flex-1 bg-slate-700 hover:bg-slate-600 text-white py-2 px-3 rounded-lg font-medium text-xs transition">Stop</button>
+         
+          <div className="grid grid-cols-3 gap-2">
+            <button className="bg-emerald-500 hover:bg-emerald-600 text-white py-1.5 px-2 rounded-lg font-medium text-xs transition">
+              Boost charge
+            </button>
+            <button className="bg-slate-700 hover:bg-slate-600 text-white py-1.5 px-2 rounded-lg font-medium text-xs transition">
+              Change target
+            </button>
+            <button className="bg-slate-700 hover:bg-slate-600 text-white py-1.5 px-2 rounded-lg font-medium text-xs transition">
+              Stop session
+            </button>
+          
           </div>
+          
         </div>
       </div>
 

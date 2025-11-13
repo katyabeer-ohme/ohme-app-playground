@@ -104,14 +104,18 @@ export default function DashboardView({ setScheduleOpen, setView }) {
 
             <p className="text-xs text-slate-400 mb-3">Ready by <span className="text-white font-medium">Tue 15:45</span></p>
 
-            <div className="flex gap-2">
-              <button className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white py-1.5 px-2 rounded-lg font-medium text-xs transition">
-                Boost charge
-              </button>
-              <button className="flex-1 bg-slate-700 hover:bg-slate-600 text-white py-1.5 px-2 rounded-lg font-medium text-xs transition">
-                End session
-              </button>
-            </div>
+            <div className="grid grid-cols-3 gap-2">
+            <button className="bg-emerald-500 hover:bg-emerald-600 text-white py-1.5 px-2 rounded-lg font-medium text-xs transition">
+              Boost charge
+            </button>
+            <button className="bg-slate-700 hover:bg-slate-600 text-white py-1.5 px-2 rounded-lg font-medium text-xs transition">
+              Change target
+            </button>
+            <button className="bg-slate-700 hover:bg-slate-600 text-white py-1.5 px-2 rounded-lg font-medium text-xs transition">
+              Stop session
+            </button>
+          
+          </div>
           </div>
         </div>
       )}
