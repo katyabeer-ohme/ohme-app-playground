@@ -9,7 +9,7 @@ export default function RewardsView({ rewardFilter, setRewardFilter }) {
     <div className="pb-24">
       <div className="px-4 pt-6 pb-4">
         <h2 className="text-xl font-bold text-white mb-2">Rewards</h2>
-        <p className="text-sm text-slate-400">Earn money by being flexible</p>
+        <p className="text-sm text-slate-400">Money earned by exporting to grid</p>
       </div>
 
       {/* Earnings Summary */}
@@ -18,16 +18,16 @@ export default function RewardsView({ rewardFilter, setRewardFilter }) {
           <div className="grid grid-cols-2 gap-4 mb-4">
             <div>
               <p className="text-xs text-slate-400 mb-1">Total Earned</p>
-              <p className="text-3xl font-bold text-white">£{rewardsData.totalEarned.toFixed(2)}</p>
+              <p className="text-3xl font-bold text-white">£42.30</p>
             </div>
             <div>
               <p className="text-xs text-slate-400 mb-1">This Month</p>
-              <p className="text-3xl font-bold text-emerald-400">+£{rewardsData.thisMonth.toFixed(2)}</p>
+              <p className="text-3xl font-bold text-emerald-400">+£12.50</p>
             </div>
           </div>
           <div className="bg-slate-900/30 rounded-lg p-3">
-            <p className="text-xs text-slate-300 mb-2">💡 Earning tip</p>
-            <p className="text-xs text-slate-400">Enable V2G during peak hours (5-9pm) to earn £2-3 more per day</p>
+            <p className="text-xs text-slate-300 mb-2">💡 Tips to earn more</p>
+            <p className="text-xs text-slate-400">Enable V2G during peak hours (5-9pm) for best earnings. More frequent participation increases rewards.</p>
           </div>
         </div>
       </div>

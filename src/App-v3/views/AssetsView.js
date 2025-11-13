@@ -1,5 +1,5 @@
 import React from 'react';
-import { Car, Zap, Sun, Battery } from 'lucide-react';
+import { Car, Zap, Plus } from 'lucide-react';
 import ToggleSwitch from '../components/ToggleSwitch';
 
 export default function AssetsView() {
@@ -9,8 +9,7 @@ export default function AssetsView() {
         <h2 className="text-xl font-bold text-white">My Hub</h2>
       </div>
       <div className="px-4 pb-6">
-        <h3 className="text-xs font-semibold text-slate-400 mb-4 uppercase">My Hub</h3>
-        <div className="grid grid-cols-2 gap-4 mb-4">
+        <div className="grid grid-cols-2 gap-4">
           <button className="bg-slate-800 rounded-lg p-4 text-left hover:bg-slate-750 transition flex flex-col justify-between">
             <div className="flex items-start justify-between mb-3">
               <p className="text-sm font-semibold text-white">Tesla Model 3</p>
@@ -39,31 +38,10 @@ export default function AssetsView() {
               <p className="text-xs text-emerald-400 font-medium">● Online</p>
             </div>
           </button>
-          <button className="bg-slate-800 rounded-lg p-4 text-left hover:bg-slate-750 transition flex flex-col justify-between">
-            <div className="flex items-start justify-between mb-3">
-              <p className="text-sm font-semibold text-white">Home Battery</p>
-              <Battery className="w-5 h-5 text-emerald-400" />
-            </div>
-            <div>
-              <p className="text-xs text-emerald-400 font-medium">✓ Paired</p>
-              <p className="text-2xl font-bold text-emerald-400 mt-2">49%</p>
-            </div>
+          <button className="bg-slate-800/50 border-2 border-dashed border-slate-600 rounded-lg p-4 text-left hover:bg-slate-700/50 hover:border-cyan-500 transition flex flex-col items-center justify-center">
+            <Plus className="w-6 h-6 text-slate-400 mb-2" />
+            <p className="text-sm font-semibold text-slate-300">Add an asset</p>
           </button>
-        </div>
-        <div className="bg-slate-800 rounded-lg p-4">
-          <div className="flex items-start justify-between mb-2">
-            <div>
-              <p className="text-sm font-semibold text-white">Solar</p>
-              <p className="text-xs text-slate-400 mt-1">5.5 kWp</p>
-            </div>
-            <div className="flex items-center gap-2">
-              <p className="text-xs text-yellow-400 font-medium">✓ Exporting now</p>
-              <Sun className="w-5 h-5 text-yellow-400" />
-            </div>
-          </div>
-          <div className="text-xs text-slate-300 mt-3">
-            <p>Min export: 4A</p>
-          </div>
         </div>
       </div>
 

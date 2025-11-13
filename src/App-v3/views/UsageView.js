@@ -1,108 +1,173 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { usageData } from '../constants/data';
 
-export default function UsageView({ usagePeriod, setUsagePeriod, usageType, setUsageType, usageAsset, setUsageAsset, hoveredBar, setHoveredBar }) {
+export default function UsageView({ usagePeriod, setUsagePeriod, usageType, setUsageType }) {
+  const currentPeriodData = usagePeriod === 'week' ? usageData.week : usageData.month;
+
+  const stats = useMemo(() => {
+    let totalKwh = 0;
+    let totalCost = 0;
+    let totalCarbon = 0;
+    let peakKwh = 0;
+    let offPeakKwh = 0;
+
+    currentPeriodData.forEach(data => {
+      totalKwh += (data.peakKwh || 0) + (data.offPeakKwh || 0);
+      totalCost += (data.peakCost || 0) + (data.offPeakCost || 0);
+      totalCarbon += (data.peakCarbon || 0) + (data.offPeakCarbon || 0);
+      peakKwh += data.peakKwh || 0;
+      offPeakKwh += data.offPeakKwh || 0;
+    });
+
+    const avgRate = totalKwh > 0 ? ((totalCost / totalKwh) * 100).toFixed(1) : '0';
+    const offPeakPct = totalKwh > 0 ? Math.round((offPeakKwh / totalKwh) * 100) : 0;
+    
+    // Estimate savings vs if all was charged at peak rate (45p/kWh)
+    const peakRate = 0.45;
+    const actualCost = totalCost;
+    const allPeakCost = totalKwh * peakRate;
+    const savings = (allPeakCost - actualCost).toFixed(2);
+
+    return {
+      totalKwh: totalKwh.toFixed(1),
+      totalCost: totalCost.toFixed(2),
+      totalCarbon: totalCarbon.toFixed(1),
+      avgRate,
+      offPeakPct,
+      savings
+    };
+  }, [currentPeriodData]);
+
   return (
     <div className="pb-24">
-      <div className="px-4 pt-6 pb-2">
-        <h2 className="text-xl font-bold text-white">Usage</h2>
+      <div className="px-4 pt-6 pb-4">
+        <h2 className="text-xl font-bold text-white mb-2">Usage</h2>
+        <select 
+          value={usagePeriod} 
+          onChange={(e) => setUsagePeriod(e.target.value)} 
+          className="w-full px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-white cursor-pointer mt-3 border border-slate-700"
+        >
+          <option value="week">This Week</option>
+          <option value="month">This Month</option>
+        </select>
       </div>
-      <div className="px-4 pt-2 pb-4 space-y-3">
-        <div className="flex gap-2">
-          <div className="flex-1">
-            <p className="text-xs font-semibold text-slate-400 mb-2">Period</p>
-            <select value={usagePeriod} onChange={(e) => setUsagePeriod(e.target.value)} className="w-full px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-white cursor-pointer">
-              <option value="today">Today</option>
-              <option value="week">Week</option>
-              <option value="month">Month</option>
-              <option value="year">Year</option>
-            </select>
+
+      {/* Top Stats */}
+      <div className="px-4 mb-6">
+        <div className="grid grid-cols-2 gap-3 mb-4">
+          <div className="bg-slate-800 rounded-lg p-4 border border-slate-700">
+            <p className="text-xs text-slate-400 mb-1">Total Cost</p>
+            <p className="text-2xl font-bold text-white">£{stats.totalCost}</p>
+            <p className="text-xs text-slate-500 mt-2">{stats.offPeakPct}% off-peak</p>
           </div>
-          <div className="flex-1">
-            <p className="text-xs font-semibold text-slate-400 mb-2">Type</p>
-            <div className="flex gap-1">
-              <button onClick={() => setUsageType('cost')} className={usageType === 'cost' ? 'flex-1 py-1.5 rounded-lg text-xs font-bold bg-cyan-500 text-white shadow-lg shadow-cyan-500/50' : 'flex-1 py-1.5 rounded-lg text-xs font-bold bg-slate-800 text-slate-400'}>£</button>
-              <button onClick={() => setUsageType('kwh')} className={usageType === 'kwh' ? 'flex-1 py-1.5 rounded-lg text-xs font-bold bg-cyan-500 text-white shadow-lg shadow-cyan-500/50' : 'flex-1 py-1.5 rounded-lg text-xs font-bold bg-slate-800 text-slate-400'}>kWh</button>
-              <button onClick={() => setUsageType('carbon')} className={usageType === 'carbon' ? 'flex-1 py-1.5 rounded-lg text-xs font-bold bg-cyan-500 text-white shadow-lg shadow-cyan-500/50' : 'flex-1 py-1.5 rounded-lg text-xs font-bold bg-slate-800 text-slate-400'}>CO₂</button>
-            </div>
+          <div className="bg-emerald-900/30 rounded-lg p-4 border border-emerald-500/20">
+            <p className="text-xs text-emerald-300 mb-1">Estimated Savings</p>
+            <p className="text-2xl font-bold text-emerald-400">£{stats.savings}</p>
+            <p className="text-xs text-emerald-300 mt-2">vs peak rates</p>
           </div>
         </div>
-        <div>
-          <p className="text-xs font-semibold text-slate-400 mb-2">Asset</p>
-          <select value={usageAsset} onChange={(e) => setUsageAsset(e.target.value)} className="w-full px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-white cursor-pointer">
-            <option value="all">All Assets</option>
-            <option value="solar">Solar Only</option>
-            <option value="tesla">Tesla Model 3</option>
-            <option value="house">House Only</option>
-          </select>
+
+        <div className="grid grid-cols-3 gap-3">
+          <div className="bg-slate-800 rounded-lg p-3 border border-slate-700">
+            <p className="text-xs text-slate-400 mb-1">Energy Used</p>
+            <p className="text-lg font-bold text-white">{stats.totalKwh}</p>
+            <p className="text-xs text-slate-500">kWh</p>
+          </div>
+          <div className="bg-slate-800 rounded-lg p-3 border border-slate-700">
+            <p className="text-xs text-slate-400 mb-1">Avg Rate</p>
+            <p className="text-lg font-bold text-cyan-400">{stats.avgRate}p</p>
+            <p className="text-xs text-slate-500">per kWh</p>
+          </div>
+          <div className="bg-slate-800 rounded-lg p-3 border border-slate-700">
+            <p className="text-xs text-slate-400 mb-1">CO₂ Saved</p>
+            <p className="text-lg font-bold text-green-400">{stats.totalCarbon}</p>
+            <p className="text-xs text-slate-500">kg</p>
+          </div>
         </div>
       </div>
 
+      {/* Type Toggle */}
       <div className="px-4 mb-6">
-        <div className="bg-slate-800 rounded-2xl p-4 shadow-lg">
-          <p className="text-xs font-semibold text-slate-400 mb-4">24-Hour Cost Breakdown</p>
-          <div className="h-48 flex items-end gap-0.5 pb-4 border-b border-slate-700 mb-4 relative bg-slate-900/50 rounded-lg p-2">
-            <div className="absolute left-2 top-2 text-xs text-slate-500">£1.0</div>
-            {usageData.map((bar, idx) => {
-              const costValue = bar.cost;
-              const savingValue = bar.saving;
-              const costHeight = (Math.abs(costValue) / 2 * 100);
-              const savingHeight = (Math.abs(savingValue) / 2 * 100);
+        <div className="flex gap-2 bg-slate-800 p-1 rounded-lg border border-slate-700">
+          <button 
+            onClick={() => setUsageType('cost')} 
+            className={`flex-1 py-2 rounded-lg font-medium text-xs transition ${usageType === 'cost' ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/50' : 'text-slate-400 hover:text-slate-200'}`}
+          >
+            £
+          </button>
+          <button 
+            onClick={() => setUsageType('kwh')} 
+            className={`flex-1 py-2 rounded-lg font-medium text-xs transition ${usageType === 'kwh' ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/50' : 'text-slate-400 hover:text-slate-200'}`}
+          >
+            kWh
+          </button>
+          <button 
+            onClick={() => setUsageType('carbon')} 
+            className={`flex-1 py-2 rounded-lg font-medium text-xs transition ${usageType === 'carbon' ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/50' : 'text-slate-400 hover:text-slate-200'}`}
+          >
+            CO₂
+          </button>
+        </div>
+      </div>
+
+      {/* Chart - Peak vs Off-Peak */}
+      <div className="px-4 mb-6">
+        <div className="bg-slate-800 rounded-2xl p-4 shadow-lg border border-slate-700">
+          <p className="text-sm font-semibold text-white mb-4">Peak vs Off-Peak Charging</p>
+          <div className="space-y-3">
+            {currentPeriodData.map((data, idx) => {
+              let peakValue = usageType === 'cost' ? data.peakCost : usageType === 'kwh' ? data.peakKwh : data.peakCarbon;
+              let offPeakValue = usageType === 'cost' ? data.offPeakCost : usageType === 'kwh' ? data.offPeakKwh : data.offPeakCarbon;
+              const maxValue = Math.max(...currentPeriodData.map(d => (usageType === 'cost' ? d.peakCost + d.offPeakCost : usageType === 'kwh' ? d.peakKwh + d.offPeakKwh : d.peakCarbon + d.offPeakCarbon)));
+              const peakWidth = (peakValue / maxValue) * 100;
+              const offPeakWidth = (offPeakValue / maxValue) * 100;
+              
               return (
-                <div key={idx} className="flex-1 flex items-end gap-0.5 relative" onMouseEnter={() => setHoveredBar(idx)} onMouseLeave={() => setHoveredBar(null)} style={{ height: '100%' }}>
-                  {costValue > 0 && <div className="flex-1 bg-orange-400 rounded-t cursor-pointer hover:opacity-80" style={{ height: `${costHeight}%`, minHeight: '4px' }}></div>}
-                  {savingValue > 0 && <div className="flex-1 bg-emerald-400 rounded-t cursor-pointer hover:opacity-80" style={{ height: `${savingHeight}%`, minHeight: '4px' }}></div>}
-                  {hoveredBar === idx && (
-                    <div className="absolute bottom-full mb-2 bg-slate-950 text-white text-xs rounded-lg p-3 z-10 w-48 shadow-xl">
-                      <p className="font-semibold mb-2">{bar.time}</p>
-                      <p className="mb-1 text-slate-300">Cost: <span className="font-bold text-orange-400">£{bar.cost.toFixed(2)}</span></p>
-                      <p className="mb-1 text-slate-300">Saving: <span className="font-bold text-emerald-400">£{bar.saving.toFixed(2)}</span></p>
-                      <p className="text-slate-300">Energy: <span className="font-bold text-cyan-400">{bar.kwh.toFixed(1)} kWh</span></p>
-                    </div>
-                  )}
+                <div key={idx}>
+                  <div className="flex items-center justify-between mb-1">
+                    <p className="text-xs text-slate-400 font-medium">{data.day}</p>
+                    <p className="text-xs text-slate-300 font-semibold">
+                      {usageType === 'cost' ? `£${(peakValue + offPeakValue).toFixed(2)}` : usageType === 'kwh' ? `${(peakValue + offPeakValue).toFixed(1)} kWh` : `${(peakValue + offPeakValue).toFixed(1)} kg CO₂`}
+                    </p>
+                  </div>
+                  <div className="flex gap-1 h-6 rounded-lg overflow-hidden bg-slate-900">
+                    <div 
+                      className="bg-orange-500 rounded-l" 
+                      style={{ width: `${peakWidth}%` }}
+                      title={`Peak: ${usageType === 'cost' ? '£' + peakValue.toFixed(2) : peakValue.toFixed(1)}`}
+                    ></div>
+                    <div 
+                      className="bg-emerald-500 rounded-r" 
+                      style={{ width: `${offPeakWidth}%` }}
+                      title={`Off-peak: ${usageType === 'cost' ? '£' + offPeakValue.toFixed(2) : offPeakValue.toFixed(1)}`}
+                    ></div>
+                  </div>
                 </div>
               );
             })}
           </div>
-          <div className="flex gap-4 text-xs mb-4">
-            <div className="flex items-center gap-1">
-              <div className="w-2 h-2 bg-orange-400 rounded-full"></div>
-              <span className="text-slate-300">Cost</span>
+          
+          {/* Legend */}
+          <div className="flex justify-center gap-6 mt-6 pt-4 border-t border-slate-700">
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 bg-orange-500 rounded"></div>
+              <span className="text-xs text-slate-400">Peak Rate</span>
             </div>
-            <div className="flex items-center gap-1">
-              <div className="w-2 h-2 bg-emerald-400 rounded-full"></div>
-              <span className="text-slate-300">Saving</span>
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 bg-emerald-500 rounded"></div>
+              <span className="text-xs text-slate-400">Off-Peak Rate</span>
             </div>
           </div>
         </div>
       </div>
 
+      {/* Bottom Tip */}
       <div className="px-4 mb-6">
-        <div className="bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-2xl p-4 shadow-lg">
-          <p className="text-xs font-semibold text-slate-400 mb-3">Today's Summary</p>
-          <div className="bg-slate-800/50 rounded-lg p-3 mb-3">
-            <div className="grid grid-cols-3 gap-3 text-center">
-              <div>
-                <p className="text-xs text-slate-400">Total Cost</p>
-                <p className="text-lg font-bold text-white">£18.45</p>
-              </div>
-              <div>
-                <p className="text-xs text-slate-400">Saving</p>
-                <p className="text-lg font-bold text-emerald-400">£2.35</p>
-              </div>
-              <div>
-                <p className="text-xs text-slate-400">Energy</p>
-                <p className="text-lg font-bold text-white">38.2 kWh</p>
-              </div>
-            </div>
-          </div>
-          <div className="bg-slate-800/50 rounded-lg p-3">
-            <p className="text-xs font-semibold text-white mb-2">💡 Smart Suggestion</p>
-            <p className="text-xs text-slate-300 leading-relaxed">Lower home consumption 5-6 PM and enable V2G to earn £1.50 more today.</p>
-          </div>
+        <div className="bg-cyan-500/15 border border-cyan-500/30 rounded-xl p-4">
+          <p className="text-xs text-cyan-400 font-semibold mb-1">💡 Smart Charging Tip</p>
+          <p className="text-xs text-slate-200">You're saving {stats.offPeakPct}% by charging off-peak. Keep it up!</p>
         </div>
       </div>
     </div>
   );
 }
-

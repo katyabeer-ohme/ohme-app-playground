@@ -9,7 +9,6 @@ export default function AssetsView() {
         <h2 className="text-xl font-bold text-white">My Hub</h2>
       </div>
       <div className="px-4 pb-6">
-        <h3 className="text-xs font-semibold text-slate-400 mb-4 uppercase">My Hub</h3>
         <div className="grid grid-cols-2 gap-4 mb-4">
           <button className="bg-slate-800 rounded-lg p-4 text-left hover:bg-slate-750 transition flex flex-col justify-between">
             <div className="flex items-start justify-between mb-3">

@@ -13,10 +13,8 @@ import { AI_RESPONSES } from './constants/data';
 
 export default function EnergyHub() {
   const [view, setView] = useState('dashboard');
-  const [usagePeriod, setUsagePeriod] = useState('today');
+  const [usagePeriod, setUsagePeriod] = useState('week');
   const [usageType, setUsageType] = useState('cost');
-  const [usageAsset, setUsageAsset] = useState('all');
-  const [hoveredBar, setHoveredBar] = useState(null);
   const [profileOpen, setProfileOpen] = useState(false);
   const [scheduleOpen, setScheduleOpen] = useState(false);
   const [aiOpen, setAiOpen] = useState(false);
@@ -83,10 +81,6 @@ export default function EnergyHub() {
             setUsagePeriod={setUsagePeriod}
             usageType={usageType}
             setUsageType={setUsageType}
-            usageAsset={usageAsset}
-            setUsageAsset={setUsageAsset}
-            hoveredBar={hoveredBar}
-            setHoveredBar={setHoveredBar}
           />
         )}
 
