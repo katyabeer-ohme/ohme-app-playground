@@ -156,7 +156,7 @@ export default function EnergyHub() {
   return (
     <div className="min-h-screen bg-slate-900">
       {/* Header */}
-      <div className="bg-slate-900 sticky top-[58px] z-50 border-b border-slate-800">
+      <div className="bg-slate-900 sticky top-[56px] z-50 border-b border-slate-800">
         <div className="max-w-md mx-auto px-4 py-2 flex items-center justify-between">
           <button onClick={() => setProfileOpen(true)} className="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-slate-300 hover:bg-slate-600 transition">
             <span className="text-sm font-bold">K</span>
