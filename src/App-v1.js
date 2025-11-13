@@ -663,10 +663,10 @@ export default function EnergyHub() {
         {view === 'settings' && (
           <div className="pb-24">
             <div className="px-4 pt-6 pb-6">
-              <h2 className="text-xl font-bold text-white">Assets</h2>
+              <h2 className="text-xl font-bold text-white">My Hub</h2>
             </div>
             <div className="px-4 pb-6">
-              <h3 className="text-xs font-semibold text-slate-400 mb-4 uppercase">Assets & Devices</h3>
+              <h3 className="text-xs font-semibold text-slate-400 mb-4 uppercase">My Hub</h3>
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <button className="bg-slate-800 rounded-lg p-4 text-left hover:bg-slate-750 transition flex flex-col justify-between">
                   <div className="flex items-start justify-between mb-3">
@@ -1088,8 +1088,8 @@ export default function EnergyHub() {
       {/* BOTTOM NAVIGATION */}
       <div className="fixed bottom-0 left-0 right-0 bg-slate-800 border-t border-slate-700 z-40">
         <div className="max-w-md mx-auto flex">
-          <NavButton id="dashboard" icon={Home} label="Hub" />
-          <NavButton id="settings" icon={Battery} label="Assets" />
+          <NavButton id="dashboard" icon={Home} label="Home" />
+          <NavButton id="settings" icon={Battery} label="My Hub" />
           <NavButton id="ai" icon={Sparkles} label="Ask AI" onClick={() => setAiOpen(true)} />
           <NavButton id="history" icon={BarChart3} label="Usage" />
           <NavButton id="rewards" icon={Award} label="Rewards" />
