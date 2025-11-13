@@ -1,46 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ChevronRight, Zap, Sun, Home, Battery, Clock, AlertCircle, TrendingDown, BarChart3, Sparkles, Send, X, Car, Award } from 'lucide-react';
-import AppV1 from './App-v1';
-import AppV2 from './App-v2';
 
-export default function App() {
-  const [currentVersion, setCurrentVersion] = useState('v1');
-
-  return (
-    <div className="min-h-screen bg-slate-900">
-      {/* Version Switcher */}
-      <div className="fixed top-4 right-4 z-[100] bg-slate-800 rounded-lg shadow-lg border border-slate-700 p-2">
-        <div className="flex gap-2">
-          <button
-            onClick={() => setCurrentVersion('v1')}
-            className={`px-3 py-1.5 rounded-md text-xs font-semibold transition ${
-              currentVersion === 'v1'
-                ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/50'
-                : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
-            }`}
-          >
-            Version 1
-          </button>
-          <button
-            onClick={() => setCurrentVersion('v2')}
-            className={`px-3 py-1.5 rounded-md text-xs font-semibold transition ${
-              currentVersion === 'v2'
-                ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/50'
-                : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
-            }`}
-          >
-            Version 2
-          </button>
-        </div>
-      </div>
-
-      {/* Render the selected version */}
-      {currentVersion === 'v1' ? <AppV1 /> : <AppV2 />}
-    </div>
-  );
-}
-
-function EnergyHub() {
+export default function EnergyHub() {
   const [view, setView] = useState('dashboard');
   const [usagePeriod, setUsagePeriod] = useState('today');
   const [usageType, setUsageType] = useState('cost');
@@ -48,6 +9,7 @@ function EnergyHub() {
   const [hoveredBar, setHoveredBar] = useState(null);
   const [profileOpen, setProfileOpen] = useState(false);
   const [scheduleOpen, setScheduleOpen] = useState(false);
+  const [goalsExpanded, setGoalsExpanded] = useState(false);
   const [aiOpen, setAiOpen] = useState(false);
   const [activityDrawerOpen, setActivityDrawerOpen] = useState(false);
   const [aiMessages, setAiMessages] = useState([]);
@@ -58,12 +20,6 @@ function EnergyHub() {
   const weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
   const plugInStreak = [true, true, true, false, true, false, false];
   const streakCount = plugInStreak.filter(Boolean).length;
-
-  // Session state
-  const sessionActive = true;
-  const currentBattery = 45;
-  const targetBattery = 80;
-  const batteryProgress = (currentBattery / targetBattery) * 100;
 
   const NavButton = ({ id, icon: Icon, label, onClick }) => (
     <button 
@@ -275,66 +231,89 @@ function EnergyHub() {
               </div>
             </div>
 
-            {/* SESSION STATUS */}
-            {sessionActive && (
-              <div className="px-4 mb-6">
-                <div className="bg-gradient-to-br from-emerald-500/15 to-cyan-500/15 rounded-xl p-4 shadow-lg border border-emerald-500/20">
-                  <div className="flex items-start justify-between mb-3">
+            {/* SESSION TARGETS */}
+            <div className="px-4 mb-6">
+              <div className="bg-slate-800 rounded-2xl shadow-lg overflow-hidden">
+                <button onClick={() => setGoalsExpanded(!goalsExpanded)} className="w-full text-left p-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex-1">
+                      <h2 className="text-sm font-bold text-white">Session Targets</h2>
+                      <p className="text-xs text-slate-400 mt-0.5">2 targets</p>
+                    </div>
                     <div className="flex items-center gap-2">
-                      <div className="flex items-center gap-1.5">
-                        <Car className="w-4 h-4 text-emerald-400" />
-                        <p className="text-xs font-medium text-slate-300">Tesla Model 3</p>
+                      <span className="text-xs text-slate-400 px-2 py-1 rounded-full border border-slate-600 font-medium flex items-center gap-1">
+                        <Sparkles className="w-3 h-3" />
+                        Optimised
+                      </span>
+                      <ChevronRight className={`w-5 h-5 text-slate-400 transition-transform flex-shrink-0 ${goalsExpanded ? 'rotate-90' : ''}`} />
+                    </div>
+                  </div>
+                </button>
+
+                {goalsExpanded && (
+                  <div className="border-t border-slate-700">
+                    <div className="px-4 py-3">
+                      <div className="space-y-3 mb-3">
+                        <div className="flex items-start gap-3">
+                          <Car className="w-5 h-5 text-cyan-400 flex-shrink-0 mt-0.5" />
+                          <div className="flex-1">
+                            <p className="text-sm font-medium text-white">Charge Tesla Model 3</p>
+                            <p className="text-xs text-slate-400 mt-0.5">Min 80% by Tue 08:00 AM</p>
+                          </div>
+                        </div>
+                        <div className="flex items-start gap-3">
+                          <TrendingDown className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                          <div className="flex-1">
+                            <p className="text-sm font-medium text-white">Optimise for savings</p>
+                            <p className="text-xs text-slate-400 mt-0.5">Avoid peak charging</p>
+                          </div>
+                        </div>
                       </div>
-                      <span className="text-xs bg-emerald-500/30 text-emerald-300 px-1.5 py-0.5 rounded-full font-semibold flex items-center gap-1">
-                        <div className="w-1 h-1 bg-emerald-400 rounded-full animate-pulse"></div>
-                        Plugged in
-                      </span>
-                      <span className="text-xs bg-cyan-500/30 text-cyan-300 px-1.5 py-0.5 rounded-full font-semibold">
-                        Charging
-                      </span>
-                    </div>
-                    <span className="text-xl">☀️</span>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4 mb-3">
-                    <div>
-                      <p className="text-xs text-slate-400 mb-1">Current</p>
-                      <p className="text-2xl font-bold text-white">{currentBattery}%</p>
-                    </div>
-                    <div>
-                      <p className="text-xs text-slate-400 mb-1">Target</p>
-                      <p className="text-2xl font-bold text-emerald-400">{targetBattery}%</p>
+                      <button className="w-full text-cyan-400 hover:text-cyan-300 font-medium text-sm py-2">
+                        Edit targets →
+                      </button>
                     </div>
                   </div>
+                )}
+              </div>
+            </div>
 
-                  <div className="mb-3 bg-slate-900/40 rounded-full h-2 overflow-hidden border border-slate-700/50">
-                    <div 
-                      className="h-full bg-gradient-to-r from-emerald-400 to-cyan-400 rounded-full transition-all duration-500"
-                      style={{ width: `${batteryProgress}%` }}
-                    ></div>
+            {/* HAPPENING NOW */}
+            <div className="px-4 mb-4">
+              <h2 className="text-lg font-bold text-white mb-1">Happening now</h2>
+            </div>
+
+            {/* CHARGING TESLA CARD */}
+            <div className="px-4 mb-6">
+              <div className="bg-gradient-to-br from-emerald-500/20 to-emerald-600/20 rounded-2xl p-5 shadow-lg">
+                <div className="flex items-start justify-between mb-3">
+                  <div className="flex items-center gap-2 text-3xl">
+                    <span>☀️</span>
+                    <span className="text-slate-500 text-lg">→</span>
+                    <span>🚗</span>
                   </div>
-
-                  <p className="text-xs text-slate-400 mb-3">Ready by <span className="text-white font-medium">Tue 15:45</span></p>
-
-                  <div className="flex gap-2">
-                    <button className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white py-1.5 px-2 rounded-lg font-medium text-xs transition">
-                      Boost charge
-                    </button>
-                    <button className="flex-1 bg-slate-700 hover:bg-slate-600 text-white py-1.5 px-2 rounded-lg font-medium text-xs transition">
-                      End session
-                    </button>
-                  </div>
+                  <span className="text-xs bg-emerald-500/30 text-emerald-300 px-2 py-1 rounded-full font-semibold flex items-center gap-1">
+                    <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></div>
+                    Live
+                  </span>
+                </div>
+                <div className="flex items-start justify-between mb-2">
+                  <h2 className="text-lg font-bold text-white">Charging your Tesla with solar</h2>
+                  <p className="text-xs text-slate-300">2.1 kW</p>
+                </div>
+                <p className="text-xs text-slate-300 mb-4">Adding +23% between 11 AM and ~3:45 PM</p>
+                <div className="flex gap-2">
+                  <button className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white py-2 px-3 rounded-lg font-medium text-xs transition">Boost charge</button>
+                  <button className="flex-1 bg-slate-700 hover:bg-slate-600 text-white py-2 px-3 rounded-lg font-medium text-xs transition">Stop</button>
                 </div>
               </div>
-            )}
+            </div>
 
-
-
-            {/* TODAY'S SCHEDULE */}
+            {/* COMING UP NEXT */}
             <div className="px-4 mb-6">
               <div className="bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-2xl p-5 shadow-lg">
                 <div className="mb-4">
-                  <h2 className="text-lg font-bold text-white mb-3">Today's schedule</h2>
+                  <h2 className="text-lg font-bold text-white mb-3">Coming up next</h2>
                   <div className="bg-cyan-500/15 border border-cyan-500/30 rounded-lg p-3 mb-4 flex gap-3">
                     <Sparkles className="w-4 h-4 text-cyan-400 mt-0.5 flex-shrink-0" />
                     <p className="text-xs text-slate-200 leading-relaxed">It's sunny today—I've optimised your schedule to max out solar charging from 10 AM–3 PM. Grid rates peak 5–9 PM, perfect for V2G earnings if you want to enable it.</p>
@@ -342,7 +321,7 @@ function EnergyHub() {
                 </div>
                 <div className="space-y-0 relative pl-6 mb-6">
                   <div className="absolute left-2 top-2 bottom-2 w-0.5 bg-slate-600"></div>
-                  {todaySchedule.slice(0, 5).map((item, idx) => (
+                  {todaySchedule.slice(1, 5).map((item, idx) => (
                     <div key={idx} className="relative pb-6 last:pb-0">
                       <div className="absolute -left-6 top-1 w-3 h-3 rounded-full bg-cyan-400 border-2 border-slate-900"></div>
                       <div className="flex items-start justify-between gap-3">

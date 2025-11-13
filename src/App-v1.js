@@ -1,46 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ChevronRight, Zap, Sun, Home, Battery, Clock, AlertCircle, TrendingDown, BarChart3, Sparkles, Send, X, Car, Award } from 'lucide-react';
-import AppV1 from './App-v1';
-import AppV2 from './App-v2';
 
-export default function App() {
-  const [currentVersion, setCurrentVersion] = useState('v1');
-
-  return (
-    <div className="min-h-screen bg-slate-900">
-      {/* Version Switcher */}
-      <div className="fixed top-4 right-4 z-[100] bg-slate-800 rounded-lg shadow-lg border border-slate-700 p-2">
-        <div className="flex gap-2">
-          <button
-            onClick={() => setCurrentVersion('v1')}
-            className={`px-3 py-1.5 rounded-md text-xs font-semibold transition ${
-              currentVersion === 'v1'
-                ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/50'
-                : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
-            }`}
-          >
-            Version 1
-          </button>
-          <button
-            onClick={() => setCurrentVersion('v2')}
-            className={`px-3 py-1.5 rounded-md text-xs font-semibold transition ${
-              currentVersion === 'v2'
-                ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/50'
-                : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
-            }`}
-          >
-            Version 2
-          </button>
-        </div>
-      </div>
-
-      {/* Render the selected version */}
-      {currentVersion === 'v1' ? <AppV1 /> : <AppV2 />}
-    </div>
-  );
-}
-
-function EnergyHub() {
+export default function EnergyHub() {
   const [view, setView] = useState('dashboard');
   const [usagePeriod, setUsagePeriod] = useState('today');
   const [usageType, setUsageType] = useState('cost');
@@ -1137,3 +1098,4 @@ function EnergyHub() {
     </div>
   );
 }
+
