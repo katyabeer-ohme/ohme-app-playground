@@ -1,5 +1,11 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { ChevronRight, Zap, Clock, TrendingDown, BarChart3, Sparkles, Send, X, Car, Award, Settings } from 'lucide-react';
+
+// Constants
+const WEEK_DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+const PLUG_IN_STREAK = [true, true, true, false, true, false, false];
+const CURRENT_BATTERY = 45;
+const TARGET_BATTERY = 80;
 
 export default function SimpleEVApp() {
   const [view, setView] = useState('dashboard');
@@ -13,13 +19,8 @@ export default function SimpleEVApp() {
   const [aiInput, setAiInput] = useState('');
   const aiMessagesEndRef = useRef(null);
 
-  const currentBattery = 45;
-  const targetBattery = 80;
-  const batteryProgress = (currentBattery / targetBattery) * 100;
-
-  const weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-  const plugInStreak = [true, true, true, false, true, false, false];
-  const streakCount = plugInStreak.filter(Boolean).length;
+  const batteryProgress = (CURRENT_BATTERY / TARGET_BATTERY) * 100;
+  const streakCount = PLUG_IN_STREAK.filter(Boolean).length;
 
   // Mock data for different periods
   const usageDataByPeriod = {
@@ -50,7 +51,7 @@ export default function SimpleEVApp() {
 
   const currentPeriodData = usageDataByPeriod[usagePeriod] || usageDataByPeriod.week;
   
-  const getStats = () => {
+  const stats = useMemo(() => {
     const totalCost = currentPeriodData.reduce((sum, d) => sum + d.peakCost + d.offPeakCost, 0);
     const totalKwh = currentPeriodData.reduce((sum, d) => sum + d.peakKwh + d.offPeakKwh, 0);
     const totalCarbon = currentPeriodData.reduce((sum, d) => sum + d.peakCarbon + d.offPeakCarbon, 0);
@@ -59,14 +60,20 @@ export default function SimpleEVApp() {
     const avgRate = totalKwh > 0 ? ((totalCost / totalKwh) * 100).toFixed(1) : 0;
     const potentialOverspend = peakCost * 1.8;
     const savings = (potentialOverspend - totalCost).toFixed(2);
+    const offPeakPct = totalCost > 0 ? ((offPeakCost / totalCost) * 100).toFixed(0) : 0;
     
-    return { totalCost: totalCost.toFixed(2), totalKwh: totalKwh.toFixed(1), totalCarbon: totalCarbon.toFixed(1), avgRate, offPeakPct: totalCost > 0 ? ((offPeakCost / totalCost) * 100).toFixed(0) : 0, savings };
-  };
+    return { 
+      totalCost: totalCost.toFixed(2), 
+      totalKwh: totalKwh.toFixed(1), 
+      totalCarbon: totalCarbon.toFixed(1), 
+      avgRate, 
+      offPeakPct, 
+      savings 
+    };
+  }, [currentPeriodData]);
 
-  const stats = getStats();
-
-  const WeekDayBox = ({ day, active, index }) => (
-    <div key={index} className="flex-1">
+  const WeekDayBox = ({ day, active }) => (
+    <div className="flex-1">
       <div className={`w-full aspect-square rounded-lg flex items-center justify-center font-semibold text-xs transition-all ${
         active
           ? 'bg-gradient-to-br from-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/50'
@@ -123,26 +130,28 @@ export default function SimpleEVApp() {
     return { bg: 'bg-slate-700', text: 'text-slate-400' };
   };
 
-  const handleAiSend = () => {
-    if (aiInput.trim()) {
-      setAiMessages([...aiMessages, { role: 'user', text: aiInput }]);
-      setAiInput('');
-      setTimeout(() => {
-        const responses = [
-          'Off-peak rates start at 11 PM. You\'ll save £0.45 by waiting.',
-          'Your cheapest window tomorrow is 12 AM - 6 AM. Consider charging then.',
-          'If you enable V2G, you could earn £2-3 during tonight\'s peak window.',
-        ];
-        const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-        setAiMessages(prev => [...prev, { role: 'assistant', text: randomResponse }]);
-      }, 600);
-    }
-  };
+  const AI_RESPONSES = useMemo(() => [
+    'Off-peak rates start at 11 PM. You\'ll save £0.45 by waiting.',
+    'Your cheapest window tomorrow is 12 AM - 6 AM. Consider charging then.',
+    'If you enable V2G, you could earn £2-3 during tonight\'s peak window.',
+  ], []);
+
+  const handleAiSend = useCallback(() => {
+    if (!aiInput.trim()) return;
+    
+    setAiMessages(prev => [...prev, { role: 'user', text: aiInput }]);
+    setAiInput('');
+    
+    setTimeout(() => {
+      const randomResponse = AI_RESPONSES[Math.floor(Math.random() * AI_RESPONSES.length)];
+      setAiMessages(prev => [...prev, { role: 'assistant', text: randomResponse }]);
+    }, 600);
+  }, [aiInput, AI_RESPONSES]);
 
   return (
     <div className="min-h-screen bg-slate-900">
       {/* Header */}
-      <div className="bg-slate-900 sticky top-0 z-50 border-b border-slate-800">
+      <div className="bg-slate-900 sticky top-[58px] z-50 border-b border-slate-800">
         <div className="max-w-md mx-auto px-4 py-2 flex items-center justify-between">
           <button onClick={() => setProfileOpen(true)} className="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-slate-300 hover:bg-slate-600 transition">
             <span className="text-sm font-bold">K</span>
@@ -222,11 +231,11 @@ export default function SimpleEVApp() {
                 <div className="grid grid-cols-2 gap-4 mb-3">
                   <div>
                     <p className="text-xs text-slate-400 mb-1">Current</p>
-                    <p className="text-2xl font-bold text-white">{currentBattery}%</p>
+                    <p className="text-2xl font-bold text-white">{CURRENT_BATTERY}%</p>
                   </div>
                   <div>
                     <p className="text-xs text-slate-400 mb-1">Target</p>
-                    <p className="text-2xl font-bold text-emerald-400">{targetBattery}%</p>
+                    <p className="text-2xl font-bold text-emerald-400">{TARGET_BATTERY}%</p>
                   </div>
                 </div>
 
@@ -326,9 +335,9 @@ export default function SimpleEVApp() {
 
                 {/* Week Days Grid */}
                 <div className="flex gap-2 mb-4">
-                  {weekDays.map((day, idx) => (
-                    <WeekDayBox key={idx} day={day} active={plugInStreak[idx]} index={idx} />
-                  ))}
+                {WEEK_DAYS.map((day, idx) => (
+                  <WeekDayBox key={idx} day={day} active={PLUG_IN_STREAK[idx]} />
+                ))}
                 </div>
 
                 {/* Earnings from flex */}
@@ -729,7 +738,11 @@ export default function SimpleEVApp() {
           <div className="fixed left-0 top-0 bottom-0 w-full bg-slate-900 flex flex-col shadow-2xl">
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-700 flex-shrink-0">
               <h2 className="text-lg font-bold text-white">Activity</h2>
-              <button onClick={() => setActivityDrawerOpen(false)} className="text-slate-400 hover:text-white">
+              <button 
+                onClick={() => setActivityDrawerOpen(false)} 
+                className="text-slate-400 hover:text-white hover:bg-slate-800 p-2 rounded-lg transition-all"
+                aria-label="Close activity drawer"
+              >
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -772,7 +785,7 @@ export default function SimpleEVApp() {
       {profileOpen && (
         <div className="fixed inset-0 z-50">
           <div className="fixed inset-0 bg-black/60" onClick={() => setProfileOpen(false)}></div>
-          <div className="fixed left-0 top-0 bottom-0 w-80 bg-slate-900 flex flex-col shadow-xl">
+          <div className="fixed left-0 top-0 bottom-0 w-full max-w-sm bg-slate-900 flex flex-col shadow-xl">
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-700 flex-shrink-0">
               <h2 className="text-lg font-bold text-white">Account</h2>
               <button onClick={() => setProfileOpen(false)} className="text-slate-400 hover:text-white">

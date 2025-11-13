@@ -1,5 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { ChevronRight, Zap, Sun, Home, Battery, Clock, AlertCircle, TrendingDown, BarChart3, Sparkles, Send, X, Car, Award } from 'lucide-react';
+
+// Constants
+const WEEK_DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+const PLUG_IN_STREAK = [true, true, true, false, true, false, false];
 
 export default function EnergyHub() {
   const [view, setView] = useState('dashboard');
@@ -17,9 +21,7 @@ export default function EnergyHub() {
   const [rewardFilter, setRewardFilter] = useState('all');
   const aiMessagesEndRef = useRef(null);
 
-  const weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-  const plugInStreak = [true, true, true, false, true, false, false];
-  const streakCount = plugInStreak.filter(Boolean).length;
+  const streakCount = PLUG_IN_STREAK.filter(Boolean).length;
 
   const NavButton = ({ id, icon: Icon, label, onClick }) => (
     <button 
@@ -39,8 +41,8 @@ export default function EnergyHub() {
     </div>
   );
 
-  const WeekDayBox = ({ day, active, index }) => (
-    <div key={index} className="flex-1">
+  const WeekDayBox = ({ day, active }) => (
+    <div className="flex-1">
       <div className={`w-full aspect-square rounded-lg flex items-center justify-center font-semibold text-xs transition-all ${
         active
           ? 'bg-gradient-to-br from-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/50'
@@ -133,26 +135,28 @@ export default function EnergyHub() {
     return { bg: 'bg-slate-700', text: 'text-slate-400' };
   };
 
-  const handleAiSend = () => {
-    if (aiInput.trim()) {
-      setAiMessages([...aiMessages, { role: 'user', text: aiInput }]);
-      setAiInput('');
-      setTimeout(() => {
-        const responses = [
-          'Based on current conditions, I would recommend charging now while solar is strong.',
-          'You could save £0.50 more today by shifting usage 2–3 PM instead.',
-          'V2G window opens at 5 PM. Your battery will be ready by then!',
-        ];
-        const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-        setAiMessages(prev => [...prev, { role: 'assistant', text: randomResponse }]);
-      }, 600);
-    }
-  };
+  const AI_RESPONSES = useMemo(() => [
+    'Based on current conditions, I would recommend charging now while solar is strong.',
+    'You could save £0.50 more today by shifting usage 2–3 PM instead.',
+    'V2G window opens at 5 PM. Your battery will be ready by then!',
+  ], []);
+
+  const handleAiSend = useCallback(() => {
+    if (!aiInput.trim()) return;
+    
+    setAiMessages(prev => [...prev, { role: 'user', text: aiInput }]);
+    setAiInput('');
+    
+    setTimeout(() => {
+      const randomResponse = AI_RESPONSES[Math.floor(Math.random() * AI_RESPONSES.length)];
+      setAiMessages(prev => [...prev, { role: 'assistant', text: randomResponse }]);
+    }, 600);
+  }, [aiInput, AI_RESPONSES]);
 
   return (
     <div className="min-h-screen bg-slate-900">
       {/* Header */}
-      <div className="bg-slate-900 sticky top-0 z-50 border-b border-slate-800">
+      <div className="bg-slate-900 sticky top-[58px] z-50 border-b border-slate-800">
         <div className="max-w-md mx-auto px-4 py-2 flex items-center justify-between">
           <button onClick={() => setProfileOpen(true)} className="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-slate-300 hover:bg-slate-600 transition">
             <span className="text-sm font-bold">K</span>
@@ -371,9 +375,9 @@ export default function EnergyHub() {
 
                 {/* Week Days Grid */}
                 <div className="flex gap-2 mb-6">
-                  {weekDays.map((day, idx) => (
-                    <WeekDayBox key={idx} day={day} active={plugInStreak[idx]} index={idx} />
-                  ))}
+                {WEEK_DAYS.map((day, idx) => (
+                  <WeekDayBox key={idx} day={day} active={PLUG_IN_STREAK[idx]} />
+                ))}
                 </div>
 
                 {/* Rewards Strip */}
@@ -464,9 +468,9 @@ export default function EnergyHub() {
 
                 {/* Week Days Grid */}
                 <div className="flex gap-2 mb-4">
-                  {weekDays.map((day, idx) => (
-                    <WeekDayBox key={idx} day={day} active={plugInStreak[idx]} index={idx} />
-                  ))}
+                {WEEK_DAYS.map((day, idx) => (
+                  <WeekDayBox key={idx} day={day} active={PLUG_IN_STREAK[idx]} />
+                ))}
                 </div>
 
                 <div className="bg-emerald-900/30 rounded-lg p-3 border border-emerald-500/20">
@@ -868,7 +872,11 @@ export default function EnergyHub() {
           <div className="fixed left-0 top-0 bottom-0 w-full bg-slate-900 flex flex-col shadow-2xl">
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-700 flex-shrink-0">
               <h2 className="text-lg font-bold text-white">Activity</h2>
-              <button onClick={() => setActivityDrawerOpen(false)} className="text-slate-400 hover:text-white">
+              <button 
+                onClick={() => setActivityDrawerOpen(false)} 
+                className="text-slate-400 hover:text-white hover:bg-slate-800 p-2 rounded-lg transition-all"
+                aria-label="Close activity drawer"
+              >
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -911,7 +919,7 @@ export default function EnergyHub() {
       {profileOpen && (
         <div className="fixed inset-0 z-50">
           <div className="fixed inset-0 bg-black/60" onClick={() => setProfileOpen(false)}></div>
-          <div className="fixed left-0 top-0 bottom-0 w-80 bg-slate-900 flex flex-col shadow-xl">
+          <div className="fixed left-0 top-0 bottom-0 w-full max-w-sm bg-slate-900 flex flex-col shadow-xl">
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-700 flex-shrink-0">
               <h2 className="text-lg font-bold text-white">Account</h2>
               <button onClick={() => setProfileOpen(false)} className="text-slate-400 hover:text-white">

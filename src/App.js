@@ -8,7 +8,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-slate-900">
-      {/* Shared Header with Version Switcher */}
+      {/* Version Switcher Header */}
       <div className="bg-slate-800 sticky top-0 z-[100] border-b border-slate-700">
         <div className="max-w-md mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
