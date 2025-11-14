@@ -12,7 +12,7 @@ export default function App() {
       <div className="min-h-screen bg-slate-900">
       {/* Version Switcher Header */}
       <div className="bg-slate-800 fixed top-0 left-0 right-0 z-[100] border-b border-slate-700">
-        <div className="max-w-md mx-auto px-4 py-3 flex items-center justify-between">
+        <div className="max-w-md mx-auto px-4 py-2 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center shadow-lg">
               <span className="text-white text-xs font-bold">⚡</span>

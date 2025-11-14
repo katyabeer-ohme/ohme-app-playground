@@ -45,24 +45,24 @@ export default function EnergyHub() {
     <div className="min-h-screen bg-slate-900 pt-[112px]">
       {/* Header */}
       <div className="bg-slate-900 fixed top-[56px] left-0 right-0 z-50 border-b border-slate-800">
-        <div className="max-w-md mx-auto px-4 py-2 flex items-center justify-between">
-          <button onClick={() => setProfileOpen(true)} className="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-slate-300 hover:bg-slate-600 transition">
+        <div className="max-w-md mx-auto px-4 py-3 flex items-center justify-between">
+          <button onClick={() => setProfileOpen(true)} className="w-9 h-9 rounded-full bg-slate-700 flex items-center justify-center text-slate-300 hover:bg-slate-600 transition flex-shrink-0">
             <span className="text-sm font-bold">K</span>
           </button>
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2">
-              <span className="text-lg">⛅</span>
-              <div>
-                <p className="text-xs font-bold text-white">17°C</p>
-                <p className="text-xs text-slate-400">At home</p>
+              <span className="text-lg flex-shrink-0">⛅</span>
+              <div className="flex flex-col justify-center">
+                <p className="text-xs font-bold text-white leading-tight">17°C</p>
+                <p className="text-xs text-slate-400 leading-tight">At home</p>
               </div>
             </div>
             <button onClick={() => setActivityDrawerOpen(true)} className="flex items-center gap-1.5 hover:opacity-80 transition">
-              <div className="relative">
+              <div className="relative flex-shrink-0">
                 <Clock className="w-4 h-4 text-emerald-400" />
                 <div className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></div>
               </div>
-              <p className="text-xs text-slate-400">Activity</p>
+              <p className="text-xs text-slate-400 leading-none">Activity</p>
             </button>
           </div>
         </div>
