@@ -4,10 +4,10 @@ import DashboardView from './views/DashboardView';
 import RewardsView from './views/RewardsView';
 import UsageView from './views/UsageView';
 import AssetsView from './views/AssetsView';
+import AIChatView from './views/AIChatView';
 import ProfileDrawer from './components/ProfileDrawer';
 import ActivityDrawer from './components/ActivityDrawer';
 import SchedulePanel from './components/SchedulePanel';
-import AIChatModal from './components/AIChatModal';
 import BottomNavigation from './components/BottomNavigation';
 import { AI_RESPONSES } from './constants/data';
 
@@ -17,7 +17,6 @@ export default function EnergyHub() {
   const [usageType, setUsageType] = useState('cost');
   const [profileOpen, setProfileOpen] = useState(false);
   const [scheduleOpen, setScheduleOpen] = useState(false);
-  const [aiOpen, setAiOpen] = useState(false);
   const [activityDrawerOpen, setActivityDrawerOpen] = useState(false);
   const [aiMessages, setAiMessages] = useState([]);
   const [aiInput, setAiInput] = useState('');
@@ -86,6 +85,16 @@ export default function EnergyHub() {
 
         {/* Assets View */}
         {view === 'settings' && <AssetsView />}
+
+        {/* AI Chat View */}
+        {view === 'ai' && (
+          <AIChatView 
+            messages={aiMessages}
+            input={aiInput}
+            onInputChange={setAiInput}
+            onSend={handleAiSend}
+          />
+        )}
       </div>
 
       {/* FULL SCHEDULE PANEL */}
@@ -97,18 +106,8 @@ export default function EnergyHub() {
       {/* PROFILE DRAWER */}
       <ProfileDrawer isOpen={profileOpen} onClose={() => setProfileOpen(false)} />
 
-      {/* AI CHAT MODAL */}
-      <AIChatModal 
-        isOpen={aiOpen}
-        onClose={() => setAiOpen(false)}
-        messages={aiMessages}
-        input={aiInput}
-        onInputChange={setAiInput}
-        onSend={handleAiSend}
-      />
-
       {/* BOTTOM NAVIGATION */}
-      <BottomNavigation view={view} setView={setView} setAiOpen={setAiOpen} />
+      <BottomNavigation view={view} setView={setView} />
     </div>
   );
 }
