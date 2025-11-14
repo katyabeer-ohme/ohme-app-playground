@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import AppV1 from './App-v1/index';
 import AppV2 from './App-v2/index';
 import AppV3 from './App-v3/index';
+import PasswordProtection from './PasswordProtection';
 
 export default function App() {
   const [currentVersion, setCurrentVersion] = useState('v1');
 
   return (
-    <div className="min-h-screen bg-slate-900">
+    <PasswordProtection>
+      <div className="min-h-screen bg-slate-900">
       {/* Version Switcher Header */}
       <div className="bg-slate-800 fixed top-0 left-0 right-0 z-[100] border-b border-slate-700">
         <div className="max-w-md mx-auto px-4 py-3 flex items-center justify-between">
@@ -59,6 +61,7 @@ export default function App() {
 
       {/* Render the selected version */}
       {currentVersion === 'v1' ? <AppV1 /> : currentVersion === 'v2' ? <AppV2 /> : <AppV3 />}
-    </div>
+      </div>
+    </PasswordProtection>
   );
 }

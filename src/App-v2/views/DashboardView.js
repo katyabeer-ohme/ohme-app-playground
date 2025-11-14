@@ -126,7 +126,6 @@ export default function DashboardView({ setScheduleOpen, setView, goalsExpanded,
             <p className="text-xs text-slate-300">2.1 kW</p>
           </div>
           <p className="text-xs text-slate-300 mb-4">Adding +23% between 11 AM and ~3:45 PM</p>
-         
           <div className="grid grid-cols-3 gap-2">
             <button className="bg-emerald-500 hover:bg-emerald-600 text-white py-1.5 px-2 rounded-lg font-medium text-xs transition">
               Boost charge
