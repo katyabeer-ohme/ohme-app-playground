@@ -60,14 +60,8 @@ export default function ActivityDrawer({ isOpen, onClose }) {
                           <p className="text-sm font-semibold text-white mb-1">{event.title}</p>
                           <p className="text-xs text-slate-300">{event.details}</p>
                         </div>
-                        
-                        
                       </div>
-
-            
                     </div>
-                    
-                    
                   );
                 })}
               </div>

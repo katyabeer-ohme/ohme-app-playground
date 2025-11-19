@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
+import AppV3 from './App-v3/index';
 import AppV1 from './App-v1/index';
 import AppV2 from './App-v2/index';
-import AppV3 from './App-v3/index';
 import PasswordProtection from './PasswordProtection';
 
 export default function App() {
@@ -60,7 +60,7 @@ export default function App() {
       </div>
 
       {/* Render the selected version */}
-      {currentVersion === 'v1' ? <AppV1 /> : currentVersion === 'v2' ? <AppV2 /> : <AppV3 />}
+      {currentVersion === 'v1' ? <AppV3 /> : currentVersion === 'v2' ? <AppV2 /> : <AppV1 />}
       </div>
     </PasswordProtection>
   );

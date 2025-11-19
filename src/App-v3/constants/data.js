@@ -43,24 +43,16 @@ export const activityEvents = [
   }
 ];
 
-// Usage Data
-export const usageData = {
-  week: [
-    { day: 'Mon', peakCost: 1.35, offPeakCost: 0.36, peakKwh: 3, offPeakKwh: 3, peakCarbon: 0.9, offPeakCarbon: 0.9 },
-    { day: 'Tue', peakCost: 0.90, offPeakCost: 0.48, peakKwh: 2, offPeakKwh: 4, peakCarbon: 0.6, offPeakCarbon: 1.2 },
-    { day: 'Wed', peakCost: 0.45, offPeakCost: 0.60, peakKwh: 1, offPeakKwh: 5, peakCarbon: 0.3, offPeakCarbon: 1.5 },
-    { day: 'Thu', peakCost: 1.80, offPeakCost: 0.24, peakKwh: 4, offPeakKwh: 2, peakCarbon: 1.2, offPeakCarbon: 0.6 },
-    { day: 'Fri', peakCost: 0.90, offPeakCost: 0.36, peakKwh: 2, offPeakKwh: 3, peakCarbon: 0.6, offPeakCarbon: 0.9 },
-    { day: 'Sat', peakCost: 1.35, offPeakCost: 0.12, peakKwh: 3, offPeakKwh: 1, peakCarbon: 0.9, offPeakCarbon: 0.3 },
-    { day: 'Sun', peakCost: 0.45, offPeakCost: 0.48, peakKwh: 1, offPeakKwh: 4, peakCarbon: 0.3, offPeakCarbon: 1.2 },
-  ],
-  month: [
-    { day: 'Week 1', peakCost: 6.75, offPeakCost: 2.04, peakKwh: 15, offPeakKwh: 17, peakCarbon: 4.5, offPeakCarbon: 5.1 },
-    { day: 'Week 2', peakCost: 5.85, offPeakCost: 2.40, peakKwh: 13, offPeakKwh: 20, peakCarbon: 3.9, offPeakCarbon: 6.0 },
-    { day: 'Week 3', peakCost: 7.20, offPeakCost: 1.92, peakKwh: 16, offPeakKwh: 16, peakCarbon: 4.8, offPeakCarbon: 4.8 },
-    { day: 'Week 4', peakCost: 5.40, offPeakCost: 2.64, peakKwh: 12, offPeakKwh: 22, peakCarbon: 3.6, offPeakCarbon: 6.6 },
-  ],
-};
+// Usage Data - 24-hour breakdown format for v2 UsageView
+export const usageData = [
+  { time: '00:00', cost: 0.45, saving: 0, kwh: 1.5 },
+  { time: '06:00', cost: 0.42, saving: 0, kwh: 1.4 },
+  { time: '10:00', cost: 0.72, saving: 0, kwh: 2.3 },
+  { time: '12:00', cost: 0, saving: 1.20, kwh: 0 },
+  { time: '17:00', cost: 0.92, saving: 0, kwh: 3.0 },
+  { time: '20:00', cost: 0, saving: 0.60, kwh: 0 },
+  { time: '23:00', cost: 0.28, saving: 0, kwh: 0.9 },
+];
 
 // AI Responses
 export const AI_RESPONSES = [

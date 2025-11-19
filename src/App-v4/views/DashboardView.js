@@ -169,6 +169,37 @@ export default function DashboardView({ setScheduleOpen, setView }) {
         </div>
       </div>
 
+      {/* PLUG-IN STREAK SECTION */}
+      <div className="px-4 mb-6">
+        <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-2xl p-5 shadow-lg border border-purple-500/30">
+          <div className="mb-4">
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="text-lg font-bold text-white">This Week's Streak</h2>
+              <span className="text-2xl">🔥</span>
+            </div>
+            <p className="text-sm text-slate-300">{streakCount} out of 7 days plugged in</p>
+          </div>
+
+          {/* Week Days Grid */}
+          <div className="flex gap-2 mb-6">
+            {WEEK_DAYS.map((day, idx) => (
+              <WeekDayBox key={idx} day={day} active={PLUG_IN_STREAK[idx]} />
+            ))}
+          </div>
+
+          {/* Rewards Strip */}
+          <div className="flex items-center justify-between py-4">
+            <div>
+              <p className="text-xs text-slate-400 mb-1">Flex Rewards Earned</p>
+              <p className="text-2xl font-bold text-cyan-400">£18.50</p>
+            </div>
+            <button onClick={() => setView('rewards')} className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg font-medium text-sm transition">
+              View Rewards →
+            </button>
+          </div>
+        </div>
+      </div>
+
       {/* Today So Far */}
       <div className="px-4 mb-6">
         <div className="grid grid-cols-2 gap-3">
@@ -197,37 +228,6 @@ export default function DashboardView({ setScheduleOpen, setView }) {
             <p className="text-xs text-emerald-300 mb-1">Savings</p>
             <p className="text-2xl font-bold text-emerald-400 mb-2">£2.35</p>
             <p className="text-xs text-emerald-300">vs peak rates</p>
-          </div>
-        </div>
-      </div>
-
-      {/* PLUG-IN STREAK SECTION */}
-      <div className="px-4 mb-6">
-        <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-2xl p-5 shadow-lg border border-purple-500/30">
-          <div className="mb-4">
-            <div className="flex items-center justify-between mb-3">
-              <h2 className="text-lg font-bold text-white">This Week's Streak</h2>
-              <span className="text-2xl">🔥</span>
-            </div>
-            <p className="text-sm text-slate-300">{streakCount} out of 7 days plugged in</p>
-          </div>
-
-          {/* Week Days Grid */}
-          <div className="flex gap-2 mb-6">
-            {WEEK_DAYS.map((day, idx) => (
-              <WeekDayBox key={idx} day={day} active={PLUG_IN_STREAK[idx]} />
-            ))}
-          </div>
-
-          {/* Rewards Strip */}
-          <div className="flex items-center justify-between py-4">
-            <div>
-              <p className="text-xs text-slate-400 mb-1">Flex Rewards Earned</p>
-              <p className="text-2xl font-bold text-cyan-400">£18.50</p>
-            </div>
-            <button onClick={() => setView('rewards')} className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg font-medium text-sm transition">
-              View Rewards →
-            </button>
           </div>
         </div>
       </div>

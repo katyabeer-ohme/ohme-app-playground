@@ -1,5 +1,5 @@
 import React from 'react';
-import { Zap, Car, Sparkles } from 'lucide-react';
+import { Zap, Sun, Car, Sparkles, Home } from 'lucide-react';
 import WeekDayBox from '../components/WeekDayBox';
 import { WEEK_DAYS, PLUG_IN_STREAK } from '../constants/data';
 
@@ -9,6 +9,18 @@ export default function DashboardView({ setScheduleOpen, setView }) {
   const targetBattery = 80;
   const batteryProgress = (currentBattery / targetBattery) * 100;
 
+  // Hub status data
+  const hubStatus = {
+    charger: { status: 'Online', rate: '7 kW' },
+    grid: { power: '1.1 kW' },
+    solar: { export: '1.6 kW' },
+    home: { consumption: '2.1 kW' },
+    vehicles: [
+      { name: 'Tesla Model 3', status: 'Charging', battery: 45 },
+      { name: 'BMW i3', status: 'Unplugged', battery: 78 }
+    ]
+  };
+
   const todaySchedule = [
     { timeSlot: 'Right now', action: 'Paused', rate: 'Peak', cost: '£0.00', reason: 'Waiting for off-peak', power: 0 },
     { timeSlot: '11:00 PM - 6:00 AM', action: 'Charging at off-peak rate', rate: 'Off-peak', cost: '£1.20', reason: 'Cheapest window', power: 11.2 },
@@ -17,46 +29,92 @@ export default function DashboardView({ setScheduleOpen, setView }) {
 
   return (
     <div className="pb-24">
-      {/* HOME ENERGY - Simplified Grid/Charger/Car only */}
-      <div className="px-4 mb-8 pt-4">
-        <div className="bg-slate-800 rounded-2xl p-6 shadow-lg">
-          <div className="relative w-full h-64 flex items-center justify-center">
-            {/* Dotted Lines - Triangle layout */}
-            <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ zIndex: 1 }}>
-              {/* Grid to Charger */}
-              <line x1="15%" y1="80%" x2="50%" y2="20%" stroke="#64748b" strokeWidth="2" strokeDasharray="5 5" />
-              {/* Charger to Car */}
-              <line x1="50%" y1="20%" x2="85%" y2="80%" stroke="#64748b" strokeWidth="2" strokeDasharray="5 5" />
-              {/* Car to Grid */}
-              <line x1="85%" y1="80%" x2="15%" y2="80%" stroke="#64748b" strokeWidth="2" strokeDasharray="5 5" />
-            </svg>
-            
-            {/* Grid (Bottom Left) */}
-            <div className="absolute bottom-0 left-8 text-center">
-              <div className="w-14 h-14 bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-2 border-2 border-slate-600">
-                <Zap className="w-7 h-7 text-slate-300" />
+      {/* HUB STATUS WIDGET */}
+      <div className="px-4 mb-6 pt-4">
+        <h2 className="text-sm font-semibold text-slate-400 mb-3 uppercase">Hub Status</h2>
+        <div className="flex gap-3 overflow-x-auto pb-2 -mx-4 px-4" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+          {/* Charger */}
+          <div className="flex-shrink-0 bg-slate-800 rounded-lg p-3 border border-cyan-500/30 min-w-[120px]">
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-8 h-8 bg-cyan-500/20 rounded-full flex items-center justify-center">
+                <Zap className="w-4 h-4 text-cyan-400" />
               </div>
-              <p className="text-xs text-slate-400 font-medium">Grid</p>
-              <p className="text-sm font-bold text-slate-300">45p/kWh</p>
-            </div>
-            
-            {/* Charger (Top Center) */}
-            <div className="absolute top-0 text-center">
-              <div className="w-14 h-14 bg-cyan-500/20 rounded-full flex items-center justify-center mx-auto mb-2 border-2 border-cyan-500">
-                <Zap className="w-7 h-7 text-cyan-400" />
+              <div className="flex-1">
+                <p className="text-xs text-slate-400">Charger</p>
+                <p className="text-sm font-bold text-cyan-400">{hubStatus.charger.status}</p>
               </div>
-              <p className="text-xs text-slate-400 font-medium">Charger</p>
-              <p className="text-sm font-bold text-cyan-400">Paused</p>
             </div>
-            
-            {/* Car (Bottom Right) */}
-            <div className="absolute bottom-0 right-8 text-center">
-              <div className="w-14 h-14 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-2 border-2 border-emerald-500">
-                <Car className="w-7 h-7 text-emerald-400" />
+            <p className="text-xs text-slate-300 font-medium">{hubStatus.charger.rate}</p>
+          </div>
+
+          {/* Grid */}
+          <div className="flex-shrink-0 bg-slate-800 rounded-lg p-3 border border-slate-600 min-w-[120px]">
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-8 h-8 bg-slate-700 rounded-full flex items-center justify-center">
+                <Zap className="w-4 h-4 text-slate-300" />
               </div>
-              <p className="text-xs text-slate-400 font-medium">Car</p>
-              <p className="text-sm font-bold text-emerald-400">{currentBattery}%</p>
+              <div className="flex-1">
+                <p className="text-xs text-slate-400">Grid</p>
+                <p className="text-sm font-bold text-slate-300">Import</p>
+              </div>
             </div>
+            <p className="text-xs text-slate-300 font-medium">{hubStatus.grid.power}</p>
+          </div>
+
+          {/* Solar */}
+          <div className="flex-shrink-0 bg-slate-800 rounded-lg p-3 border border-yellow-500/30 min-w-[120px]">
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-8 h-8 bg-yellow-500/20 rounded-full flex items-center justify-center">
+                <Sun className="w-4 h-4 text-yellow-400" />
+              </div>
+              <div className="flex-1">
+                <p className="text-xs text-slate-400">Solar</p>
+                <p className="text-sm font-bold text-yellow-400">Export</p>
+              </div>
+            </div>
+            <p className="text-xs text-slate-300 font-medium">{hubStatus.solar.export}</p>
+          </div>
+
+          {/* Home */}
+          <div className="flex-shrink-0 bg-slate-800 rounded-lg p-3 border border-orange-500/30 min-w-[120px]">
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-8 h-8 bg-orange-500/20 rounded-full flex items-center justify-center">
+                <Home className="w-4 h-4 text-orange-400" />
+              </div>
+              <div className="flex-1">
+                <p className="text-xs text-slate-400">Home</p>
+                <p className="text-sm font-bold text-orange-400">Using</p>
+              </div>
+            </div>
+            <p className="text-xs text-slate-300 font-medium">{hubStatus.home.consumption}</p>
+          </div>
+
+          {/* Car 1 */}
+          <div className="flex-shrink-0 bg-slate-800 rounded-lg p-3 border border-emerald-500/30 min-w-[120px]">
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-8 h-8 bg-emerald-500/20 rounded-full flex items-center justify-center">
+                <Car className="w-4 h-4 text-emerald-400" />
+              </div>
+              <div className="flex-1">
+                <p className="text-xs text-slate-400">{hubStatus.vehicles[0].name}</p>
+                <p className="text-sm font-bold text-emerald-400">{hubStatus.vehicles[0].status}</p>
+              </div>
+            </div>
+            <p className="text-xs text-slate-300 font-medium">{hubStatus.vehicles[0].battery}%</p>
+          </div>
+
+          {/* Car 2 */}
+          <div className="flex-shrink-0 bg-slate-800 rounded-lg p-3 border border-slate-600 min-w-[120px]">
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-8 h-8 bg-slate-700 rounded-full flex items-center justify-center">
+                <Car className="w-4 h-4 text-slate-400" />
+              </div>
+              <div className="flex-1">
+                <p className="text-xs text-slate-400">{hubStatus.vehicles[1].name}</p>
+                <p className="text-sm font-bold text-slate-400">{hubStatus.vehicles[1].status}</p>
+              </div>
+            </div>
+            <p className="text-xs text-slate-300 font-medium">{hubStatus.vehicles[1].battery}%</p>
           </div>
         </div>
       </div>
@@ -98,10 +156,10 @@ export default function DashboardView({ setScheduleOpen, setView }) {
               Boost charge
             </button>
             <button className="bg-slate-700 hover:bg-slate-600 text-white py-1.5 px-2 rounded-lg font-medium text-xs transition">
-              Change target
+              Edit target
             </button>
             <button className="bg-slate-700 hover:bg-slate-600 text-white py-1.5 px-2 rounded-lg font-medium text-xs transition">
-              Stop session
+              Stop
             </button>
           
           </div>
@@ -138,24 +196,41 @@ export default function DashboardView({ setScheduleOpen, setView }) {
               </div>
             ))}
           </div>
-
-          {/* V2G Opportunity - Embedded at Bottom */}
-          <div className="border-t border-slate-600 pt-4 mt-4">
-            <div className="flex items-start justify-between mb-2">
-              <div>
-                <p className="text-xs font-semibold text-purple-400 mb-0.5">V2G Opportunity</p>
-                <p className="text-sm font-bold text-white">Earn £2.50</p>
+          <button onClick={() => setScheduleOpen(true)} className="w-full text-cyan-400 hover:text-cyan-300 font-medium text-sm mt-4">
+            View full plan →
+          </button>
+        </div>
+      </div>
+      
+      {/* Today So Far */}
+      <div className="px-4 mb-6">
+        <div className="grid grid-cols-2 gap-3">
+          <div className="bg-slate-800 rounded-lg p-4 shadow-lg">
+            <p className="text-xs text-slate-400 mb-1">Energy Used</p>
+            <p className="text-2xl font-bold text-white mb-2">£0.95</p>
+            <div className="space-y-1 text-xs">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-1">
+                  <Sun className="w-3 h-3 text-yellow-400" />
+                  <span className="text-slate-400">Solar</span>
+                </div>
+                <span className="text-white font-medium">11.4 kWh</span>
               </div>
-              <span className="text-lg">💰</span>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-1">
+                  <Zap className="w-3 h-3 text-orange-400" />
+                  <span className="text-slate-400">Grid</span>
+                </div>
+                <span className="text-white font-medium">3.2 kWh</span>
+              </div>
             </div>
-            <p className="text-xs text-slate-300 mb-2">National Grid • 5:00 PM - 9:00 PM</p>
-            <p className="text-xs text-slate-400 mb-3">Export to grid during peak hours when demand is high.</p>
-            <button className="w-full bg-purple-500 hover:bg-purple-600 text-white py-2 rounded-lg font-medium text-xs transition">Add to schedule</button>
           </div>
 
-          <button onClick={() => setScheduleOpen(true)} className="w-full text-cyan-400 hover:text-cyan-300 font-medium text-sm mt-4">
-            View full schedule →
-          </button>
+          <div className="bg-emerald-900/30 rounded-lg p-4 shadow-lg border border-emerald-500/20">
+            <p className="text-xs text-emerald-300 mb-1">Savings</p>
+            <p className="text-2xl font-bold text-emerald-400 mb-2">£2.35</p>
+            <p className="text-xs text-emerald-300">vs peak rates</p>
+          </div>
         </div>
       </div>
 
@@ -177,43 +252,15 @@ export default function DashboardView({ setScheduleOpen, setView }) {
             ))}
           </div>
 
-          {/* Rewards Strip */}
-          <div className="flex items-center justify-between py-4">
-            <div>
-              <p className="text-xs text-slate-400 mb-1">Flex Rewards Earned</p>
-              <p className="text-2xl font-bold text-cyan-400">£18.50</p>
-            </div>
-            <button onClick={() => setView('rewards')} className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg font-medium text-sm transition">
-              View Rewards →
-            </button>
+          {/* Smart Suggestion Inside Card */}
+          <div className="bg-cyan-500/15 border border-cyan-500/30 rounded-lg p-3 mb-4 flex gap-3">
+            <Sparkles className="w-4 h-4 text-cyan-400 mt-0.5 flex-shrink-0" />
+            <p className="text-xs text-slate-200 leading-relaxed">Customers who plug in every day tend to save more money. Keep your car plugged in as long as possible to maximise your savings.</p>
           </div>
+
         </div>
       </div>
 
-      {/* Today So Far - Grid charging focus */}
-      <div className="px-4 mb-6">
-        <div className="grid grid-cols-2 gap-3">
-          <div className="bg-slate-800 rounded-lg p-4 shadow-lg">
-            <p className="text-xs text-slate-400 mb-1">Energy Cost</p>
-            <p className="text-2xl font-bold text-white mb-2">£1.50</p>
-            <div className="space-y-1 text-xs">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-1">
-                  <Zap className="w-3 h-3 text-orange-400" />
-                  <span className="text-slate-400">Grid</span>
-                </div>
-                <span className="text-white font-medium">14.6 kWh</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-emerald-900/30 rounded-lg p-4 shadow-lg border border-emerald-500/20">
-            <p className="text-xs text-emerald-300 mb-1">Savings</p>
-            <p className="text-2xl font-bold text-emerald-400 mb-2">£0.75</p>
-            <p className="text-xs text-emerald-300">vs peak rates</p>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }
