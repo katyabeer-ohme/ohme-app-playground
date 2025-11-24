@@ -26,7 +26,7 @@ export default function ActivityDrawer({ isOpen, onClose }) {
   return (
     <div className="fixed inset-0 z-[110] animate-in fade-in duration-200">
       <div className="fixed inset-0 bg-black/60 animate-in fade-in duration-300" onClick={onClose}></div>
-      <div className="fixed left-0 top-0 bottom-0 w-full bg-slate-900 flex flex-col shadow-2xl animate-in slide-in-from-left duration-300">
+      <div className="fixed right-0 top-0 bottom-0 w-full bg-slate-900 flex flex-col shadow-2xl animate-in slide-in-from-right duration-300">
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-700 flex-shrink-0">
           <h2 className="text-lg font-bold text-white">Activity</h2>
           <button 

@@ -1,13 +1,13 @@
 import React from 'react';
 import { Zap, Sun, Car, Sparkles, Home, Cloud, CloudSun } from 'lucide-react';
 import WeekDayBox from '../components/WeekDayBox';
-import { WEEK_DAYS, PLUG_IN_STREAK } from '../constants/data';
+import { WEEK_DAYS, PLUG_IN_STREAK, todaySchedule } from '../constants/data';
 
 export default function DashboardView({ setScheduleOpen, setView }) {
   const streakCount = PLUG_IN_STREAK.filter(Boolean).length;
   const currentBattery = 45;
   const targetBattery = 80;
-  const batteryProgress = (currentBattery / targetBattery) * 100;
+  const batteryProgress = currentBattery;
 
   // Hub status data
   const hubStatus = {
@@ -20,12 +20,6 @@ export default function DashboardView({ setScheduleOpen, setView }) {
       { name: 'BMW i3', status: 'Unplugged', battery: 78 }
     ]
   };
-
-  const todaySchedule = [
-    { timeSlot: 'Right now', action: 'Paused', rate: 'Peak', cost: '£0.00', reason: 'Waiting for off-peak', power: 0 },
-    { timeSlot: '11:00 PM - 6:00 AM', action: 'Charging at off-peak rate', rate: 'Off-peak', cost: '£1.20', reason: 'Cheapest window', power: 11.2 },
-    { timeSlot: '6:00 - 7:30 AM', action: 'Final top-up', rate: 'Off-peak', cost: '£0.30', reason: 'Ready for morning', power: 2.4 },
-  ];
 
   const currentRate = {
     price: 7.5,
@@ -104,15 +98,17 @@ export default function DashboardView({ setScheduleOpen, setView }) {
       {/* SESSION STATUS */}
       <div className="px-4 mb-6 pt-0">
         <div className="bg-gradient-to-br from-brand-primary/15 to-brand-secondary/15 rounded-xl p-4 shadow-lg border border-brand-primary/20">
-          <div className="flex items-start justify-between mb-3">
+          <div className="flex items-start justify-between mb-1">
             <div className="flex items-center gap-2">
               <Car className="w-4 h-4 text-brand-primary" />
               <p className="text-xs font-medium text-text-secondary">Tesla Model 3</p>
               <span className="text-xs bg-brand-primary/30 text-brand-primary px-1.5 py-0.5 rounded-full font-semibold">Charging
               </span>
             </div>
-            <span className="text-xl">🔌</span>
+            <span className="text-xl">⚡☀️</span>
           </div>
+          
+          <p className="text-xs text-text-tertiary mb-3">Adding <span className="text-text-primary font-medium">+4% </span>until <span className="text-text-primary font-medium">16:40 PM</span></p>
 
           <div className="grid grid-cols-2 gap-4 mb-3">
             <div>
@@ -125,10 +121,17 @@ export default function DashboardView({ setScheduleOpen, setView }) {
             </div>
           </div>
 
-          <div className="mb-3 bg-brand-dark-900/40 rounded-full h-2 overflow-hidden border border-brand-accent/30">
+          <div className="mb-3 relative">
+            <div className="bg-brand-dark-900/40 rounded-full h-2 overflow-hidden border border-brand-accent/30">
+              <div 
+                className="h-full bg-gradient-to-r from-brand-primary to-brand-secondary rounded-full transition-all duration-500"
+                style={{ width: `${batteryProgress}%` }}
+              ></div>
+            </div>
+            {/* Target marker */}
             <div 
-              className="h-full bg-gradient-to-r from-brand-primary to-brand-secondary rounded-full transition-all duration-500"
-              style={{ width: `${batteryProgress}%` }}
+              className="absolute -top-1 bottom-0 w-0.5 h-4 bg-text-primary rounded-full"
+              style={{ left: `${targetBattery}%` }}
             ></div>
           </div>
 
@@ -138,10 +141,10 @@ export default function DashboardView({ setScheduleOpen, setView }) {
             <button className="bg-brand-primary hover:bg-brand-primary-600 text-brand-dark py-1.5 px-2 rounded-lg font-medium text-xs transition">
               Boost charge
             </button>
-            <button className="bg-surface-elevated hover:bg-surface-hover text-text-primary py-1.5 px-2 rounded-lg font-medium text-xs transition">
+            <button className="bg-brand-accent/10 hover:bg-brand-accent/20 text-text-primary py-1.5 px-2 rounded-lg font-medium text-xs transition border border-brand-accent/20">
               Edit target
             </button>
-            <button className="bg-surface-elevated hover:bg-surface-hover text-text-primary py-1.5 px-2 rounded-lg font-medium text-xs transition">
+            <button className="bg-brand-accent/10 hover:bg-brand-accent/20 text-text-primary py-1.5 px-2 rounded-lg font-medium text-xs transition border border-brand-accent/20">
               Stop
             </button>
           
@@ -157,12 +160,12 @@ export default function DashboardView({ setScheduleOpen, setView }) {
           {/* Smart Suggestion Inside Card */}
           <div className="bg-brand-secondary/15 border border-brand-secondary/30 rounded-lg p-3 mb-4 flex gap-3">
             <Sparkles className="w-4 h-4 text-brand-secondary mt-0.5 flex-shrink-0" />
-            <p className="text-xs text-text-secondary leading-relaxed">Charging dynamically is going to save you <span className="font-semibold text-brand-primary">£0.75</span>.</p>
+            <p className="text-xs text-text-secondary leading-relaxed">Charging dynamically is going to save you <span className="font-semibold text-brand-primary">£1.57</span>.</p>
           </div>
 
           <div className="space-y-0 relative pl-6 mb-4">
             <div className="absolute left-2 top-2 bottom-2 w-0.5 bg-brand-accent"></div>
-            {todaySchedule.map((item, idx) => (
+            {todaySchedule.slice(0, 3).map((item, idx) => (
               <div key={idx} className="relative pb-6 last:pb-0">
                 <div className="absolute -left-6 top-1 w-3 h-3 rounded-full bg-brand-primary border-2 border-brand-dark"></div>
                 <div className="flex items-start justify-between gap-3">
@@ -172,8 +175,8 @@ export default function DashboardView({ setScheduleOpen, setView }) {
                     <p className="text-xs text-text-tertiary">{item.reason}</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm font-bold text-brand-primary mb-0.5">{item.cost}</p>
-                    <p className="text-xs text-text-tertiary">{item.rate}</p>
+                    <p className="text-sm font-bold text-brand-primary mb-0.5">{item.power}</p>
+                    <p className="text-xs text-text-tertiary">{item.cost}</p>
                   </div>
                 </div>
               </div>
