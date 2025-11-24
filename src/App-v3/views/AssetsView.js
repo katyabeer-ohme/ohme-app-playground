@@ -830,7 +830,7 @@ export default function AssetsView() {
       </div>
 
       {/* HOME ENERGY VISUALIZATION */}
-      <div className="px-4 mb-8">
+      <div className="px-4 mb-8 hidden">
         <div className="bg-slate-800 rounded-2xl p-6 shadow-lg">
           <div className="relative w-full h-64 flex items-center justify-center">
             {/* Dotted Lines - Triangle layout */}

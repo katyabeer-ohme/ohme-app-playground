@@ -2,30 +2,9 @@
 export const WEEK_DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 export const PLUG_IN_STREAK = [true, true, true, false, true, false, false];
 
-// Rewards Data
-export const rewardsData = {
-  totalEarned: 142.30,
-  thisMonth: 42.30,
-  weekStreak: 5,
-  badges: [
-    { name: 'Early Adopter', icon: '🌟', earned: true, date: 'Oct 2024' },
-    { name: 'Flex Champion', icon: '💪', earned: true, date: 'Nov 2024' },
-    { name: 'V2G Master', icon: '⚡', earned: true, date: 'Nov 2024' },
-    { name: 'Week Warrior', icon: '🔥', earned: false, date: 'Lock in 7 days' },
-  ],
-  transactions: [
-    { date: 'Nov 10', type: 'v2g', amount: 2.50, description: 'Peak Response - Evening window', status: 'pending' },
-    { date: 'Nov 9', type: 'v2g', amount: 1.80, description: 'Peak Response - Evening window', status: 'paid' },
-    { date: 'Nov 8', type: 'v2g', amount: 3.20, description: 'Peak Response - Evening window', status: 'paid' },
-    { date: 'Nov 7', type: 'bonus', amount: 5.00, description: 'Week Streak Bonus', status: 'paid' },
-    { date: 'Nov 6', type: 'v2g', amount: 1.95, description: 'Peak Response - Evening window', status: 'paid' },
-    { date: 'Nov 5', type: 'v2g', amount: 2.80, description: 'Peak Response - Evening window', status: 'paid' },
-  ],
-};
-
 // Today's Schedule
 export const todaySchedule = [
-  { timeSlot: 'Righ now until 16:40 PM', action: '☀️ Charging from solar', rate: '£0.00', cost: '£0.00', reason: 'Utilising free energy', power: '+4%' },
+  { timeSlot: 'Righ now until 16:40 PM', action: 'Charging from solar and grid', rate: '£0.00', cost: '£0.00', reason: 'Utilising free energy', power: '+4%' },
   { timeSlot: '16:40 PM - 22:00 PM', action: 'Paused', rate: 'Peak', cost: '£0.00', reason: 'Waiting for off-peak', power: '+0%' },
   { timeSlot: '22:00 PM - 6:00 AM', action: 'Charging at off-peak rate', rate: '£1.20', cost: '£1.20', reason: 'Cheapest window', power: '+23%' },
   { timeSlot: '6:00 - 7:30 AM', action: 'Final top-up', rate: '£0.97', cost: '£0.30', reason: 'Ready for morning', power: '+11%' },

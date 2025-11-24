@@ -1,15 +1,26 @@
 import React from 'react';
-import { Zap, Sun, Home, Battery, Car, Sparkles, ChevronRight, TrendingDown } from 'lucide-react';
+import { Zap, Sun, Home, Battery, Car, Sparkles, ChevronRight, TrendingDown, Cloud, CloudSun } from 'lucide-react';
 import WeekDayBox from '../components/WeekDayBox';
 import { WEEK_DAYS, PLUG_IN_STREAK, todaySchedule } from '../constants/data';
 
 export default function DashboardView({ setScheduleOpen, setView, goalsExpanded, setGoalsExpanded }) {
   const streakCount = PLUG_IN_STREAK.filter(Boolean).length;
 
+  const weatherForecast = [
+    { time: '12 AM', condition: 'cloudy', temp: '8°C' },
+    { time: '3 AM', condition: 'cloudy', temp: '7°C' },
+    { time: '6 AM', condition: 'partly-cloudy', temp: '6°C' },
+    { time: '9 AM', condition: 'partly-cloudy', temp: '9°C' },
+    { time: '12 PM', condition: 'sunny', temp: '14°C' },
+    { time: '3 PM', condition: 'sunny', temp: '16°C' },
+    { time: '6 PM', condition: 'partly-cloudy', temp: '12°C' },
+    { time: '9 PM', condition: 'cloudy', temp: '10°C' }
+  ];
+
   return (
     <div className="pb-24">
       {/* HOME ENERGY */}
-      <div className="px-4 mb-8 pt-4">
+      <div className="px-4 mb-8 pt-4 hidden">
         <div className="bg-slate-800 rounded-2xl p-6 shadow-lg">
           <div className="relative w-full h-64 flex items-center justify-center">
             {/* Dotted Lines */}
@@ -56,7 +67,7 @@ export default function DashboardView({ setScheduleOpen, setView, goalsExpanded,
       </div>
 
       {/* SESSION TARGETS */}
-      <div className="px-4 mb-6">
+      <div className="px-4 mb-6 hidden">
         <div className="bg-slate-800 rounded-2xl shadow-lg overflow-hidden">
           <button onClick={() => setGoalsExpanded(!goalsExpanded)} className="w-full text-left p-4">
             <div className="flex items-center justify-between">
@@ -253,6 +264,45 @@ export default function DashboardView({ setScheduleOpen, setView, goalsExpanded,
           </div>
         </div>
       </div>
+
+      {/* WEATHER WIDGET */}
+      <div className="px-4 mb-6">
+        <h2 className="text-sm font-semibold text-slate-400 mb-3 uppercase">Weather today</h2>
+        <div className="flex gap-3 overflow-x-auto pb-2 -mx-4 px-4" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+          {weatherForecast.map((weather, idx) => {
+            const getWeatherIcon = () => {
+              if (weather.condition === 'sunny') {
+                return <Sun className="w-6 h-6 text-yellow-400" />;
+              } else if (weather.condition === 'partly-cloudy') {
+                return <CloudSun className="w-6 h-6 text-cyan-400" />;
+              } else {
+                return <Cloud className="w-6 h-6 text-slate-400" />;
+              }
+            };
+
+            const getCardStyle = () => {
+              if (weather.condition === 'sunny') {
+                return 'bg-slate-800 rounded-lg p-3 border border-yellow-500/30 min-w-[80px]';
+              } else if (weather.condition === 'partly-cloudy') {
+                return 'bg-slate-800 rounded-lg p-3 border border-cyan-500/30 min-w-[80px]';
+              } else {
+                return 'bg-slate-800 rounded-lg p-3 border border-slate-600/30 min-w-[80px]';
+              }
+            };
+
+            return (
+              <div key={idx} className={getCardStyle()}>
+                <p className="text-xs text-slate-400 mb-2 text-center">{weather.time}</p>
+                <div className="flex items-center justify-center mb-2">
+                  {getWeatherIcon()}
+                </div>
+                <p className="text-sm font-medium text-white text-center">{weather.temp}</p>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
     </div>
   );
 }
