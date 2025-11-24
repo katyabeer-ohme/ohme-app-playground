@@ -1,5 +1,5 @@
 import React from 'react';
-import { Zap, Sun, Home, Battery, Clock, Car, Sparkles } from 'lucide-react';
+import { Zap, Sun, Home, Battery, Car, Sparkles } from 'lucide-react';
 import WeekDayBox from '../components/WeekDayBox';
 import { WEEK_DAYS, PLUG_IN_STREAK, todaySchedule } from '../constants/data';
 
@@ -231,6 +231,7 @@ export default function DashboardView({ setScheduleOpen, setView }) {
           </div>
         </div>
       </div>
+    
     </div>
   );
 }

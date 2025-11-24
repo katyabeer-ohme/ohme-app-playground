@@ -6,30 +6,112 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Brand colors - replace with your actual values
+        // Brand colors
         brand: {
-          primary: '#00FFD6',      // Main action/CTA color
-          secondary: '#0AB4A8',    // Accent - success/positive
-          tertiary: '#8B5CF6',     // Alternative accent - V2G/premium
-          dark: '#032536',         // Dark background
-          light: '#FFFFFF',        // Light background
-          error: '#FF387A',        // Error/warning
-          warning: '#F5BD50',      // Warning/attention
+          // Primary - Electric Cyan (main actions, CTAs, highlights)
+          primary: {
+            DEFAULT: '#00FFD6',
+            50: '#E6FFFA',
+            100: '#B3FFF0',
+            200: '#80FFE6',
+            300: '#4DFFDC',
+            400: '#1AFFD2',
+            500: '#00FFD6',
+            600: '#00CCB0',
+            700: '#009985',
+            800: '#006659',
+            900: '#00332D',
+          },
+          
+          // Secondary - Sky Cyan (secondary actions, info states)
+          secondary: {
+            DEFAULT: '#1EBCCF',
+            50: '#E8F7FA',
+            100: '#C7EDF3',
+            200: '#8FDBEA',
+            300: '#57C9E0',
+            400: '#1EBCCF',
+            500: '#189AA8',
+            600: '#137881',
+            700: '#0E5A61',
+            800: '#093C40',
+            900: '#041E20',
+          },
+          
+          // Accent - Ocean Blue (tertiary accents, borders)
+          accent: {
+            DEFAULT: '#326E94',
+            50: '#EBF3F8',
+            100: '#D1E3EF',
+            200: '#A3C7DF',
+            300: '#75ABCF',
+            400: '#478FBF',
+            500: '#326E94',
+            600: '#285876',
+            700: '#1E4258',
+            800: '#142C3A',
+            900: '#0A161D',
+          },
+          
+          // Dark - Deep Navy (backgrounds, surfaces)
+          dark: {
+            DEFAULT: '#032536',
+            50: '#E6EAED',
+            100: '#BDC8CF',
+            200: '#94A6B1',
+            300: '#6B8493',
+            400: '#426275',
+            500: '#1A4057',
+            600: '#032536',
+            700: '#021D29',
+            800: '#02151C',
+            900: '#010D0F',
+          },
+          
+          // Light - Ice Blue (text, light elements)
+          light: {
+            DEFAULT: '#EBF1F6',
+            50: '#FFFFFF',
+            100: '#FFFFFF',
+            200: '#FFFFFF',
+            300: '#FFFFFF',
+            400: '#F8FAFB',
+            500: '#EBF1F6',
+            600: '#C9D9E4',
+            700: '#A7C1D2',
+            800: '#85A9C0',
+            900: '#6391AE',
+          },
         },
         
-        // Semantic colors
+        // Semantic colors for UI states
+        success: '#00FFD6',      // Electric cyan for success
+        info: '#1EBCCF',         // Sky cyan for info
+        warning: '#F5BD50',      // Warm yellow for warnings
+        error: '#FF387A',        // Pink/red for errors
+        
+        // Surface/Background layers
         surface: {
-          DEFAULT: '#1D2A54',
-          secondary: '#3C6A91',
-          tertiary: '#6F84AE',
+          DEFAULT: '#032536',    // Deepest - main background
+          elevated: '#0A3244',   // Slightly lighter
+          card: '#0F3E52',       // Cards and panels
+          hover: '#153F5A',      // Hover states
         },
         
-        // Text colors
+        // Text hierarchy
         text: {
-          primary: '#FFFFFF',      // Dark gray - main text
-          secondary: '#6B7280',    // Medium gray - secondary text
-          tertiary: '#9CA3AF',     // Light gray - tertiary text
-          inverse: '#032536',      // On dark backgrounds
+          primary: '#EBF1F6',    // Main text - ice blue
+          secondary: '#A7C1D2',  // Secondary text - muted cyan
+          tertiary: '#6391AE',   // Tertiary/disabled text
+          accent: '#00FFD6',     // Accent text - electric cyan
+          link: '#1EBCCF',       // Links - sky cyan
+        },
+        
+        // Borders
+        border: {
+          DEFAULT: '#326E94',    // Default borders
+          light: '#1A4057',      // Subtle borders
+          accent: '#00FFD6',     // Highlighted borders
         },
       },
       
@@ -67,11 +149,13 @@ module.exports = {
       },
       
       boxShadow: {
-        // Subtle shadows for elevation
-        sm: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
-        DEFAULT: '0 1px 3px 0 rgb(0 0 0 / 0.1)',
-        md: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
-        lg: '0 10px 15px -3px rgb(0 0 0 / 0.1)',
+        // Darker shadows for elevation on dark backgrounds
+        sm: '0 2px 4px 0 rgb(0 0 0 / 0.3)',
+        DEFAULT: '0 4px 6px 0 rgb(0 0 0 / 0.4)',
+        md: '0 6px 12px -1px rgb(0 0 0 / 0.5)',
+        lg: '0 12px 24px -3px rgb(0 0 0 / 0.6)',
+        glow: '0 0 20px rgb(0 255 214 / 0.2)',      // Cyan glow effect
+        'glow-sm': '0 0 10px rgb(0 255 214 / 0.15)', // Subtle glow
       },
     },
   },
