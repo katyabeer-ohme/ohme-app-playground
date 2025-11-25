@@ -1,5 +1,5 @@
 import React from 'react';
-import { Home, Zap, Sparkles, BarChart3, Award } from 'lucide-react';
+import { Home, Zap, Sparkles, BarChart3 } from 'lucide-react';
 import NavButton from './NavButton';
 
 export default function BottomNavigation({ view, setView }) {
@@ -10,7 +10,6 @@ export default function BottomNavigation({ view, setView }) {
         <NavButton id="settings" icon={Zap} label="My Hub" onClick={() => setView('settings')} view={view} />
         <NavButton id="ai" icon={Sparkles} label="Ask AI" onClick={() => setView('ai')} view={view} />
         <NavButton id="history" icon={BarChart3} label="Usage" onClick={() => setView('history')} view={view} />
-        <NavButton id="rewards" icon={Award} label="Rewards" onClick={() => setView('rewards')} view={view} />
       </div>
     </div>
   );

@@ -8,7 +8,7 @@ export default function SchedulePanel({ isOpen, onClose }) {
   return (
     <div className="fixed inset-0 z-[110] animate-in fade-in duration-200">
       <div className="fixed inset-0 bg-black/60 animate-in fade-in duration-300" onClick={onClose}></div>
-      <div className="fixed right-0 top-0 bottom-0 w-full bg-slate-900 flex flex-col shadow-2xl animate-in slide-in-from-right duration-300">
+      <div className="fixed bottom-0 left-0 right-0 max-h-[85vh] bg-slate-900 flex flex-col shadow-2xl rounded-t-2xl animate-in slide-in-from-bottom duration-300">
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-700 flex-shrink-0">
           <h2 className="text-lg font-bold text-white">Full Schedule</h2>
           <button onClick={onClose} className="text-slate-400 hover:text-white">

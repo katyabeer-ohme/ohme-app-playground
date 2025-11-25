@@ -19,6 +19,7 @@ export default function EnergyHub() {
   const [hoveredBar, setHoveredBar] = useState(null);
   const [profileOpen, setProfileOpen] = useState(false);
   const [scheduleOpen, setScheduleOpen] = useState(false);
+  const [goalsExpanded, setGoalsExpanded] = useState(false);
   const [activityDrawerOpen, setActivityDrawerOpen] = useState(false);
   const [aiMessages, setAiMessages] = useState([]);
   const [aiInput, setAiInput] = useState('');
@@ -70,7 +71,14 @@ export default function EnergyHub() {
 
       <div className="max-w-md mx-auto">
         {/* Dashboard View */}
-        {view === 'dashboard' && <DashboardView setScheduleOpen={setScheduleOpen} setView={setView} />}
+        {view === 'dashboard' && (
+          <DashboardView 
+            setScheduleOpen={setScheduleOpen} 
+            setView={setView} 
+            goalsExpanded={goalsExpanded}
+            setGoalsExpanded={setGoalsExpanded}
+          />
+        )}
 
         {/* Rewards View */}
         {view === 'rewards' && <RewardsView rewardFilter={rewardFilter} setRewardFilter={setRewardFilter} />}

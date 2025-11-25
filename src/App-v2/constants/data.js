@@ -73,3 +73,31 @@ export const AI_RESPONSES = [
   'V2G window opens at 5 PM. Your battery will be ready by then!',
 ];
 
+// Energy Graph Data - 24 hour overview
+export const energyGraphData = [
+  { hour: 0, source: 'grid', cost: 0.15, rate: 12, power: 1.2 },
+  { hour: 1, source: 'grid', cost: 0.18, rate: 12, power: 1.5 },
+  { hour: 2, source: 'grid', cost: 0.14, rate: 12, power: 1.1 },
+  { hour: 3, source: 'grid', cost: 0.16, rate: 12, power: 1.3 },
+  { hour: 4, source: 'grid', cost: 0.19, rate: 12, power: 1.6 },
+  { hour: 5, source: 'grid', cost: 0.17, rate: 12, power: 1.4 },
+  { hour: 6, source: 'grid', cost: 0.22, rate: 18, power: 1.2 },
+  { hour: 7, source: 'grid', cost: 0.28, rate: 18, power: 1.5 },
+  { hour: 8, source: 'solar', cost: 0, rate: 0, power: 2.1 },
+  { hour: 9, source: 'solar', cost: 0, rate: 0, power: 3.8 },
+  { hour: 10, source: 'solar', cost: 0, rate: 0, power: 5.2 },
+  { hour: 11, source: 'solar', cost: 0, rate: 0, power: 6.4 },
+  { hour: 12, source: 'solar', cost: 0, rate: 0, power: 7.2 },
+  { hour: 13, source: 'solar', cost: 0, rate: 0, power: 6.8 },
+  { hour: 14, source: 'solar', cost: 0, rate: 0, power: 5.6 },
+  { hour: 15, source: 'solar', cost: 0, rate: 0, power: 4.2 },
+  { hour: 16, source: 'solar', cost: 0, rate: 0, power: 2.5 },
+  { hour: 17, source: 'v2g', cost: -0.52, rate: 45, power: -1.2 },
+  { hour: 18, source: 'v2g', cost: -0.68, rate: 45, power: -1.5 },
+  { hour: 19, source: 'v2g', cost: -0.56, rate: 45, power: -1.2 },
+  { hour: 20, source: 'v2g', cost: -0.48, rate: 45, power: -1.1 },
+  { hour: 21, source: 'grid', cost: 0.35, rate: 28, power: 1.2 },
+  { hour: 22, source: 'grid', cost: 0.18, rate: 12, power: 1.5 },
+  { hour: 23, source: 'grid', cost: 0.16, rate: 12, power: 1.3 },
+];
+

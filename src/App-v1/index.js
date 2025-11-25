@@ -1,7 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { Clock } from 'lucide-react';
+import { Bell } from 'lucide-react';
 import DashboardView from './views/DashboardView';
-import RewardsView from './views/RewardsView';
 import UsageView from './views/UsageView';
 import AssetsView from './views/AssetsView';
 import AIChatView from './views/AIChatView';
@@ -22,7 +21,6 @@ export default function EnergyHub() {
   const [activityDrawerOpen, setActivityDrawerOpen] = useState(false);
   const [aiMessages, setAiMessages] = useState([]);
   const [aiInput, setAiInput] = useState('');
-  const [rewardFilter, setRewardFilter] = useState('all');
 
   // Scroll to top when view changes
   useEffect(() => {
@@ -49,31 +47,20 @@ export default function EnergyHub() {
           <button onClick={() => setProfileOpen(true)} className="w-9 h-9 rounded-full bg-slate-700 flex items-center justify-center text-slate-300 hover:bg-slate-600 transition flex-shrink-0">
             <span className="text-sm font-bold">K</span>
           </button>
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2">
-              <span className="text-lg flex-shrink-0">⛅</span>
-              <div className="flex flex-col justify-center">
-                <p className="text-xs font-bold text-white leading-tight">17°C</p>
-                <p className="text-xs text-slate-400 leading-tight">At home</p>
+          <button onClick={() => setActivityDrawerOpen(true)} className="flex items-center gap-1.5 hover:opacity-80 transition">
+            <div className="relative flex-shrink-0">
+              <div className="w-7 h-7 bg-slate-700 rounded-full flex items-center justify-center">
+                <Bell className="w-4 h-4 text-slate-300" />
               </div>
+              <div className="absolute top-0 right-0 w-1.5 h-1.5 bg-red-400 rounded-full animate-pulse"></div>
             </div>
-            <button onClick={() => setActivityDrawerOpen(true)} className="flex items-center gap-1.5 hover:opacity-80 transition">
-              <div className="relative flex-shrink-0">
-                <Clock className="w-4 h-4 text-emerald-400" />
-                <div className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></div>
-              </div>
-              <p className="text-xs text-slate-400 leading-none">Activity</p>
-            </button>
-          </div>
+          </button>
         </div>
       </div>
 
       <div className="max-w-md mx-auto">
         {/* Dashboard View */}
         {view === 'dashboard' && <DashboardView setScheduleOpen={setScheduleOpen} setView={setView} />}
-
-        {/* Rewards View */}
-        {view === 'rewards' && <RewardsView rewardFilter={rewardFilter} setRewardFilter={setRewardFilter} />}
 
         {/* Usage/History View */}
         {view === 'history' && (

@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { Clock } from 'lucide-react';
+import { Bell } from 'lucide-react';
 import DashboardView from './views/DashboardView';
 import RewardsView from './views/RewardsView';
 import UsageView from './views/UsageView';
@@ -60,10 +60,11 @@ export default function EnergyHub() {
             </div>
             <button onClick={() => setActivityDrawerOpen(true)} className="flex items-center gap-1.5 hover:opacity-80 transition">
               <div className="relative flex-shrink-0">
-                <Clock className="w-4 h-4 text-emerald-400" />
-                <div className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></div>
+                <div className="w-7 h-7 bg-slate-700 rounded-full flex items-center justify-center">
+                  <Bell className="w-4 h-4 text-slate-300" />
+                </div>
+                <div className="absolute top-0 right-0 w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></div>
               </div>
-              <p className="text-xs text-slate-400 leading-none">Activity</p>
             </button>
           </div>
         </div>
