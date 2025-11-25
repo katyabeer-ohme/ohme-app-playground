@@ -8,26 +8,14 @@ export default function DashboardView({ setScheduleOpen, setView }) {
   const currentBattery = 45;
   const targetBattery = 80;
   const batteryProgress = currentBattery;
-
-  // Energy sources
   const gridPower = '3.1 kW';
   const solarPower = '1.6 kW';
-
-  const currentRate = {
-    price: 7.5,
-    period: 'Now until 04:00 AM'
-  };
-
-  const planSummary = {
-    totalCost: '£4.57',
-    totalEnergy: '68 kWh'
-  };
 
   return (
     <div className="pb-24">
       {/* SESSION STATUS */}
       <div className="px-4 mb-6 pt-6">
-        <div className="bg-gradient-to-br from-brand-primary/15 to-brand-secondary/15 rounded-xl p-4 shadow-lg border border-brand-primary/20">
+        <div className="bg-gradient-to-br from-brand-primary/15 to-brand-secondary/15 rounded-md p-4 shadow-lg border border-brand-primary/20">
         {/* SECTION 1: LIVE STATUS */}
           <div className="flex items-start justify-between mb-3">
             <div className="flex items-center gap-2 text-3xl">
@@ -56,7 +44,7 @@ export default function DashboardView({ setScheduleOpen, setView }) {
             <p className="text-xs text-text-tertiary mb-1">Currently at</p>
             <p className="text-4xl font-bold text-text-primary mb-3">{currentBattery}%</p>
             <div className="relative">
-              <div className="bg-brand-dark-900/40 rounded-full h-2 overflow-hidden border border-brand-accent/30">
+              <div className="bg-brand-dark-900/40 rounded-full h-4 overflow-hidden border border-brand-accent/30">
                 <div 
                   className="h-full bg-gradient-to-r from-brand-primary to-brand-secondary rounded-full transition-all duration-500"
                   style={{ width: `${batteryProgress}%` }}
@@ -64,7 +52,7 @@ export default function DashboardView({ setScheduleOpen, setView }) {
               </div>
               {/* Target marker at 80% */}
               <div 
-                className="absolute -top-1 bottom-0 w-0.5 h-4 bg-text-primary rounded-full"
+                className="absolute -top-1 bottom-0 w-0.5 h-6 bg-text-primary rounded-full"
                 style={{ left: `${targetBattery}%` }}
               ></div>
             </div>
@@ -77,7 +65,7 @@ export default function DashboardView({ setScheduleOpen, setView }) {
             </div>
 
             <div className="grid grid-cols-3 gap-2">
-              <button className="bg-brand-primary hover:bg-brand-primary-600 text-brand-dark py-1.5 px-2 rounded-lg font-medium text-xs transition">
+              <button className="bg-brand-accent/10 hover:bg-brand-accent/20 text-text-primary py-1.5 px-2 rounded-lg font-medium text-xs transition border border-brand-accent/20">
                 Max charge
               </button>
               <button className="bg-brand-accent/10 hover:bg-brand-accent/20 text-text-primary py-1.5 px-2 rounded-lg font-medium text-xs transition border border-brand-accent/20">
@@ -93,7 +81,7 @@ export default function DashboardView({ setScheduleOpen, setView }) {
 
       {/* TODAY'S PLAN */}
       <div className="px-4 mb-6">
-        <div className="bg-surface-card rounded-2xl p-5 shadow-lg border border-border-light">
+        <div className="bg-surface-card rounded-md p-5 shadow-lg">
           <h2 className="text-lg font-bold text-text-primary mb-2">Today's Plan</h2>
           
           {/* Smart Suggestion Inside Card */}
@@ -127,11 +115,11 @@ export default function DashboardView({ setScheduleOpen, setView }) {
             <div className="grid grid-cols-2 gap-3 text-xs">
               <div>
                 <p className="text-text-tertiary mb-1">Estimated total cost</p>
-                <p className="text-text-primary font-semibold">{planSummary.totalCost}</p>
+                <p className="text-text-primary font-semibold">£4.57</p>
               </div>
               <div>
                 <p className="text-text-tertiary mb-1">Total energy to use</p>
-                <p className="text-text-primary font-semibold">{planSummary.totalEnergy}</p>
+                <p className="text-text-primary font-semibold">68 kWh</p>
               </div>
             </div>
           </div>
@@ -144,55 +132,23 @@ export default function DashboardView({ setScheduleOpen, setView }) {
 
       {/* CURRENT RATE */}
       <div className="px-4 mb-6">
-        <div className="bg-surface-card rounded-lg p-4 shadow-lg border border-brand-primary/30 shadow-glow-sm">
+        <div className="bg-surface-card rounded-md p-4 shadow-lg shadow-glow-sm">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-brand-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
               <Zap className="w-5 h-5 text-brand-primary" />
             </div>
             <div className="flex-1">
               <p className="text-xs text-text-tertiary mb-1">Current electricity rate</p>
-              <p className="text-2xl font-bold text-text-primary">{currentRate.price}p <span className="text-sm font-normal text-text-tertiary">per kWh</span></p>
-              <p className="text-xs text-text-tertiary mt-0.5">{currentRate.period}</p>
+              <p className="text-2xl font-bold text-text-primary">7.5p <span className="text-sm font-normal text-text-tertiary">per kWh</span></p>
+              <p className="text-xs text-text-tertiary mt-0.5">Now until 04:00 AM</p>
             </div>
-          </div>
-        </div>
-      </div>
-      
-      {/* Today So Far */}
-      <div className="px-4 mb-6 hidden">
-        <div className="grid grid-cols-2 gap-3">
-          <div className="bg-surface-card rounded-lg p-4 shadow-lg">
-            <p className="text-xs text-text-tertiary mb-1">Energy Used</p>
-            <p className="text-2xl font-bold text-text-primary mb-2">£0.95</p>
-            <div className="space-y-1 text-xs">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-1">
-                  <Sun className="w-3 h-3 text-yellow-400" />
-                  <span className="text-text-tertiary">Solar</span>
-                </div>
-                <span className="text-text-primary font-medium">11.4 kWh</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-1">
-                  <Zap className="w-3 h-3 text-orange-400" />
-                  <span className="text-text-tertiary">Grid</span>
-                </div>
-                <span className="text-text-primary font-medium">3.2 kWh</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-emerald-900/30 rounded-lg p-4 shadow-lg border border-emerald-500/20">
-            <p className="text-xs text-emerald-300 mb-1">Savings</p>
-            <p className="text-2xl font-bold text-emerald-400 mb-2">£2.35</p>
-            <p className="text-xs text-emerald-300">vs peak rates</p>
           </div>
         </div>
       </div>
 
       {/* PLUG-IN STREAK SECTION */}
       <div className="px-4 mb-6">
-        <div className="bg-gradient-to-br from-brand-secondary/20 to-brand-primary/20 rounded-2xl p-5 shadow-lg border border-brand-secondary/30">
+        <div className="bg-gradient-to-br from-brand-secondary/20 to-brand-primary/20 rounded-md p-5 shadow-lg">
           <div className="mb-4">
             <div className="flex items-center justify-between mb-3">
               <h2 className="text-lg font-bold text-text-primary">This Week's Streak</h2>

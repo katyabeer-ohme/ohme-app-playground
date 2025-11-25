@@ -1,75 +1,72 @@
-import React from 'react';
-import { Zap, Sun, Home, Battery, Car, Sparkles, ChevronRight, TrendingDown, Cloud, CloudSun } from 'lucide-react';
+import React, { useState } from 'react';
+import { Zap, Sun, Home, Car, Sparkles } from 'lucide-react';
 import WeekDayBox from '../components/WeekDayBox';
-import EnergyGraph from '../components/EnergyGraph';
+import CarDetailOverlay from '../components/CarDetailOverlay';
 import { WEEK_DAYS, PLUG_IN_STREAK, todaySchedule } from '../constants/data';
 
-export default function DashboardView({ setScheduleOpen, setView, goalsExpanded, setGoalsExpanded }) {
+export default function DashboardView({ setScheduleOpen, setView }) {
   const streakCount = PLUG_IN_STREAK.filter(Boolean).length;
-
-  const weatherForecast = [
-    { time: '12 AM', condition: 'cloudy', temp: '8°C' },
-    { time: '3 AM', condition: 'cloudy', temp: '7°C' },
-    { time: '6 AM', condition: 'partly-cloudy', temp: '6°C' },
-    { time: '9 AM', condition: 'partly-cloudy', temp: '9°C' },
-    { time: '12 PM', condition: 'sunny', temp: '14°C' },
-    { time: '3 PM', condition: 'sunny', temp: '16°C' },
-    { time: '6 PM', condition: 'partly-cloudy', temp: '12°C' },
-    { time: '9 PM', condition: 'cloudy', temp: '10°C' }
-  ];
+  const [carDetailOpen, setCarDetailOpen] = useState(false);
 
   return (
     <div className="pb-24">
-      {/* HOME ENERGY */}
-      <div className="px-4 mb-8 pt-4 hidden">
-        <div className="bg-slate-800 rounded-2xl p-6 shadow-lg">
-          <div className="relative w-full h-64 flex items-center justify-center">
-            {/* Dotted Lines */}
-            <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ zIndex: 1 }}>
-              <line x1="25%" y1="20%" x2="50%" y2="50%" stroke="#64748b" strokeWidth="1" strokeDasharray="4 4" />
-              <line x1="50%" y1="50%" x2="25%" y2="80%" stroke="#64748b" strokeWidth="1" strokeDasharray="4 4" />
-              <line x1="75%" y1="80%" x2="75%" y2="20%" stroke="#64748b" strokeWidth="1" strokeDasharray="4 4" />
-              <line x1="25%" y1="20%" x2="75%" y2="20%" stroke="#64748b" strokeWidth="1" strokeDasharray="4 4" />
-            </svg>
-            
-            <div className="absolute w-16 h-16 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-full flex items-center justify-center shadow-lg z-10">
-              <Zap className="w-8 h-8 text-white" />
+      {/* Today So Far */}
+      <div className="px-4 mb-6 pt-6">
+        <div className="bg-gradient-to-br from-purple-500/20 to-indigo-500/20 rounded-md p-4 shadow-lg border border-purple-500/20">
+          <div className="grid grid-cols-2 gap-4 mb-3">
+            {/* Total Cost - Left */}
+            <div className="flex flex-col justify-center">
+              <p className="text-xs font-semibold text-text-tertiary mb-2">Today's usage</p>
+              <p className="text-3xl font-bold text-text-primary mb-1">£4.56</p>
+              <p className="text-xs text-text-tertiary">38.2 kWh</p>
             </div>
-            <div className="absolute top-0 left-8 text-center">
-              <div className="w-12 h-12 bg-yellow-500/20 rounded-full flex items-center justify-center mx-auto mb-2 border border-yellow-500/50">
-                <Sun className="w-6 h-6 text-yellow-400" />
+
+            {/* Usage Breakdown - Right */}
+            <div className="flex flex-col justify-center space-y-3">
+              {/* Home Usage */}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Home className="w-4 h-4 text-orange-400" />
+                  <span className="text-xs text-text-primary">Home</span>
+                </div>
+                <div className="text-right">
+                  <p className="text-sm font-bold text-text-primary">£1.82 <span className="text-xs font-normal text-text-tertiary">/ 15.2 kWh</span></p>
+                </div>
               </div>
-              <p className="text-xs text-slate-400">Solar</p>
-              <p className="text-sm font-bold text-yellow-400">+4.2 kW</p>
+              
+              <div className="h-px bg-border"></div>
+              
+              {/* Car Usage */}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Car className="w-4 h-4 text-cyan-400" />
+                  <span className="text-xs text-text-primary">Car</span>
+                </div>
+                <div className="text-right">
+                  <p className="text-sm font-bold text-text-primary">£2.74 <span className="text-xs font-normal text-text-tertiary">/ 23.0 kWh</span></p>
+                </div>
+              </div>
             </div>
-            <div className="absolute top-0 right-8 text-center">
-              <div className="w-12 h-12 bg-orange-500/20 rounded-full flex items-center justify-center mx-auto mb-2 border border-orange-500/50">
-                <Home className="w-6 h-6 text-orange-400" />
+          </div>
+
+          {/* AI Insight */}
+          <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-lg p-3 border border-purple-500/30">
+            <div className="flex items-start gap-2">
+              <div className="w-6 h-6 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0 animate-pulse">
+                <Sparkles className="w-3.5 h-3.5 text-white" />
               </div>
-              <p className="text-xs text-slate-400">Home</p>
-              <p className="text-sm font-bold text-orange-400">2.1 kW</p>
-            </div>
-            <div className="absolute bottom-0 right-8 text-center">
-              <div className="w-12 h-12 bg-cyan-500/20 rounded-full flex items-center justify-center mx-auto mb-2 border border-cyan-500/50">
-                <Battery className="w-6 h-6 text-cyan-400" />
+              <div className="flex-1">
+                <p className="text-xs font-semibold text-purple-300 mb-1">AI Insight</p>
+                <p className="text-xs text-text-secondary leading-relaxed">Based on your usage history, you can get paid to charge your car and save up to £3.20 per charge with a dynamic tariff.</p>
               </div>
-              <p className="text-xs text-slate-400">Battery</p>
-              <p className="text-sm font-bold text-cyan-400">65%</p>
-            </div>
-            <div className="absolute bottom-0 left-8 text-center">
-              <div className="w-12 h-12 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-2 border border-emerald-500/50">
-                <Zap className="w-6 h-6 text-emerald-400" />
-              </div>
-              <p className="text-xs text-slate-400">Car</p>
-              <p className="text-sm font-bold text-emerald-400">2.1 kW</p>
             </div>
           </div>
         </div>
       </div>
 
       {/* SESSION STATUS */}
-      <div className="px-4 mb-6 pt-6">
-        <div className="bg-gradient-to-br from-brand-primary/15 to-brand-secondary/15 rounded-xl p-4 shadow-lg border border-brand-primary/20">
+      <div className="px-4 mb-6">
+        <div className="bg-gradient-to-br from-brand-primary/15 to-brand-secondary/15 rounded-md p-4 shadow-lg border border-brand-primary/20">
         {/* SECTION 1: LIVE STATUS */}
           <div className="flex items-start justify-between mb-3">
             <div className="flex items-center gap-2 text-3xl">
@@ -90,7 +87,7 @@ export default function DashboardView({ setScheduleOpen, setView, goalsExpanded,
             </span>
           </div>
           <div className="flex items-start justify-between mb-4">
-            <h2 className="text-lg font-bold text-white">Charging your Tesla with grid and solar</h2>
+            <h2 className="text-lg font-bold text-text-primary">Charging your Tesla with grid and solar</h2>
           </div>
 
           {/* Current Battery Level */}
@@ -98,7 +95,7 @@ export default function DashboardView({ setScheduleOpen, setView, goalsExpanded,
             <p className="text-xs text-text-tertiary mb-1">Currently at</p>
             <p className="text-4xl font-bold text-text-primary mb-3">45%</p>
             <div className="relative">
-              <div className="bg-brand-dark-900/40 rounded-full h-2 overflow-hidden border border-brand-accent/30">
+              <div className="bg-brand-dark-900/40 rounded-full h-4 overflow-hidden border border-brand-accent/30">
                 <div 
                   className="h-full bg-gradient-to-r from-brand-primary to-brand-secondary rounded-full transition-all duration-500"
                   style={{ width: '45%' }}
@@ -106,7 +103,7 @@ export default function DashboardView({ setScheduleOpen, setView, goalsExpanded,
               </div>
               {/* Target marker at 80% */}
               <div 
-                className="absolute -top-1 bottom-0 w-0.5 h-4 bg-text-primary rounded-full"
+                className="absolute -top-1 bottom-0 w-0.5 h-6 bg-text-primary rounded-full"
                 style={{ left: '80%' }}
               ></div>
             </div>
@@ -119,10 +116,13 @@ export default function DashboardView({ setScheduleOpen, setView, goalsExpanded,
             </div>
 
             <div className="grid grid-cols-3 gap-2">
-              <button className="bg-brand-primary hover:bg-brand-primary-600 text-brand-dark py-1.5 px-2 rounded-lg font-medium text-xs transition">
+              <button className="bg-brand-accent/10 hover:bg-brand-accent/20 text-text-primary py-1.5 px-2 rounded-lg font-medium text-xs transition border border-brand-accent/20">
                 Max charge
               </button>
-              <button className="bg-brand-accent/10 hover:bg-brand-accent/20 text-text-primary py-1.5 px-2 rounded-lg font-medium text-xs transition border border-brand-accent/20">
+              <button 
+                onClick={() => setCarDetailOpen(true)}
+                className="bg-brand-accent/10 hover:bg-brand-accent/20 text-text-primary py-1.5 px-2 rounded-lg font-medium text-xs transition border border-brand-accent/20"
+              >
                 Edit target
               </button>
               <button className="bg-brand-accent/10 hover:bg-brand-accent/20 text-text-primary py-1.5 px-2 rounded-lg font-medium text-xs transition border border-brand-accent/20">
@@ -133,10 +133,9 @@ export default function DashboardView({ setScheduleOpen, setView, goalsExpanded,
         </div>
       </div>
 
-
       {/* Today's plan */}
       <div className="px-4 mb-6">
-        <div className="bg-surface-card rounded-2xl p-5 shadow-lg border border-border-light">
+        <div className="bg-surface-card rounded-md p-5 shadow-lg">
           <div className="mb-4">
             <h2 className="text-lg font-bold text-text-primary mb-3">Today's plan</h2>
             <div className="bg-brand-secondary/15 border border-brand-secondary/30 rounded-lg p-3 mb-4 flex gap-3">
@@ -169,11 +168,11 @@ export default function DashboardView({ setScheduleOpen, setView, goalsExpanded,
             <div className="flex items-start justify-between mb-2">
               <div>
                 <p className="text-xs font-semibold text-purple-400 mb-0.5">5:00 PM - 9:00 PM</p>
-                <p className="text-sm font-bold text-white">💰 Send electricity to the grid</p>
+                <p className="text-sm font-bold text-text-primary">💰 Send electricity to the grid</p>
               </div>
               <span className="text-sm font-bold text-emerald-400 mb-0.5">+£2.50</span>
             </div>
-            <p className="text-xs text-slate-400 mb-3">Export to grid during peak hours when demand is high.</p>
+            <p className="text-xs text-text-tertiary mb-3">Export to grid during peak hours when demand is high.</p>
             <button className="w-full bg-purple-500 hover:bg-purple-600 text-white py-2 rounded-lg font-medium text-xs transition">Add to schedule</button>
           </div>
 
@@ -200,7 +199,7 @@ export default function DashboardView({ setScheduleOpen, setView, goalsExpanded,
 
       {/* PLUG-IN STREAK SECTION */}
       <div className="px-4 mb-6">
-        <div className="bg-gradient-to-br from-brand-secondary/20 to-brand-primary/20 rounded-2xl p-5 shadow-lg border border-brand-secondary/30">
+        <div className="bg-gradient-to-br from-brand-secondary/20 to-brand-primary/20 rounded-md p-5 shadow-lg">
           <div className="mb-4">
             <div className="flex items-center justify-between mb-3">
               <h2 className="text-lg font-bold text-text-primary">This Week's Streak</h2>
@@ -229,80 +228,8 @@ export default function DashboardView({ setScheduleOpen, setView, goalsExpanded,
         </div>
       </div>
 
-      {/* Today So Far */}
-      <div className="px-4 mb-6">
-        <div className="grid grid-cols-2 gap-3">
-          <div className="bg-surface-card rounded-lg p-4 shadow-lg">
-            <p className="text-xs text-text-tertiary mb-1">Energy Used</p>
-            <p className="text-2xl font-bold text-text-primary mb-2">£0.95</p>
-            <div className="space-y-1 text-xs">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-1">
-                  <Sun className="w-3 h-3 text-yellow-400" />
-                  <span className="text-text-tertiary">Solar</span>
-                </div>
-                <span className="text-text-primary font-medium">11.4 kWh</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-1">
-                  <Zap className="w-3 h-3 text-orange-400" />
-                  <span className="text-text-tertiary">Grid</span>
-                </div>
-                <span className="text-text-primary font-medium">3.2 kWh</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-emerald-900/30 rounded-lg p-4 shadow-lg border border-emerald-500/20">
-            <p className="text-xs text-emerald-300 mb-1">Savings</p>
-            <p className="text-2xl font-bold text-emerald-400 mb-2">£2.35</p>
-            <p className="text-xs text-emerald-300">vs peak rates</p>
-          </div>
-        </div>
-      </div>
-
-      {/* GRID AND WEATHER WIDGET */}
-      <div className="px-4 mb-6">
-        <h2 className="text-sm font-semibold text-text-tertiary mb-3 uppercase">Weather today</h2>
-        <div className="flex gap-3 overflow-x-auto pb-2 -mx-4 px-4" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-          {weatherForecast.map((weather, idx) => {
-            const getWeatherIcon = () => {
-              if (weather.condition === 'sunny') {
-                return <Sun className="w-6 h-6 text-yellow-400" />;
-              } else if (weather.condition === 'partly-cloudy') {
-                return <CloudSun className="w-6 h-6 text-cyan-400" />;
-              } else {
-                return <Cloud className="w-6 h-6 text-slate-400" />;
-              }
-            };
-
-            const getCardStyle = () => {
-              if (weather.condition === 'sunny') {
-                return 'bg-surface-card rounded-lg p-3 border border-yellow-500/30 min-w-[80px]';
-              } else if (weather.condition === 'partly-cloudy') {
-                return 'bg-surface-card rounded-lg p-3 border border-brand-secondary/30 min-w-[80px]';
-              } else {
-                return 'bg-surface-card rounded-lg p-3 border border-border-light min-w-[80px]';
-              }
-            };
-
-            return (
-              <div key={idx} className={getCardStyle()}>
-                <p className="text-xs text-text-tertiary mb-2 text-center">{weather.time}</p>
-                <div className="flex items-center justify-center mb-2">
-                  {getWeatherIcon()}
-                </div>
-                <p className="text-sm font-medium text-text-primary text-center">{weather.temp}</p>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* ENERGY GRAPH */}
-      <div className="px-4 mb-6">
-        <EnergyGraph />
-      </div>
+      {/* CAR DETAIL OVERLAY */}
+      <CarDetailOverlay isOpen={carDetailOpen} onClose={() => setCarDetailOpen(false)} />
 
     </div>
   );

@@ -465,9 +465,22 @@ export default function AssetsView() {
 
   const renderAssetsList = () => (
     <div className="pb-24">
-      <div className="px-4 pt-6 pb-6">
+      <div className="px-4 pt-6 pb-2">
         <h2 className="text-xl font-bold text-white">My Hub</h2>
         <p className="text-sm text-slate-400 mt-1">Manage your EV, battery, and solar system</p>
+      </div>
+
+      {/* Hero Image Card */}
+      <div className="px-4 pt-4 pb-4">
+        <div className="rounded-md overflow-hidden">
+          <div className="relative w-full" style={{ paddingBottom: '100%' }}>
+            <img
+              src="/images/hero-home-energy.png"
+              alt="Smart home energy ecosystem with EV charging and solar panels"
+              className="absolute inset-0 w-full h-full object-contain"
+            />
+          </div>
+        </div>
       </div>
 
       <div className="px-4 space-y-3">

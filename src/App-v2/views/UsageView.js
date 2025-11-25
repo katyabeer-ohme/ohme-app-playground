@@ -1,5 +1,6 @@
 import React from 'react';
 import { usageData } from '../constants/data';
+import EnergyGraph from '../components/EnergyGraph';
 
 export default function UsageView({ usagePeriod, setUsagePeriod, usageType, setUsageType, usageAsset, setUsageAsset, hoveredBar, setHoveredBar }) {
   return (
@@ -101,6 +102,11 @@ export default function UsageView({ usagePeriod, setUsagePeriod, usageType, setU
             <p className="text-xs text-slate-300 leading-relaxed">Lower home consumption 5-6 PM and enable V2G to earn £1.50 more today.</p>
           </div>
         </div>
+      </div>
+
+      {/* ENERGY GRAPH */}
+      <div className="px-4 mb-6">
+        <EnergyGraph />
       </div>
     </div>
   );

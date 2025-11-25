@@ -17,8 +17,8 @@ export default function EnergyGraph() {
     switch (source) {
       case 'solar':
         return 'bg-yellow-400';
-      case 'v2g':
-        return 'bg-purple-400';
+      case 'peak':
+        return 'bg-red-500';
       case 'grid':
         return 'bg-brand-primary';
       default:
@@ -37,8 +37,8 @@ export default function EnergyGraph() {
     switch (source) {
       case 'solar':
         return 'Solar';
-      case 'v2g':
-        return 'V2G Export';
+      case 'peak':
+        return 'Peak Hours';
       case 'grid':
         return 'Grid';
       default:
@@ -48,7 +48,10 @@ export default function EnergyGraph() {
 
   return (
     <div className="bg-surface-card rounded-2xl p-5 shadow-lg border border-border-light">
-      <h2 className="text-lg font-bold text-text-primary mb-4">Energy Overview - Today</h2>
+      <div className="mb-4">
+        <h2 className="text-lg font-bold text-text-primary mb-1">Energy today</h2>
+        <p className="text-xs text-text-tertiary">Current rate: <span className="text-text-primary font-semibold">24.57p / kWh</span></p>
+      </div>
       
       {/* Graph Container */}
       <div className="relative pt-4 pb-8">
@@ -103,12 +106,10 @@ export default function EnergyGraph() {
                       <p className="text-xs text-text-secondary mb-1">{Math.abs(data.power).toFixed(1)} kW</p>
                       {data.source === 'solar' ? (
                         <p className="text-xs font-semibold text-yellow-400">Free</p>
-                      ) : data.source === 'v2g' ? (
-                        <p className="text-xs font-semibold text-emerald-400">+£{Math.abs(data.cost).toFixed(2)}</p>
                       ) : (
                         <>
                           <p className="text-xs text-text-tertiary">{data.rate}p/kWh</p>
-                          <p className="text-xs font-semibold text-brand-primary">£{data.cost.toFixed(2)}</p>
+                          <p className={`text-xs font-semibold ${data.source === 'peak' ? 'text-red-400' : 'text-brand-primary'}`}>£{data.cost.toFixed(2)}</p>
                         </>
                       )}
                     </div>
@@ -138,8 +139,8 @@ export default function EnergyGraph() {
           <span className="text-xs text-text-secondary">Grid</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <div className="w-3 h-3 bg-purple-400 rounded"></div>
-          <span className="text-xs text-text-secondary">V2G Export</span>
+          <div className="w-3 h-3 bg-red-500 rounded"></div>
+          <span className="text-xs text-text-secondary">Peak Hours</span>
         </div>
       </div>
     </div>
