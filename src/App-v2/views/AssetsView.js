@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronLeft, ChevronRight, Plus, Trash2 } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Plus, Trash2, Zap } from 'lucide-react';
 
 export default function AssetsView() {
   const [activeAsset, setActiveAsset] = useState(null);
@@ -7,6 +7,7 @@ export default function AssetsView() {
   const [v2gEnabled, setV2gEnabled] = useState(true);
   const [minReserve, setMinReserve] = useState(20);
   const [minExportAmps, setMinExportAmps] = useState(4);
+  const [tariffDetailOpen, setTariffDetailOpen] = useState(false);
 
   // Asset data
   const tesla = {
@@ -76,6 +77,23 @@ export default function AssetsView() {
     minExportAmps: 4,
   };
 
+  const rateData = [
+    { time: '00:00', rate: 28.5, type: 'off-peak' },
+    { time: '02:00', rate: 26.2, type: 'off-peak' },
+    { time: '04:00', rate: 24.8, type: 'off-peak' },
+    { time: '06:00', rate: 31.5, type: 'standard' },
+    { time: '08:00', rate: 45.2, type: 'peak' },
+    { time: '10:00', rate: 52.1, type: 'peak' },
+    { time: '12:00', rate: 48.5, type: 'peak' },
+    { time: '14:00', rate: 38.2, type: 'standard' },
+    { time: '16:00', rate: 55.8, type: 'peak' },
+    { time: '18:00', rate: 62.3, type: 'peak' },
+    { time: '20:00', rate: 41.5, type: 'standard' },
+    { time: '22:00', rate: 29.4, type: 'off-peak' },
+  ];
+
+  const maxRate = Math.max(...rateData.map(d => d.rate));
+
   const ToggleSwitch = ({ on, onChange }) => (
     <button
       onClick={() => onChange(!on)}
@@ -83,6 +101,142 @@ export default function AssetsView() {
     >
       <div className={`w-5 h-5 rounded-full bg-white transition-transform ${on ? 'ml-auto mr-0.5' : 'ml-0.5'}`}></div>
     </button>
+  );
+
+  const TariffDetailScreen = () => (
+    <div className="fixed inset-0 z-50 bg-slate-900 overflow-y-auto">
+      {/* Header */}
+      <div className="border-b border-slate-800 sticky top-[56px] z-10 bg-slate-900 mt-[56px]">
+        <div className="max-w-md mx-auto px-4 py-4 flex items-center gap-4">
+          <button onClick={() => setTariffDetailOpen(false)} className="text-slate-400 hover:text-white">
+            <ChevronRight className="w-5 h-5 rotate-180" />
+          </button>
+          <div>
+            <h1 className="text-lg font-bold text-white">Octopus Energy - Agile</h1>
+            <p className="text-xs text-slate-400">Octopus Energy</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-md mx-auto">
+        {/* Current Rate Banner */}
+        <div className="px-4 pt-6 pb-4">
+          <div className="bg-slate-800 rounded-xl p-4">
+            <p className="text-xs text-slate-400 mb-2">Current rate</p>
+            <div className="flex items-baseline gap-2">
+              <p className="text-3xl font-bold text-white">28.5p</p>
+              <p className="text-sm text-slate-400">/kWh</p>
+            </div>
+            <p className="text-xs text-slate-500 mt-2">as of 10:00</p>
+          </div>
+        </div>
+
+        {/* Rate Tiers */}
+        <div className="px-4 pb-6">
+          <div className="space-y-2">
+            <div className="flex items-center justify-between p-3 border border-slate-700 rounded-lg">
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 rounded-full bg-emerald-500"></div>
+                <div>
+                  <p className="text-sm font-medium text-white">Off-peak</p>
+                  <p className="text-xs text-slate-400">Midnight – 6 AM</p>
+                </div>
+              </div>
+              <p className="text-sm font-bold text-white">24.8p–28.5p</p>
+            </div>
+            <div className="flex items-center justify-between p-3 border border-slate-700 rounded-lg">
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 rounded-full bg-orange-500"></div>
+                <div>
+                  <p className="text-sm font-medium text-white">Standard</p>
+                  <p className="text-xs text-slate-400">Variable throughout day</p>
+                </div>
+              </div>
+              <p className="text-sm font-bold text-white">31.5p–48.5p</p>
+            </div>
+            <div className="flex items-center justify-between p-3 border border-slate-700 rounded-lg">
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 rounded-full bg-red-500"></div>
+                <div>
+                  <p className="text-sm font-medium text-white">Peak</p>
+                  <p className="text-xs text-slate-400">8 AM – 10 PM (typical)</p>
+                </div>
+              </div>
+              <p className="text-sm font-bold text-white">45.2p–62.3p</p>
+            </div>
+          </div>
+        </div>
+
+        {/* 24-Hour Rate Chart */}
+        <div className="px-4 pb-6">
+          <p className="text-sm font-medium text-white mb-4">Today's rates</p>
+          <div className="border border-slate-700 rounded-xl p-4">
+            <div className="h-40 flex items-end gap-1 pb-4 border-b border-slate-700 mb-4">
+              {rateData.map((bar, idx) => {
+                const height = (bar.rate / maxRate) * 100;
+                const barColor = bar.type === 'peak' ? 'bg-red-500' : bar.type === 'standard' ? 'bg-orange-500' : 'bg-emerald-500';
+                return (
+                  <div key={idx} className="flex-1 flex flex-col items-end justify-end relative group h-full">
+                    <div
+                      className={`w-full rounded-t transition-opacity hover:opacity-80 cursor-pointer ${barColor}`}
+                      style={{ height: `${height}%`, minHeight: '4px' }}
+                    >
+                      <div className="hidden group-hover:block absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-950 text-white text-xs rounded px-2 py-1 whitespace-nowrap z-20">
+                        {bar.time}: {bar.rate}p
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="flex gap-4 text-xs">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                <span className="text-slate-400">Off-peak</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+                <span className="text-slate-400">Standard</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                <span className="text-slate-400">Peak</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Insights */}
+        <div className="px-4 pb-6">
+          <div className="border border-slate-700 rounded-xl p-4 flex gap-3">
+            <Zap className="w-5 h-5 text-cyan-400 flex-shrink-0 mt-0.5" />
+            <div>
+              <p className="text-sm font-medium text-white mb-1">Best time to charge</p>
+              <p className="text-xs text-slate-400">Off-peak rates (midnight–6 AM) are 45% cheaper than peak hours. Schedule charging for 10 PM–6 AM when possible.</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Savings Potential */}
+        <div className="px-4 pb-6">
+          <div className="border border-emerald-500/30 rounded-xl p-4 bg-emerald-500/5">
+            <p className="text-xs text-emerald-300 mb-2">Savings potential</p>
+            <p className="text-2xl font-bold text-emerald-400 mb-1">£8.50/month</p>
+            <p className="text-xs text-slate-400">by shifting all charging to off-peak hours</p>
+          </div>
+        </div>
+
+        {/* CTA Buttons */}
+        <div className="px-4 pb-20 space-y-3">
+          <button className="w-full py-3 bg-cyan-600 hover:bg-cyan-700 text-white rounded-lg font-medium text-sm transition">
+            Change tariff
+          </button>
+          <button className="w-full py-3 border border-slate-600 hover:border-slate-500 text-slate-300 rounded-lg font-medium text-sm transition">
+            Compare other tariffs
+          </button>
+        </div>
+      </div>
+    </div>
   );
 
   const renderCarScreen = () => (
@@ -560,15 +714,52 @@ export default function AssetsView() {
           <span className="text-sm font-medium text-slate-400">Add Device</span>
         </button>
       </div>
+
+      <div className="pb-6"></div>
+
+      {/* TARIFFS & PRICING */}
+      <div className="px-4 pb-6">
+        <h3 className="text-xs font-semibold text-slate-400 mb-4 uppercase">Tariffs & Pricing</h3>
+        
+        <div className="bg-slate-800 rounded-lg p-4 mb-3">
+          <button 
+            onClick={() => setTariffDetailOpen(true)}
+            className="w-full text-left hover:opacity-80 transition"
+          >
+            <div className="mb-3">
+              <p className="text-sm font-semibold text-white mb-1">Octopus Energy - Agile</p>
+              <p className="text-xs text-slate-400">Octopus Energy</p>
+            </div>
+            
+            <div className="mb-3 p-3 bg-slate-700/30 rounded border border-slate-700">
+              <p className="text-xs text-slate-300 mb-1">Current rate</p>
+              <div className="flex items-baseline gap-2">
+                <p className="text-lg font-bold text-white">28.5p</p>
+                <p className="text-xs text-slate-400">/kWh</p>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between">
+              <p className="text-xs text-slate-400">Next cheaper rate: 11 PM</p>
+              <ChevronRight className="w-4 h-4 text-slate-500" />
+            </div>
+          </button>
+        </div>
+
+        <button className="w-full text-sm text-cyan-400 hover:text-cyan-300 font-medium text-left">
+          + Add export tariff
+        </button>
+      </div>
     </div>
   );
 
   return (
     <>
-      {!activeAsset && renderAssetsList()}
+      {!activeAsset && !tariffDetailOpen && renderAssetsList()}
       {activeAsset === 'tesla' && renderCarScreen()}
       {activeAsset === 'battery' && renderBatteryScreen()}
       {activeAsset === 'solar' && renderSolarScreen()}
+      {tariffDetailOpen && <TariffDetailScreen />}
     </>
   );
 }
