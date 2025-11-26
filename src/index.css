@@ -42,6 +42,32 @@
   }
 }
 
+@keyframes shimmer-ltr {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes shimmer-rtl {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-shimmer-ltr {
+  animation: shimmer-ltr 2s infinite;
+}
+
+.animate-shimmer-rtl {
+  animation: shimmer-rtl 2s infinite;
+}
+
 body {
   margin: 0;
   font-family: 'Roobert', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',

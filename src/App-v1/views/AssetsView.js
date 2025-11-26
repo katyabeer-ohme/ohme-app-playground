@@ -21,11 +21,11 @@ export default function AssetsView() {
       id: 'tesla-1',
       name: 'Tesla Model 3',
       nickname: 'Tesla Model 3',
-      currentCharge: 45,
+      currentCharge: 54,
       maxCapacity: 75,
       batteryHealth: 97,
       onboardCharger: '7kW',
-      maxChargingSpeed: '11kW',
+      maxChargingSpeed: '7.5kW',
       range: 245,
       vin: '5YJ3E1EA0JF456789',
       recentCharges: [

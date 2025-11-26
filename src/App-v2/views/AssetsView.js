@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronLeft, ChevronRight, Plus, Trash2, Zap } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Plus, Trash2, Zap, Minus } from 'lucide-react';
 
 export default function AssetsView() {
   const [activeAsset, setActiveAsset] = useState(null);
@@ -8,6 +8,8 @@ export default function AssetsView() {
   const [minReserve, setMinReserve] = useState(20);
   const [minExportAmps, setMinExportAmps] = useState(4);
   const [tariffDetailOpen, setTariffDetailOpen] = useState(false);
+  const [chargeCarTo, setChargeCarTo] = useState(80);
+  const [minBatteryLevel, setMinBatteryLevel] = useState(50);
 
   // Asset data
   const tesla = {
@@ -277,6 +279,57 @@ export default function AssetsView() {
           </div>
         </div>
 
+        {/* Charge Settings */}
+        <div className="bg-slate-800 rounded-xl p-4 mb-6 border border-slate-700">
+          <div className="space-y-4">
+            {/* Charge car to */}
+            <div className="flex items-center justify-between">
+              <p className="text-sm text-white font-medium">Charge car to</p>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setChargeCarTo(Math.max(0, chargeCarTo - 1))}
+                  disabled={chargeCarTo <= 0}
+                  className="w-8 h-8 bg-slate-700 hover:bg-slate-600 disabled:opacity-30 disabled:cursor-not-allowed text-white rounded-lg flex items-center justify-center transition"
+                >
+                  <Minus className="w-4 h-4" />
+                </button>
+                <span className="text-lg font-bold text-cyan-400 min-w-[60px] text-center">{chargeCarTo}%</span>
+                <button
+                  onClick={() => setChargeCarTo(Math.min(100, chargeCarTo + 1))}
+                  disabled={chargeCarTo >= 100}
+                  className="w-8 h-8 bg-slate-700 hover:bg-slate-600 disabled:opacity-30 disabled:cursor-not-allowed text-white rounded-lg flex items-center justify-center transition"
+                >
+                  <Plus className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            <div className="h-px bg-slate-700"></div>
+
+            {/* Don't let battery go below */}
+            <div className="flex items-center justify-between">
+              <p className="text-sm text-white font-medium">Don't let the battery go below</p>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setMinBatteryLevel(Math.max(0, minBatteryLevel - 1))}
+                  disabled={minBatteryLevel <= 0}
+                  className="w-8 h-8 bg-slate-700 hover:bg-slate-600 disabled:opacity-30 disabled:cursor-not-allowed text-white rounded-lg flex items-center justify-center transition"
+                >
+                  <Minus className="w-4 h-4" />
+                </button>
+                <span className="text-lg font-bold text-cyan-400 min-w-[60px] text-center">{minBatteryLevel}%</span>
+                <button
+                  onClick={() => setMinBatteryLevel(Math.min(100, minBatteryLevel + 1))}
+                  disabled={minBatteryLevel >= 100}
+                  className="w-8 h-8 bg-slate-700 hover:bg-slate-600 disabled:opacity-30 disabled:cursor-not-allowed text-white rounded-lg flex items-center justify-center transition"
+                >
+                  <Plus className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* V2H & V2G Settings */}
         <div className="bg-slate-800 rounded-xl p-4 mb-6 border border-slate-700">
           <h3 className="text-sm font-bold text-white mb-4">Vehicle to Grid/Home</h3>
@@ -296,32 +349,6 @@ export default function AssetsView() {
               </div>
               <ToggleSwitch on={v2gEnabled} onChange={setV2gEnabled} />
             </div>
-          </div>
-        </div>
-
-        {/* Connected Chargers */}
-        <div className="bg-slate-800 rounded-xl p-4 mb-6 border border-slate-700">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-bold text-white">Connected Chargers</h3>
-            <button className="text-cyan-400 hover:text-cyan-300 text-xs font-medium">
-              + Add
-            </button>
-          </div>
-          <div className="space-y-3">
-            {tesla.chargers.map(charger => (
-              <div key={charger.id} className="bg-slate-700/50 rounded-lg p-3 flex items-start justify-between">
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-1">
-                    <p className="text-sm font-semibold text-white">{charger.name}</p>
-                    <span className="text-xs bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full">●</span>
-                  </div>
-                  <p className="text-xs text-slate-400">{charger.type} • {charger.location}</p>
-                </div>
-                <button className="text-slate-500 hover:text-slate-300">
-                  <Trash2 className="w-4 h-4" />
-                </button>
-              </div>
-            ))}
           </div>
         </div>
 

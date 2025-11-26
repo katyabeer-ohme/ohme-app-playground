@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Zap, Sun, Home, Car, Sparkles } from 'lucide-react';
+import { Zap, Home, Car, Sparkles } from 'lucide-react';
 import WeekDayBox from '../components/WeekDayBox';
 import CarDetailOverlay from '../components/CarDetailOverlay';
 import { WEEK_DAYS, PLUG_IN_STREAK, todaySchedule } from '../constants/data';
@@ -7,6 +7,24 @@ import { WEEK_DAYS, PLUG_IN_STREAK, todaySchedule } from '../constants/data';
 export default function DashboardView({ setScheduleOpen, setView }) {
   const streakCount = PLUG_IN_STREAK.filter(Boolean).length;
   const [carDetailOpen, setCarDetailOpen] = useState(false);
+  const [targetBattery, setTargetBattery] = useState(80);
+  const [minBattery, setMinBattery] = useState(50);
+  const [readyByDate, setReadyByDate] = useState('');
+  const [readyByTime, setReadyByTime] = useState('08:00');
+  const [readyByDay, setReadyByDay] = useState('Wed');
+
+  const handleSaveTarget = (values) => {
+    setTargetBattery(values.target);
+    setMinBattery(values.minBatteryLevel);
+    setReadyByDate(values.readyByDate);
+    setReadyByTime(values.readyByTime);
+    // Update day display based on date if needed
+    if (values.readyByDate) {
+      const date = new Date(values.readyByDate);
+      const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      setReadyByDay(days[date.getDay()]);
+    }
+  };
 
   return (
     <div className="pb-24">
@@ -70,41 +88,49 @@ export default function DashboardView({ setScheduleOpen, setView }) {
         {/* SECTION 1: LIVE STATUS */}
           <div className="flex items-start justify-between mb-3">
             <div className="flex items-center gap-2 text-3xl">
-              <span>☀️</span>
-              <span className="text-slate-500 text-lg">→</span>
               <span>🚗</span>
+              <span className="text-slate-500 text-lg">→</span>
+              <span>🏠</span>
             </div>
             <span className="text-xs bg-emerald-500/30 text-emerald-300 px-2 py-1 rounded-full font-semibold flex items-center gap-2">
               <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></div>
               <div className="flex items-center gap-1.5">
                 <Zap className="w-3 h-3 text-emerald-300" />
-                <span className="text-xs font-semibold">3.1 kW</span>
+                <span className="text-xs font-semibold">Discharging at 2.1 kW</span>
               </div>
-              <div className="flex items-center gap-1.5">
-                <Sun className="w-3 h-3 text-yellow-400" />
-                <span className="text-xs font-semibold text-yellow-400">1.6 kW</span>
-              </div>
+          
             </span>
           </div>
           <div className="flex items-start justify-between mb-4">
-            <h2 className="text-lg font-bold text-text-primary">Charging your Tesla with grid and solar</h2>
+            <h2 className="text-lg font-bold text-text-primary">Powering your home with Tesla</h2>
           </div>
 
           {/* Current Battery Level */}
           <div className="mb-4">
             <p className="text-xs text-text-tertiary mb-1">Currently at</p>
-            <p className="text-4xl font-bold text-text-primary mb-3">45%</p>
+            <div className="flex items-baseline gap-3 mb-3">
+              <p className="text-4xl font-bold text-text-primary">54%</p>
+              <p className="text-xs text-text-tertiary">Don't go below  {minBattery}%</p>
+            </div>
             <div className="relative">
               <div className="bg-brand-dark-900/40 rounded-full h-4 overflow-hidden border border-brand-accent/30">
                 <div 
-                  className="h-full bg-gradient-to-r from-brand-primary to-brand-secondary rounded-full transition-all duration-500"
-                  style={{ width: '45%' }}
-                ></div>
+                  className="h-full rounded-full transition-all duration-500 relative overflow-hidden"
+                  style={{ width: '54%' }}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-blue-500"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer-rtl"></div>
+                </div>
               </div>
-              {/* Target marker at 80% */}
+              {/* Minimum battery marker */}
+              <div 
+                className="absolute -top-1 bottom-0 w-0.5 h-6 bg-orange-400 rounded-full"
+                style={{ left: `${minBattery}%` }}
+              ></div>
+              {/* Target marker */}
               <div 
                 className="absolute -top-1 bottom-0 w-0.5 h-6 bg-text-primary rounded-full"
-                style={{ left: '80%' }}
+                style={{ left: `${targetBattery}%` }}
               ></div>
             </div>
           </div>
@@ -112,7 +138,7 @@ export default function DashboardView({ setScheduleOpen, setView }) {
           {/* SECTION 2: FINAL TARGET */}
           <div>
             <div className="flex items-center justify-between mb-3">
-              <p className="text-sm text-text-secondary">Charging to <span className="text-text-primary font-semibold">80%</span> ready by <span className="text-text-primary font-semibold">Wed 8:00</span></p>
+              <p className="text-sm text-text-secondary">Car will be at <span className="text-text-primary font-semibold">{targetBattery}%</span> by <span className="text-text-primary font-semibold">{readyByDay} {readyByTime}</span></p>
             </div>
 
             <div className="grid grid-cols-3 gap-2">
@@ -145,7 +171,7 @@ export default function DashboardView({ setScheduleOpen, setView }) {
           </div>
           <div className="space-y-0 relative pl-6 mb-6">
             <div className="absolute left-2 top-2 bottom-2 w-0.5 bg-brand-accent"></div>
-            {todaySchedule.slice(1, 5).map((item, idx) => (
+            {todaySchedule.slice(0, 3).map((item, idx) => (
               <div key={idx} className="relative pb-6 last:pb-0">
                 <div className="absolute -left-6 top-1 w-3 h-3 rounded-full bg-brand-primary border-2 border-brand-dark"></div>
                 <div className="flex items-start justify-between gap-3">
@@ -229,7 +255,15 @@ export default function DashboardView({ setScheduleOpen, setView }) {
       </div>
 
       {/* CAR DETAIL OVERLAY */}
-      <CarDetailOverlay isOpen={carDetailOpen} onClose={() => setCarDetailOpen(false)} />
+      <CarDetailOverlay 
+        isOpen={carDetailOpen} 
+        onClose={() => setCarDetailOpen(false)}
+        currentTarget={targetBattery}
+        currentMinBattery={minBattery}
+        currentDate={readyByDate}
+        currentTime={readyByTime}
+        onSave={handleSaveTarget}
+      />
 
     </div>
   );

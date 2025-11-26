@@ -1,20 +1,48 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Zap, Sun, Sparkles } from 'lucide-react';
 import WeekDayBox from '../components/WeekDayBox';
+import EditTargetDrawer from '../components/EditTargetDrawer';
+import ErrorCard from '../components/ErrorCard';
 import { WEEK_DAYS, PLUG_IN_STREAK, todaySchedule } from '../constants/data';
 
-export default function DashboardView({ setScheduleOpen, setView }) {
+export default function DashboardView({ setScheduleOpen, setView, errorCardState, showErrorCard, onResolveError, onDismissError }) {
   const streakCount = PLUG_IN_STREAK.filter(Boolean).length;
   const currentBattery = 45;
-  const targetBattery = 80;
+  const [targetBattery, setTargetBattery] = useState(80);
+  const [readyByDate, setReadyByDate] = useState('');
+  const [readyByTime, setReadyByTime] = useState('08:00');
+  const [readyByDay, setReadyByDay] = useState('Wed');
+  const [editTargetOpen, setEditTargetOpen] = useState(false);
   const batteryProgress = currentBattery;
   const gridPower = '3.1 kW';
   const solarPower = '1.6 kW';
 
+  const handleSaveTarget = (values) => {
+    setTargetBattery(values.target);
+    setReadyByDate(values.readyByDate);
+    setReadyByTime(values.readyByTime);
+    // Update day display based on date if needed
+    if (values.readyByDate) {
+      const date = new Date(values.readyByDate);
+      const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      setReadyByDay(days[date.getDay()]);
+    }
+  };
+
   return (
     <div className="pb-24">
+      {/* ERROR CARD */}
+      <div className="pt-3">
+        <ErrorCard 
+          state={errorCardState}
+          isVisible={showErrorCard}
+          onResolve={onResolveError}
+          onDismiss={onDismissError}
+        />
+      </div>
+
       {/* SESSION STATUS */}
-      <div className="px-4 mb-6 pt-6">
+      <div className={`px-4 mb-6 ${showErrorCard ? 'pt-0' : 'pt-3'}`}>
         <div className="bg-gradient-to-br from-brand-primary/15 to-brand-secondary/15 rounded-md p-4 shadow-lg border border-brand-primary/20">
         {/* SECTION 1: LIVE STATUS */}
           <div className="flex items-start justify-between mb-3">
@@ -46,9 +74,12 @@ export default function DashboardView({ setScheduleOpen, setView }) {
             <div className="relative">
               <div className="bg-brand-dark-900/40 rounded-full h-4 overflow-hidden border border-brand-accent/30">
                 <div 
-                  className="h-full bg-gradient-to-r from-brand-primary to-brand-secondary rounded-full transition-all duration-500"
+                  className="h-full rounded-full transition-all duration-500 relative overflow-hidden"
                   style={{ width: `${batteryProgress}%` }}
-                ></div>
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-brand-primary to-brand-secondary"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer-ltr"></div>
+                </div>
               </div>
               {/* Target marker at 80% */}
               <div 
@@ -61,14 +92,17 @@ export default function DashboardView({ setScheduleOpen, setView }) {
           {/* SECTION 2: FINAL TARGET */}
           <div>
             <div className="flex items-center justify-between mb-3">
-              <p className="text-sm text-text-secondary">Charging to <span className="text-text-primary font-semibold">{targetBattery}%</span> ready by <span className="text-text-primary font-semibold">Wed 8:00</span></p>
+              <p className="text-sm text-text-secondary">Charging to <span className="text-text-primary font-semibold">{targetBattery}%</span> ready by <span className="text-text-primary font-semibold">{readyByDay} {readyByTime}</span></p>
             </div>
 
             <div className="grid grid-cols-3 gap-2">
               <button className="bg-brand-accent/10 hover:bg-brand-accent/20 text-text-primary py-1.5 px-2 rounded-lg font-medium text-xs transition border border-brand-accent/20">
                 Max charge
               </button>
-              <button className="bg-brand-accent/10 hover:bg-brand-accent/20 text-text-primary py-1.5 px-2 rounded-lg font-medium text-xs transition border border-brand-accent/20">
+              <button 
+                onClick={() => setEditTargetOpen(true)}
+                className="bg-brand-accent/10 hover:bg-brand-accent/20 text-text-primary py-1.5 px-2 rounded-lg font-medium text-xs transition border border-brand-accent/20"
+              >
                 Edit target
               </button>
               <button className="bg-brand-accent/10 hover:bg-brand-accent/20 text-text-primary py-1.5 px-2 rounded-lg font-medium text-xs transition border border-brand-accent/20">
@@ -172,6 +206,15 @@ export default function DashboardView({ setScheduleOpen, setView }) {
         </div>
       </div>
 
+      {/* EDIT TARGET DRAWER */}
+      <EditTargetDrawer 
+        isOpen={editTargetOpen}
+        onClose={() => setEditTargetOpen(false)}
+        currentTarget={targetBattery}
+        currentDate={readyByDate}
+        currentTime={readyByTime}
+        onSave={handleSaveTarget}
+      />
     </div>
   );
 }

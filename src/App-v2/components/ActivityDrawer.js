@@ -1,6 +1,7 @@
-import React from 'react';
-import { Zap, Sun, Clock, AlertCircle, TrendingDown, Home, X } from 'lucide-react';
+import React, { useState } from 'react';
+import { Zap, Sun, Clock, AlertCircle, TrendingDown, Home, X, MessageCircle } from 'lucide-react';
 import { activityEvents } from '../constants/data';
+import CustomerServiceRatingDrawer from './CustomerServiceRatingDrawer';
 
 const getEventIcon = (type) => {
   if (type === 'plug-in' || type === 'session-end') return Zap;
@@ -8,6 +9,7 @@ const getEventIcon = (type) => {
   if (type === 'schedule-change') return TrendingDown;
   if (type === 'v2h') return Home;
   if (type === 'alert') return AlertCircle;
+  if (type === 'customer-service') return MessageCircle;
   return Clock;
 };
 
@@ -17,13 +19,23 @@ const getEventColors = (type) => {
   if (type === 'schedule-change') return { bg: 'bg-orange-500/20', text: 'text-orange-400' };
   if (type === 'v2h') return { bg: 'bg-emerald-500/20', text: 'text-emerald-400' };
   if (type === 'alert') return { bg: 'bg-red-500/20', text: 'text-red-400' };
+  if (type === 'customer-service') return { bg: 'bg-purple-500/20', text: 'text-purple-400' };
   return { bg: 'bg-slate-700', text: 'text-slate-400' };
 };
 
 export default function ActivityDrawer({ isOpen, onClose }) {
+  const [ratingDrawerOpen, setRatingDrawerOpen] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState(null);
+
   if (!isOpen) return null;
 
+  const handleViewLog = (event) => {
+    setSelectedEvent(event);
+    setRatingDrawerOpen(true);
+  };
+
   return (
+    <>
     <div className="fixed inset-0 z-[110] animate-in fade-in duration-200">
       <div className="fixed inset-0 bg-black/60 animate-in fade-in duration-300" onClick={onClose}></div>
       <div className="fixed right-0 top-0 bottom-0 w-full bg-slate-900 flex flex-col shadow-2xl animate-in slide-in-from-right duration-300">
@@ -59,6 +71,14 @@ export default function ActivityDrawer({ isOpen, onClose }) {
                           <p className="text-xs text-slate-400 font-medium mb-1">{event.time}</p>
                           <p className="text-sm font-semibold text-white mb-1">{event.title}</p>
                           <p className="text-xs text-slate-300">{event.details}</p>
+                          {event.cta && (
+                            <button 
+                              onClick={() => handleViewLog(event)}
+                              className="mt-2 text-xs text-brand-primary hover:text-brand-primary-600 font-medium transition"
+                            >
+                              {event.cta} →
+                            </button>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -70,6 +90,16 @@ export default function ActivityDrawer({ isOpen, onClose }) {
         </div>
       </div>
     </div>
+
+    {/* Customer Service Rating Drawer */}
+    <CustomerServiceRatingDrawer
+      isOpen={ratingDrawerOpen}
+      onClose={() => setRatingDrawerOpen(false)}
+      caseNumber={selectedEvent?.caseNumber || 'N/A'}
+      callSummary={selectedEvent?.callSummary}
+      actionsTaken={selectedEvent?.actionsTaken}
+    />
+    </>
   );
 }
 

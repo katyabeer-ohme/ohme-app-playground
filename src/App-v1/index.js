@@ -21,6 +21,8 @@ export default function EnergyHub() {
   const [activityDrawerOpen, setActivityDrawerOpen] = useState(false);
   const [aiMessages, setAiMessages] = useState([]);
   const [aiInput, setAiInput] = useState('');
+  const [errorCardState, setErrorCardState] = useState(null);
+  const [showErrorCard, setShowErrorCard] = useState(false);
 
   // Scroll to top when view changes
   useEffect(() => {
@@ -39,6 +41,25 @@ export default function EnergyHub() {
     }, 600);
   }, [aiInput]);
 
+  const handleErrorDemo = () => {
+    setErrorCardState('error');
+    setShowErrorCard(true);
+  };
+
+  const handleResolve = () => {
+    setErrorCardState('loading');
+    setTimeout(() => {
+      setErrorCardState('resolved');
+    }, 2000);
+  };
+
+  const handleDismiss = () => {
+    setShowErrorCard(false);
+    setTimeout(() => {
+      setErrorCardState(null);
+    }, 300);
+  };
+
   return (
     <div className="min-h-screen bg-slate-900 pt-[112px]">
       {/* Header */}
@@ -47,20 +68,34 @@ export default function EnergyHub() {
           <button onClick={() => setProfileOpen(true)} className="w-9 h-9 rounded-full bg-slate-700 flex items-center justify-center text-slate-300 hover:bg-slate-600 transition flex-shrink-0">
             <span className="text-sm font-bold">K</span>
           </button>
-          <button onClick={() => setActivityDrawerOpen(true)} className="flex items-center gap-1.5 hover:opacity-80 transition">
-            <div className="relative flex-shrink-0">
-              <div className="w-7 h-7 bg-slate-700 rounded-full flex items-center justify-center">
-                <Bell className="w-4 h-4 text-slate-300" />
+          <div className="flex items-center gap-3">
+            <button onClick={handleErrorDemo} className="text-xs text-slate-500 hover:text-slate-400 transition">
+              Error demo
+            </button>
+            <button onClick={() => setActivityDrawerOpen(true)} className="flex items-center gap-1.5 hover:opacity-80 transition">
+              <div className="relative flex-shrink-0">
+                <div className="w-7 h-7 bg-slate-700 rounded-full flex items-center justify-center">
+                  <Bell className="w-4 h-4 text-slate-300" />
+                </div>
+                <div className="absolute top-0 right-0 w-1.5 h-1.5 bg-red-400 rounded-full animate-pulse"></div>
               </div>
-              <div className="absolute top-0 right-0 w-1.5 h-1.5 bg-red-400 rounded-full animate-pulse"></div>
-            </div>
-          </button>
+            </button>
+          </div>
         </div>
       </div>
 
       <div className="max-w-md mx-auto">
         {/* Dashboard View */}
-        {view === 'dashboard' && <DashboardView setScheduleOpen={setScheduleOpen} setView={setView} />}
+        {view === 'dashboard' && (
+          <DashboardView 
+            setScheduleOpen={setScheduleOpen} 
+            setView={setView}
+            errorCardState={errorCardState}
+            showErrorCard={showErrorCard}
+            onResolveError={handleResolve}
+            onDismissError={handleDismiss}
+          />
+        )}
 
         {/* Usage/History View */}
         {view === 'history' && (

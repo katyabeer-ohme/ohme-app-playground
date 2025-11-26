@@ -25,7 +25,7 @@ export const rewardsData = {
 
 // Today's Schedule
 export const todaySchedule = [
-  { timeSlot: 'Right now', action: 'Charging from solar', target: '+23%', cost: 'Free', reason: 'Utilising free energy', icon: 'solar', consumption: 7.2 },
+  { timeSlot: 'Right now', action: 'Powering your home with Tesla', target: '-4%', cost: 'Save £0.80', reason: 'Saving on grid costs', icon: 'car', consumption: 4.2 },
   { timeSlot: '3:45 - 5:00 PM', action: 'Paused', target: '0%', cost: '£0.00', reason: 'High grid rate window', icon: 'pause', consumption: 0 },
   { timeSlot: '5:00 - 10:30 PM', action: 'Powering home with Tesla (V2H)', target: '-15%', cost: 'Save £0.80', reason: 'Peak rate avoidance', icon: 'v2h', consumption: -4.8 },
   { timeSlot: '10:30 PM - 6:00 AM', action: 'Off-peak charging', target: '+35%', cost: '£1.20', reason: 'Night rate advantage', icon: 'night', consumption: 11.2 },
@@ -42,6 +42,22 @@ export const activityEvents = [
       { time: '10:45 AM', type: 'solar', title: 'Solar peak detected', details: 'Charging initiated at 7.2kW • Weather: Clear' },
       { time: '12:00 PM', type: 'schedule-change', title: 'Schedule adjusted', details: 'Solar forecast dropped 20% • Added more grid charging' },
       { time: '1:00 PM', type: 'v2h', title: 'V2H activated', details: 'Discharging to home • Peak rate window active' },
+      { 
+        time: '2:30 PM', 
+        type: 'customer-service', 
+        title: 'Contacted customer services', 
+        details: 'Query about V2H setup and billing • Case #12847', 
+        cta: 'View log and rate',
+        caseNumber: '12847',
+        callSummary: 'Customer inquired about setting up Vehicle-to-Home (V2H) functionality and understanding how it would affect their billing. Discussion covered the technical requirements, installation process, expected savings, and billing cycle changes. Customer was concerned about whether V2H usage would be tracked separately from regular charging.',
+        actionsTaken: [
+          'Explained V2H setup requirements and compatibility with Tesla Model 3',
+          'Provided detailed breakdown of billing structure for V2H vs regular charging',
+          'Scheduled technical assessment for V2H installation on Nov 15th',
+          'Sent follow-up email with V2H FAQ document and installation guide',
+          'Created ticket for billing team to enable separate V2H tracking on account'
+        ]
+      },
       { time: '3:15 PM', type: 'alert', title: 'Minor alert resolved', details: 'Low voltage condition detected • Status: Fixed' },
     ]
   },
