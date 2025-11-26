@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { Zap, Home, Car, Sparkles } from 'lucide-react';
 import WeekDayBox from '../components/WeekDayBox';
 import CarDetailOverlay from '../components/CarDetailOverlay';
+import ErrorCard from '../components/ErrorCard';
 import { WEEK_DAYS, PLUG_IN_STREAK, todaySchedule } from '../constants/data';
 
-export default function DashboardView({ setScheduleOpen, setView }) {
+export default function DashboardView({ setScheduleOpen, setView, errorCardState, showErrorCard, onOpenAITroubleshoot, onDismissError }) {
   const streakCount = PLUG_IN_STREAK.filter(Boolean).length;
   const [carDetailOpen, setCarDetailOpen] = useState(false);
   const [targetBattery, setTargetBattery] = useState(80);
@@ -28,8 +29,18 @@ export default function DashboardView({ setScheduleOpen, setView }) {
 
   return (
     <div className="pb-24">
+      {/* ERROR CARD */}
+      <div className="pt-3">
+        <ErrorCard 
+          state={errorCardState}
+          isVisible={showErrorCard}
+          onOpenAITroubleshoot={onOpenAITroubleshoot}
+          onDismiss={onDismissError}
+        />
+      </div>
+
       {/* Today So Far */}
-      <div className="px-4 mb-6 pt-6">
+      <div className={`px-4 mb-6 ${showErrorCard ? 'pt-0' : 'pt-6'}`}>
         <div className="bg-gradient-to-br from-purple-500/20 to-indigo-500/20 rounded-md p-4 shadow-lg border border-purple-500/20">
           <div className="grid grid-cols-2 gap-4 mb-3">
             {/* Total Cost - Left */}

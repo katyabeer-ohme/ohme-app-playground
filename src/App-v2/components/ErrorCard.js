@@ -1,7 +1,7 @@
 import React from 'react';
 import { AlertCircle, CheckCircle, X, Loader2 } from 'lucide-react';
 
-export default function ErrorCard({ state, onResolve, onDismiss, isVisible }) {
+export default function ErrorCard({ state, onDismiss, isVisible, onOpenAITroubleshoot }) {
   if (!isVisible) return null;
 
   return (
@@ -13,10 +13,21 @@ export default function ErrorCard({ state, onResolve, onDismiss, isVisible }) {
               <AlertCircle className="w-5 h-5 text-red-400" />
             </div>
             <div className="flex-1">
-              <h3 className="text-sm font-bold text-text-primary mb-1">SIM Connectivity</h3>
-              <p className="text-xs text-text-secondary">
-                Your charger has lost connection. Let's get you back online with a SIM Steer.
+              <h3 className="text-sm font-bold text-text-primary mb-1">Suspended EV</h3>
+              <p className="text-xs text-text-secondary mb-3">
+                Your vehicle has been temporarily suspended. Let's troubleshoot this together.
               </p>
+              {onOpenAITroubleshoot && (
+                <button
+                  onClick={() => {
+                    console.log('Resolve Issue clicked');
+                    onOpenAITroubleshoot();
+                  }}
+                  className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-xs font-medium transition"
+                >
+                  Resolve Issue
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -29,9 +40,9 @@ export default function ErrorCard({ state, onResolve, onDismiss, isVisible }) {
               <Loader2 className="w-5 h-5 text-red-400 animate-spin" />
             </div>
             <div className="flex-1">
-              <h3 className="text-sm font-bold text-text-primary mb-1">Connecting to SIM Steer...</h3>
+              <h3 className="text-sm font-bold text-text-primary mb-1">Resolving Issue...</h3>
               <p className="text-xs text-text-secondary">
-                Please wait while we restore the connection to your charger.
+                Please wait while we verify your account and restore access.
               </p>
             </div>
           </div>
@@ -45,9 +56,9 @@ export default function ErrorCard({ state, onResolve, onDismiss, isVisible }) {
               <CheckCircle className="w-5 h-5 text-emerald-400" />
             </div>
             <div className="flex-1">
-              <h3 className="text-sm font-bold text-text-primary mb-1">Connection Restored</h3>
+              <h3 className="text-sm font-bold text-text-primary mb-1">Issue Resolved</h3>
               <p className="text-xs text-text-secondary">
-                Your charger is back online. Smart charging has resumed.
+                Your vehicle has been restored. Smart charging is now active.
               </p>
             </div>
             <button

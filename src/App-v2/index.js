@@ -9,6 +9,7 @@ import ProfileDrawer from './components/ProfileDrawer';
 import ActivityDrawer from './components/ActivityDrawer';
 import SchedulePanel from './components/SchedulePanel';
 import BottomNavigation from './components/BottomNavigation';
+import AITroubleshootDrawer from './components/AITroubleshootDrawer';
 import { AI_RESPONSES } from './constants/data';
 
 export default function EnergyHub() {
@@ -19,11 +20,13 @@ export default function EnergyHub() {
   const [hoveredBar, setHoveredBar] = useState(null);
   const [profileOpen, setProfileOpen] = useState(false);
   const [scheduleOpen, setScheduleOpen] = useState(false);
-  const [goalsExpanded, setGoalsExpanded] = useState(false);
   const [activityDrawerOpen, setActivityDrawerOpen] = useState(false);
   const [aiMessages, setAiMessages] = useState([]);
   const [aiInput, setAiInput] = useState('');
   const [rewardFilter, setRewardFilter] = useState('all');
+  const [errorCardState, setErrorCardState] = useState(null);
+  const [showErrorCard, setShowErrorCard] = useState(false);
+  const [aiTroubleshootOpen, setAiTroubleshootOpen] = useState(false);
 
   // Scroll to top when view changes
   useEffect(() => {
@@ -42,6 +45,29 @@ export default function EnergyHub() {
     }, 600);
   }, [aiInput]);
 
+  const handleErrorDemo = () => {
+    setErrorCardState('error');
+    setShowErrorCard(true);
+  };
+
+  const handleOpenAITroubleshoot = () => {
+    setAiTroubleshootOpen(true);
+  };
+
+  const handleErrorResolved = () => {
+    setShowErrorCard(false);
+    setTimeout(() => {
+      setErrorCardState(null);
+    }, 300);
+  };
+
+  const handleDismiss = () => {
+    setShowErrorCard(false);
+    setTimeout(() => {
+      setErrorCardState(null);
+    }, 300);
+  };
+
   return (
     <div className="min-h-screen bg-slate-900 pt-[112px]">
       {/* Header */}
@@ -51,6 +77,9 @@ export default function EnergyHub() {
             <span className="text-sm font-bold">K</span>
           </button>
           <div className="flex items-center gap-3">
+            <button onClick={handleErrorDemo} className="text-xs text-slate-500 hover:text-slate-400 transition">
+              Error demo
+            </button>
             <div className="flex items-center gap-2">
               <span className="text-lg flex-shrink-0">⛅</span>
               <div className="flex flex-col justify-center">
@@ -75,9 +104,11 @@ export default function EnergyHub() {
         {view === 'dashboard' && (
           <DashboardView 
             setScheduleOpen={setScheduleOpen} 
-            setView={setView} 
-            goalsExpanded={goalsExpanded}
-            setGoalsExpanded={setGoalsExpanded}
+            setView={setView}
+            errorCardState={errorCardState}
+            showErrorCard={showErrorCard}
+            onOpenAITroubleshoot={handleOpenAITroubleshoot}
+            onDismissError={handleDismiss}
           />
         )}
 
@@ -120,6 +151,13 @@ export default function EnergyHub() {
 
       {/* PROFILE DRAWER */}
       <ProfileDrawer isOpen={profileOpen} onClose={() => setProfileOpen(false)} />
+
+      {/* AI TROUBLESHOOT DRAWER */}
+      <AITroubleshootDrawer 
+        isOpen={aiTroubleshootOpen}
+        onClose={() => setAiTroubleshootOpen(false)}
+        onErrorResolved={handleErrorResolved}
+      />
 
       {/* BOTTOM NAVIGATION */}
       <BottomNavigation view={view} setView={setView} />

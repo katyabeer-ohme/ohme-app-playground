@@ -49,6 +49,10 @@ export default function EnergyHub() {
   const handleErrorDemo = () => {
     setErrorCardState('error');
     setShowErrorCard(true);
+    // Automatically transition to loading after 3 seconds
+    setTimeout(() => {
+      handleResolve();
+    }, 3000);
   };
 
   const handleResolve = () => {

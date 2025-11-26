@@ -32,7 +32,7 @@ export default function DashboardView({ setScheduleOpen, setView, errorCardState
   return (
     <div className="pb-24">
       {/* ERROR CARD */}
-      <div className="pt-3">
+      <div className="pt-6">
         <ErrorCard 
           state={errorCardState}
           isVisible={showErrorCard}
@@ -167,7 +167,7 @@ export default function DashboardView({ setScheduleOpen, setView, errorCardState
       {!isMaxCharging && (
       <div key="todays-plan" className="px-4 mb-6 animate-in fade-in zoom-in-95 duration-700">
         <div className="bg-surface-card rounded-md p-5 shadow-lg">
-          <h2 className="text-lg font-bold text-text-primary mb-2">Today's Plan</h2>
+          <h2 className="text-lg font-bold text-text-primary mb-2">Charging schedule</h2>
           
           {/* Smart Suggestion Inside Card */}
           <div className="bg-brand-secondary/15 border border-brand-secondary/30 rounded-lg p-3 mb-4 flex gap-3">
