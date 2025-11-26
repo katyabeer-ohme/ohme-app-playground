@@ -8,6 +8,7 @@ import ProfileDrawer from './components/ProfileDrawer';
 import ActivityDrawer from './components/ActivityDrawer';
 import SchedulePanel from './components/SchedulePanel';
 import BottomNavigation from './components/BottomNavigation';
+import MaxChargeDrawer from './components/MaxChargeDrawer';
 import { AI_RESPONSES } from './constants/data';
 
 export default function EnergyHub() {
@@ -23,6 +24,10 @@ export default function EnergyHub() {
   const [aiInput, setAiInput] = useState('');
   const [errorCardState, setErrorCardState] = useState(null);
   const [showErrorCard, setShowErrorCard] = useState(false);
+  const [maxChargeDrawerOpen, setMaxChargeDrawerOpen] = useState(false);
+  const [isMaxCharging, setIsMaxCharging] = useState(false);
+  const [maxChargeTarget, setMaxChargeTarget] = useState(100);
+  const [maxChargeTimeRemaining, setMaxChargeTimeRemaining] = useState('3h 56m');
 
   // Scroll to top when view changes
   useEffect(() => {
@@ -60,6 +65,25 @@ export default function EnergyHub() {
     }, 300);
   };
 
+  const handleOpenMaxCharge = () => {
+    setMaxChargeDrawerOpen(true);
+  };
+
+  const handleStartMaxCharge = (config) => {
+    setIsMaxCharging(true);
+    setMaxChargeTarget(config.target);
+    // Calculate time remaining based on target (simplified calculation)
+    const currentBattery = 45; // This should come from actual state
+    const chargeNeeded = config.target - currentBattery;
+    const hours = Math.floor(chargeNeeded / 15); // Assuming 15% per hour
+    const minutes = Math.round(((chargeNeeded / 15) - hours) * 60);
+    setMaxChargeTimeRemaining(`${hours}h ${minutes}m`);
+  };
+
+  const handleStopMaxCharge = () => {
+    setIsMaxCharging(false);
+  };
+
   return (
     <div className="min-h-screen bg-slate-900 pt-[112px]">
       {/* Header */}
@@ -94,6 +118,11 @@ export default function EnergyHub() {
             showErrorCard={showErrorCard}
             onResolveError={handleResolve}
             onDismissError={handleDismiss}
+            isMaxCharging={isMaxCharging}
+            maxChargeTarget={maxChargeTarget}
+            maxChargeTimeRemaining={maxChargeTimeRemaining}
+            onOpenMaxCharge={handleOpenMaxCharge}
+            onStopMaxCharge={handleStopMaxCharge}
           />
         )}
 
@@ -133,6 +162,14 @@ export default function EnergyHub() {
 
       {/* PROFILE DRAWER */}
       <ProfileDrawer isOpen={profileOpen} onClose={() => setProfileOpen(false)} />
+
+      {/* MAX CHARGE DRAWER */}
+      <MaxChargeDrawer
+        isOpen={maxChargeDrawerOpen}
+        onClose={() => setMaxChargeDrawerOpen(false)}
+        onStartMaxCharge={handleStartMaxCharge}
+        currentBattery={45}
+      />
 
       {/* BOTTOM NAVIGATION */}
       <BottomNavigation view={view} setView={setView} />

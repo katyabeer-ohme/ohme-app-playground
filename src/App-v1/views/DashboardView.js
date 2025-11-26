@@ -5,7 +5,7 @@ import EditTargetDrawer from '../components/EditTargetDrawer';
 import ErrorCard from '../components/ErrorCard';
 import { WEEK_DAYS, PLUG_IN_STREAK, todaySchedule } from '../constants/data';
 
-export default function DashboardView({ setScheduleOpen, setView, errorCardState, showErrorCard, onResolveError, onDismissError }) {
+export default function DashboardView({ setScheduleOpen, setView, errorCardState, showErrorCard, onResolveError, onDismissError, isMaxCharging, maxChargeTarget, maxChargeTimeRemaining, onOpenMaxCharge, onStopMaxCharge }) {
   const streakCount = PLUG_IN_STREAK.filter(Boolean).length;
   const currentBattery = 45;
   const [targetBattery, setTargetBattery] = useState(80);
@@ -43,28 +43,48 @@ export default function DashboardView({ setScheduleOpen, setView, errorCardState
 
       {/* SESSION STATUS */}
       <div className={`px-4 mb-6 ${showErrorCard ? 'pt-0' : 'pt-3'}`}>
-        <div className="bg-gradient-to-br from-brand-primary/15 to-brand-secondary/15 rounded-md p-4 shadow-lg border border-brand-primary/20">
+        <div className={`rounded-md p-4 shadow-lg transition-all duration-500 ${isMaxCharging ? 'bg-gradient-to-br from-red-500/20 to-rose-500/20 border border-red-500/20 animate-in fade-in zoom-in-95' : 'bg-gradient-to-br from-brand-primary/15 to-brand-secondary/15 border border-brand-primary/20 animate-in fade-in zoom-in-95'}`}>
         {/* SECTION 1: LIVE STATUS */}
           <div className="flex items-start justify-between mb-3">
             <div className="flex items-center gap-2 text-3xl">
-              <span>☀️</span>
-              <span className="text-slate-500 text-lg">→</span>
-              <span>🚗</span>
+              {isMaxCharging ? (
+                <div key="max-charging" className="animate-in fade-in zoom-in-50 duration-500 flex items-center gap-2">
+                  <span>⚡</span>
+                  <span className="text-slate-500 text-lg">→</span>
+                  <span>🚗</span>
+                </div>
+              ) : (
+                <div key="smart-charging" className="animate-in fade-in zoom-in-50 duration-500 flex items-center gap-2">
+                  <span>☀️</span>
+                  <span className="text-slate-500 text-lg">→</span>
+                  <span>🚗</span>
+                </div>
+              )}
             </div>
-            <span className="text-xs bg-emerald-500/30 text-emerald-300 px-2 py-1 rounded-full font-semibold flex items-center gap-2">
-              <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></div>
-              <div className="flex items-center gap-1.5">
-                <Zap className="w-3 h-3 text-emerald-300" />
-                <span className="text-xs font-semibold">{gridPower}</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <Sun className="w-3 h-3 text-yellow-400" />
-                <span className="text-xs font-semibold text-yellow-400">{solarPower}</span>
-              </div>
-            </span>
+            {!isMaxCharging && (
+              <span key="power-stats" className="text-xs bg-emerald-500/30 text-emerald-300 px-2 py-1 rounded-full font-semibold flex items-center gap-2 animate-in fade-in zoom-in-95 duration-500">
+                <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></div>
+                <div className="flex items-center gap-1.5">
+                  <Zap className="w-3 h-3 text-emerald-300" />
+                  <span className="text-xs font-semibold">{gridPower}</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <Sun className="w-3 h-3 text-yellow-400" />
+                  <span className="text-xs font-semibold text-yellow-400">{solarPower}</span>
+                </div>
+              </span>
+            )}
           </div>
           <div className="flex items-start justify-between mb-4">
-            <h2 className="text-lg font-bold text-white">Charging your Tesla with grid and solar</h2>
+            {isMaxCharging ? (
+              <h2 key="max-charge-title" className="text-lg font-bold text-white animate-in fade-in zoom-in-95 duration-500">
+                Max charging your Tesla
+              </h2>
+            ) : (
+              <h2 key="smart-charge-title" className="text-lg font-bold text-white animate-in fade-in zoom-in-95 duration-500">
+                Charging your Tesla with grid and solar
+              </h2>
+            )}
           </div>
 
           {/* Current Battery Level */}
@@ -74,17 +94,26 @@ export default function DashboardView({ setScheduleOpen, setView, errorCardState
             <div className="relative">
               <div className="bg-brand-dark-900/40 rounded-full h-4 overflow-hidden border border-brand-accent/30">
                 <div 
-                  className="h-full rounded-full transition-all duration-500 relative overflow-hidden"
+                  className="h-full rounded-full transition-all duration-700 relative overflow-hidden"
                   style={{ width: `${batteryProgress}%` }}
                 >
-                  <div className="absolute inset-0 bg-gradient-to-r from-brand-primary to-brand-secondary"></div>
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer-ltr"></div>
+                  {isMaxCharging ? (
+                    <>
+                      <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-red-500"></div>
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer-ltr"></div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="absolute inset-0 bg-gradient-to-r from-brand-primary to-brand-secondary"></div>
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer-ltr"></div>
+                    </>
+                  )}
                 </div>
               </div>
               {/* Target marker at 80% */}
               <div 
-                className="absolute -top-1 bottom-0 w-0.5 h-6 bg-text-primary rounded-full"
-                style={{ left: `${targetBattery}%` }}
+                className="absolute -top-1 bottom-0 w-0.5 h-6 bg-text-primary rounded-full transition-all duration-700"
+                style={{ left: `${isMaxCharging ? maxChargeTarget : targetBattery}%` }}
               ></div>
             </div>
           </div>
@@ -92,29 +121,51 @@ export default function DashboardView({ setScheduleOpen, setView, errorCardState
           {/* SECTION 2: FINAL TARGET */}
           <div>
             <div className="flex items-center justify-between mb-3">
-              <p className="text-sm text-text-secondary">Charging to <span className="text-text-primary font-semibold">{targetBattery}%</span> ready by <span className="text-text-primary font-semibold">{readyByDay} {readyByTime}</span></p>
+              {isMaxCharging ? (
+                <p key="max-charge-info" className="text-sm text-text-secondary animate-in fade-in zoom-in-95 duration-500">Max charging to <span className="text-text-primary font-semibold">{maxChargeTarget}%</span>. Ready in <span className="text-text-primary font-semibold">{maxChargeTimeRemaining}</span></p>
+              ) : (
+                <p key="smart-charge-info" className="text-sm text-text-secondary animate-in fade-in zoom-in-95 duration-500">Charging to <span className="text-text-primary font-semibold">{targetBattery}%</span> ready by <span className="text-text-primary font-semibold">{readyByDay} {readyByTime}</span></p>
+              )}
             </div>
 
-            <div className="grid grid-cols-3 gap-2">
-              <button className="bg-brand-accent/10 hover:bg-brand-accent/20 text-text-primary py-1.5 px-2 rounded-lg font-medium text-xs transition border border-brand-accent/20">
-                Max charge
-              </button>
-              <button 
-                onClick={() => setEditTargetOpen(true)}
-                className="bg-brand-accent/10 hover:bg-brand-accent/20 text-text-primary py-1.5 px-2 rounded-lg font-medium text-xs transition border border-brand-accent/20"
-              >
-                Edit target
-              </button>
-              <button className="bg-brand-accent/10 hover:bg-brand-accent/20 text-text-primary py-1.5 px-2 rounded-lg font-medium text-xs transition border border-brand-accent/20">
-                Stop
-              </button>
-            </div>
+            {isMaxCharging ? (
+              <div key="max-charge-buttons" className="grid grid-cols-2 gap-2 animate-in fade-in zoom-in-95 duration-500">
+                <button 
+                  onClick={onStopMaxCharge}
+                  className="bg-brand-accent/10 hover:bg-brand-accent/20 text-text-primary py-1.5 px-2 rounded-lg font-medium text-xs transition border border-brand-accent/20"
+                >
+                  Smart charge
+                </button>
+                <button className="bg-brand-accent/10 hover:bg-brand-accent/20 text-text-primary py-1.5 px-2 rounded-lg font-medium text-xs transition border border-brand-accent/20">
+                  Stop
+                </button>
+              </div>
+            ) : (
+              <div key="smart-charge-buttons" className="grid grid-cols-3 gap-2 animate-in fade-in zoom-in-95 duration-500">
+                <button 
+                  onClick={onOpenMaxCharge}
+                  className="bg-brand-accent/10 hover:bg-brand-accent/20 text-text-primary py-1.5 px-2 rounded-lg font-medium text-xs transition border border-brand-accent/20"
+                >
+                  Max charge
+                </button>
+                <button 
+                  onClick={() => setEditTargetOpen(true)}
+                  className="bg-brand-accent/10 hover:bg-brand-accent/20 text-text-primary py-1.5 px-2 rounded-lg font-medium text-xs transition border border-brand-accent/20"
+                >
+                  Edit target
+                </button>
+                <button className="bg-brand-accent/10 hover:bg-brand-accent/20 text-text-primary py-1.5 px-2 rounded-lg font-medium text-xs transition border border-brand-accent/20">
+                  Stop
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
 
       {/* TODAY'S PLAN */}
-      <div className="px-4 mb-6">
+      {!isMaxCharging && (
+      <div key="todays-plan" className="px-4 mb-6 animate-in fade-in zoom-in-95 duration-700">
         <div className="bg-surface-card rounded-md p-5 shadow-lg">
           <h2 className="text-lg font-bold text-text-primary mb-2">Today's Plan</h2>
           
@@ -159,12 +210,13 @@ export default function DashboardView({ setScheduleOpen, setView, errorCardState
           </div>
 
           <button onClick={() => setScheduleOpen(true)} className="w-full text-brand-secondary hover:text-brand-secondary-300 font-medium text-sm mt-4">
-            View full plan →
-          </button>
-        </div>
+          View full plan →
+        </button>
       </div>
+    </div>
+    )}
 
-      {/* CURRENT RATE */}
+    {/* CURRENT RATE */}
       <div className="px-4 mb-6">
         <div className="bg-surface-card rounded-md p-4 shadow-lg shadow-glow-sm">
           <div className="flex items-center gap-3">
