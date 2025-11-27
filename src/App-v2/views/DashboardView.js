@@ -40,53 +40,55 @@ export default function DashboardView({ setScheduleOpen, setView, errorCardState
       </div>
 
       {/* Today So Far */}
-      <div className={`px-4 mb-6 ${showErrorCard ? 'pt-0' : 'pt-6'}`}>
-        <div className="bg-gradient-to-br from-purple-500/20 to-indigo-500/20 rounded-md p-4 shadow-lg border border-purple-500/20">
-          <div className="grid grid-cols-2 gap-4 mb-3">
-            {/* Total Cost - Left */}
-            <div className="flex flex-col justify-center">
-              <p className="text-xs font-semibold text-text-tertiary mb-2">Today's usage</p>
-              <p className="text-3xl font-bold text-text-primary mb-1">£4.56</p>
-              <p className="text-xs text-text-tertiary">38.2 kWh</p>
+      <div className="mb-6">
+        <div className="bg-slate-800 p-5 shadow-lg">
+          <div className="max-w-md mx-auto">
+            <div className="grid grid-cols-2 gap-4 mb-4">
+              {/* Total Cost - Left */}
+              <div className="flex flex-col justify-center">
+                <p className="text-xs font-semibold text-slate-400 mb-2">Today's usage</p>
+                <p className="text-3xl font-bold text-white mb-1">£4.56</p>
+                <p className="text-xs text-slate-400">38.2 kWh</p>
+              </div>
+
+              {/* Usage Breakdown - Right */}
+              <div className="flex flex-col justify-center space-y-3">
+                {/* Home Usage */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Home className="w-4 h-4 text-orange-400" />
+                    <span className="text-xs text-white">Home</span>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-sm font-bold text-white">£1.82 <span className="text-xs font-normal text-slate-400">/ 15.2 kWh</span></p>
+                  </div>
+                </div>
+                
+                <div className="h-px bg-slate-700"></div>
+                
+                {/* Car Usage */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Car className="w-4 h-4 text-cyan-400" />
+                    <span className="text-xs text-white">Car</span>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-sm font-bold text-white">£2.74 <span className="text-xs font-normal text-slate-400">/ 23.0 kWh</span></p>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            {/* Usage Breakdown - Right */}
-            <div className="flex flex-col justify-center space-y-3">
-              {/* Home Usage */}
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Home className="w-4 h-4 text-orange-400" />
-                  <span className="text-xs text-text-primary">Home</span>
+            {/* AI Insight */}
+            <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-lg p-3 border border-purple-500/30">
+              <div className="flex items-start gap-2">
+                <div className="w-6 h-6 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0 animate-pulse">
+                  <Sparkles className="w-3.5 h-3.5 text-white" />
                 </div>
-                <div className="text-right">
-                  <p className="text-sm font-bold text-text-primary">£1.82 <span className="text-xs font-normal text-text-tertiary">/ 15.2 kWh</span></p>
+                <div className="flex-1">
+                  <p className="text-xs font-semibold text-purple-300 mb-1">AI Insight</p>
+                  <p className="text-xs text-slate-300 leading-relaxed">Based on your usage history, you can get paid to charge your car and save up to £3.20 per charge with a dynamic tariff.</p>
                 </div>
-              </div>
-              
-              <div className="h-px bg-border"></div>
-              
-              {/* Car Usage */}
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Car className="w-4 h-4 text-cyan-400" />
-                  <span className="text-xs text-text-primary">Car</span>
-                </div>
-                <div className="text-right">
-                  <p className="text-sm font-bold text-text-primary">£2.74 <span className="text-xs font-normal text-text-tertiary">/ 23.0 kWh</span></p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* AI Insight */}
-          <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-lg p-3 border border-purple-500/30">
-            <div className="flex items-start gap-2">
-              <div className="w-6 h-6 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0 animate-pulse">
-                <Sparkles className="w-3.5 h-3.5 text-white" />
-              </div>
-              <div className="flex-1">
-                <p className="text-xs font-semibold text-purple-300 mb-1">AI Insight</p>
-                <p className="text-xs text-text-secondary leading-relaxed">Based on your usage history, you can get paid to charge your car and save up to £3.20 per charge with a dynamic tariff.</p>
               </div>
             </div>
           </div>
@@ -95,7 +97,7 @@ export default function DashboardView({ setScheduleOpen, setView, errorCardState
 
       {/* SESSION STATUS */}
       <div className="px-4 mb-6">
-        <div className="bg-gradient-to-br from-brand-primary/15 to-brand-secondary/15 rounded-md p-4 shadow-lg border border-brand-primary/20">
+        <div className="bg-gradient-to-br from-purple-500/25 to-blue-500/25 rounded-md p-4 shadow-lg shadow-purple-500/20 border-2 border-purple-500/40">
         {/* SECTION 1: LIVE STATUS */}
           <div className="flex items-start justify-between mb-3">
             <div className="flex items-center gap-2 text-3xl">
@@ -103,10 +105,10 @@ export default function DashboardView({ setScheduleOpen, setView, errorCardState
               <span className="text-slate-500 text-lg">→</span>
               <span>🏠</span>
             </div>
-            <span className="text-xs bg-emerald-500/30 text-emerald-300 px-2 py-1 rounded-full font-semibold flex items-center gap-2">
-              <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></div>
+            <span className="text-xs bg-emerald-500/40 text-emerald-300 px-3 py-1.5 rounded-full font-semibold flex items-center gap-2 border border-emerald-400/30 shadow-lg shadow-emerald-500/30">
+              <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
               <div className="flex items-center gap-1.5">
-                <Zap className="w-3 h-3 text-emerald-300" />
+                <Zap className="w-3.5 h-3.5 text-emerald-300" />
                 <span className="text-xs font-semibold">Discharging at 2.1 kW</span>
               </div>
           
@@ -120,27 +122,27 @@ export default function DashboardView({ setScheduleOpen, setView, errorCardState
           <div className="mb-4">
             <p className="text-xs text-text-tertiary mb-1">Currently at</p>
             <div className="flex items-baseline gap-3 mb-3">
-              <p className="text-4xl font-bold text-text-primary">54%</p>
+              <p className="text-4xl font-bold text-purple-300">54%</p>
               <p className="text-xs text-text-tertiary">Don't go below  {minBattery}%</p>
             </div>
             <div className="relative">
-              <div className="bg-brand-dark-900/40 rounded-full h-4 overflow-hidden border border-brand-accent/30">
+              <div className="bg-slate-900/60 rounded-full h-4 overflow-hidden border border-purple-500/40">
                 <div 
                   className="h-full rounded-full transition-all duration-500 relative overflow-hidden"
                   style={{ width: '54%' }}
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-blue-500"></div>
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer-rtl"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shimmer-rtl"></div>
                 </div>
               </div>
               {/* Minimum battery marker */}
               <div 
-                className="absolute -top-1 bottom-0 w-0.5 h-6 bg-orange-400 rounded-full"
+                className="absolute -top-1 bottom-0 w-0.5 h-6 bg-orange-400 rounded-full shadow-lg shadow-orange-500/50"
                 style={{ left: `${minBattery}%` }}
               ></div>
               {/* Target marker */}
               <div 
-                className="absolute -top-1 bottom-0 w-0.5 h-6 bg-text-primary rounded-full"
+                className="absolute -top-1 bottom-0 w-0.5 h-6 bg-text-primary rounded-full shadow-lg shadow-white/50"
                 style={{ left: `${targetBattery}%` }}
               ></div>
             </div>
@@ -172,9 +174,9 @@ export default function DashboardView({ setScheduleOpen, setView, errorCardState
 
       {/* Today's plan */}
       <div className="px-4 mb-6">
-        <div className="bg-surface-card rounded-md p-5 shadow-lg">
+        <div className="bg-slate-800 rounded-md p-5 shadow-lg">
           <div className="mb-4">
-            <h2 className="text-lg font-bold text-text-primary mb-3">Today's plan</h2>
+            <h2 className="text-lg font-bold text-text-primary mb-3">Today's schedule</h2>
             <div className="bg-brand-secondary/15 border border-brand-secondary/30 rounded-lg p-3 mb-4 flex gap-3">
               <Sparkles className="w-4 h-4 text-brand-secondary mt-0.5 flex-shrink-0" />
               <p className="text-xs text-text-secondary leading-relaxed">It's sunny today—I've optimised your schedule to max out solar charging from 10 AM–3 PM. Grid rates peak 5–9 PM, perfect for V2G earnings if you want to enable it.</p>
@@ -236,7 +238,7 @@ export default function DashboardView({ setScheduleOpen, setView, errorCardState
 
       {/* PLUG-IN STREAK SECTION */}
       <div className="px-4 mb-6">
-        <div className="bg-gradient-to-br from-brand-secondary/20 to-brand-primary/20 rounded-md p-5 shadow-lg">
+        <div className="bg-slate-800 rounded-md p-5 shadow-lg">
           <div className="mb-4">
             <div className="flex items-center justify-between mb-3">
               <h2 className="text-lg font-bold text-text-primary">This Week's Streak</h2>

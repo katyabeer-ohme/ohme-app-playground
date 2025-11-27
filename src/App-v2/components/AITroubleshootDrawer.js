@@ -4,7 +4,7 @@ import { X, Bot } from 'lucide-react';
 export default function AITroubleshootDrawer({ isOpen, onClose, onErrorResolved }) {
   const [step, setStep] = useState(1);
   const [conversationHistory, setConversationHistory] = useState([
-    { role: 'ai', text: 'Is your car full?' }
+    { role: 'ai', text: 'I can see there is an issue with the car response. Lets try to resolve it. First, can you please check if your car fulll?' }
   ]);
 
   if (!isOpen) return null;

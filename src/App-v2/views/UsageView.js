@@ -81,7 +81,7 @@ export default function UsageView({ usagePeriod, setUsagePeriod, usageType, setU
       <div className="px-4 mb-6">
         <div className="bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-2xl p-4 shadow-lg">
           <p className="text-xs font-semibold text-slate-400 mb-3">Today's Summary</p>
-          <div className="bg-slate-800/50 rounded-lg p-3 mb-3">
+          <div className="mb-3">
             <div className="grid grid-cols-3 gap-3 text-center">
               <div>
                 <p className="text-xs text-slate-400">Total Cost</p>

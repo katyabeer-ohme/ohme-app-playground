@@ -45,6 +45,7 @@ export default function App() {
             >
               V2
             </button>
+            {/* V3 - Hidden for now
             <button
               onClick={() => setCurrentVersion('v3')}
               className={`px-2.5 py-1 rounded-md text-xs font-semibold transition ${
@@ -55,6 +56,7 @@ export default function App() {
             >
               V3
             </button>
+            */}
           </div>
         </div>
       </div>

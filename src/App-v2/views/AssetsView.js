@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronLeft, ChevronRight, Plus, Trash2, Zap, Minus } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Plus, Zap, Minus } from 'lucide-react';
 
 export default function AssetsView() {
   const [activeAsset, setActiveAsset] = useState(null);
@@ -77,6 +77,37 @@ export default function AssetsView() {
     todayGeneration: 28.4,
     weekGeneration: 165.2,
     minExportAmps: 4,
+  };
+
+  // Charger data
+  const charger = {
+    id: 'ohme-1',
+    name: 'Ohme Home Pro',
+    location: 'Driveway',
+    type: 'Smart Charger',
+    power: '7kW',
+    status: 'connected',
+    connectorType: 'Type 2',
+    totalSessions: 247,
+    costThisMonth: 38.92,
+    installedDate: 'March 2023',
+    firmware: 'v2.1.4',
+    warrantyExpiry: 'March 2028',
+    warrantyRemaining: '3 years 4 months',
+    warrantyStatus: 'active',
+    currentSession: {
+      vehicle: 'Tesla Model 3',
+      progress: 65,
+      timeLeft: '2h 15m',
+      power: '6.8 kW',
+      energy: 12.4,
+    },
+    stats: {
+      thisMonth: 156.4,
+      totalSessions: 247,
+      avgSessionDuration: '3h 42m',
+      totalEnergy: 3847.2,
+    }
   };
 
   const rateData = [
@@ -517,6 +548,125 @@ export default function AssetsView() {
     </div>
   );
 
+  const renderChargerScreen = () => (
+    <div className="pb-24">
+      <div className="bg-gradient-to-br from-blue-500/20 to-indigo-500/20 p-6 border-b border-slate-700">
+        <button onClick={() => setActiveAsset(null)} className="mb-4 flex items-center gap-2 text-blue-400 hover:text-blue-300">
+          <ChevronLeft className="w-4 h-4" />
+          <span className="text-sm">Assets</span>
+        </button>
+        <div className="flex items-start justify-between mb-4">
+          <div>
+            <p className="text-sm text-slate-400 mb-1">EV Charger</p>
+            <h1 className="text-2xl font-bold text-white">{charger.name}</h1>
+            <p className="text-xs text-slate-400 mt-1">{charger.location}</p>
+          </div>
+          <div className="text-right">
+            <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${charger.status === 'connected' ? 'bg-blue-500/20 text-blue-400' : 'bg-slate-700 text-slate-400'}`}>
+              ● Connected
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div className="px-4 pt-6">
+        <div className="grid grid-cols-2 gap-3 mb-6">
+          <div className="bg-slate-800 rounded-lg p-3">
+            <p className="text-xs text-slate-400 mb-1">Power Rating</p>
+            <p className="text-lg font-bold text-blue-400">{charger.power}</p>
+          </div>
+          <div className="bg-slate-800 rounded-lg p-3">
+            <p className="text-xs text-slate-400 mb-1">Type</p>
+            <p className="text-lg font-bold text-white">{charger.type}</p>
+          </div>
+          <div className="bg-slate-800 rounded-lg p-3">
+            <p className="text-xs text-slate-400 mb-1">Connector</p>
+            <p className="text-lg font-bold text-white">{charger.connectorType}</p>
+          </div>
+          <div className="bg-slate-800 rounded-lg p-3">
+            <p className="text-xs text-slate-400 mb-1">Sessions</p>
+            <p className="text-lg font-bold text-white">{charger.totalSessions}</p>
+          </div>
+        </div>
+
+        {charger.currentSession && (
+          <div className="bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-xl p-4 mb-6 border-2 border-blue-500/40 shadow-lg shadow-blue-500/20">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-sm font-bold text-white">Current Session</h3>
+              <span className="flex items-center gap-1.5 text-xs font-semibold text-blue-400">
+                <span className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></span>
+                Active
+              </span>
+            </div>
+            <div className="bg-slate-900/50 rounded-lg p-4 border border-blue-500/20">
+              <div className="flex items-center justify-between mb-3">
+                <p className="text-sm font-medium text-white">{charger.currentSession.vehicle}</p>
+                <span className="text-lg font-bold text-blue-400">{charger.currentSession.progress}%</span>
+              </div>
+              <div className="w-full bg-slate-700/50 rounded-full h-2.5 mb-4 overflow-hidden">
+                <div className="bg-gradient-to-r from-blue-500 to-cyan-400 h-2.5 rounded-full transition-all duration-500 shadow-lg shadow-blue-500/50" style={{ width: `${charger.currentSession.progress}%` }}></div>
+              </div>
+              <div className="grid grid-cols-3 gap-3 text-xs">
+                <div className="bg-slate-800/50 rounded-lg p-2">
+                  <p className="text-slate-400 mb-1">Time Left</p>
+                  <p className="text-white font-semibold">{charger.currentSession.timeLeft}</p>
+                </div>
+                <div className="bg-slate-800/50 rounded-lg p-2">
+                  <p className="text-slate-400 mb-1">Power</p>
+                  <p className="text-cyan-400 font-semibold">{charger.currentSession.power}</p>
+                </div>
+                <div className="bg-slate-800/50 rounded-lg p-2">
+                  <p className="text-slate-400 mb-1">Energy</p>
+                  <p className="text-white font-semibold">{charger.currentSession.energy} kWh</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <div className="bg-slate-800 rounded-xl p-4 mb-6 border border-slate-700">
+          <h3 className="text-sm font-bold text-white mb-4">Usage</h3>
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <p className="text-sm text-slate-300">Energy This Month</p>
+              <p className="text-sm font-bold text-white">{charger.stats.thisMonth} kWh</p>
+            </div>
+            <div className="flex items-center justify-between">
+              <p className="text-sm text-slate-300">Total Energy</p>
+              <p className="text-sm font-bold text-white">{charger.stats.totalEnergy.toLocaleString()} kWh</p>
+            </div>
+            <div className="flex items-center justify-between">
+              <p className="text-sm text-slate-300">Avg. Session</p>
+              <p className="text-sm font-bold text-white">{charger.stats.avgSessionDuration}</p>
+            </div>
+            <div className="flex items-center justify-between">
+              <p className="text-sm text-slate-300">Total Cost</p>
+              <p className="text-sm font-bold text-white">£{charger.costThisMonth}</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-slate-800 rounded-xl p-4 mb-6 border border-slate-700">
+          <h3 className="text-sm font-bold text-white mb-4">Details</h3>
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <p className="text-sm text-slate-300">Installed Date</p>
+              <p className="text-sm font-bold text-white">{charger.installedDate}</p>
+            </div>
+            <div className="flex items-center justify-between">
+              <p className="text-sm text-slate-300">Firmware</p>
+              <p className="text-sm font-bold text-white">{charger.firmware}</p>
+            </div>
+          </div>
+        </div>
+
+        <button className="w-full py-3 bg-red-950/30 text-red-400 rounded-lg font-medium border border-red-900/30 hover:bg-red-950/50 transition">
+          Remove Charger
+        </button>
+      </div>
+    </div>
+  );
+
   const renderSolarScreen = () => (
     <div className="pb-24">
       {/* Header with generation */}
@@ -708,7 +858,6 @@ export default function AssetsView() {
           </div>
           <div className="flex gap-2">
             <span className="text-xs bg-emerald-500/20 text-emerald-300 px-2 py-1 rounded-full">● Online</span>
-            <span className="text-xs bg-emerald-500/20 text-emerald-300 px-2 py-1 rounded-full">{homeBattery.warrantyYears}yr Warranty</span>
           </div>
         </button>
 
@@ -731,7 +880,28 @@ export default function AssetsView() {
           </div>
           <div className="flex gap-2">
             <span className="text-xs bg-yellow-500/20 text-yellow-300 px-2 py-1 rounded-full">📤 Exporting</span>
-            <span className="text-xs bg-yellow-500/20 text-yellow-300 px-2 py-1 rounded-full">{solar.panelCount} panels</span>
+          </div>
+        </button>
+
+        {/* Charger */}
+        <button
+          onClick={() => setActiveAsset('charger')}
+          className="w-full bg-gradient-to-br from-blue-500/20 to-indigo-500/20 rounded-lg p-4 text-left hover:from-blue-500/30 hover:to-indigo-500/30 transition border border-blue-500/30"
+        >
+          <div className="flex items-start justify-between mb-3">
+            <div className="flex items-center gap-3 flex-1">
+              <div className="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center">
+                <span className="text-lg">🔌</span>
+              </div>
+              <div>
+                <p className="text-sm font-bold text-white">{charger.name}</p>
+                <p className="text-xs text-slate-400 mt-0.5">{charger.power} • {charger.location}</p>
+              </div>
+            </div>
+            <ChevronRight className="w-5 h-5 text-slate-500 flex-shrink-0" />
+          </div>
+          <div className="flex gap-2">
+            <span className="text-xs bg-blue-500/20 text-blue-300 px-2 py-1 rounded-full">● Connected</span>
           </div>
         </button>
 
@@ -786,6 +956,7 @@ export default function AssetsView() {
       {activeAsset === 'tesla' && renderCarScreen()}
       {activeAsset === 'battery' && renderBatteryScreen()}
       {activeAsset === 'solar' && renderSolarScreen()}
+      {activeAsset === 'charger' && renderChargerScreen()}
       {tariffDetailOpen && <TariffDetailScreen />}
     </>
   );
