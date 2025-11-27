@@ -9,9 +9,9 @@ export default function AIChatView({ messages, input, onInputChange, onSend }) {
   }, [messages]);
 
   return (
-    <div className="pb-24 flex flex-col" style={{ minHeight: 'calc(100vh - 112px)' }}>
-      {/* Header */}
-      <div className="px-4 pt-6 pb-4 flex-shrink-0">
+    <div className="flex flex-col h-screen overflow-hidden">
+      {/* Header - Fixed at top */}
+      <div className="fixed top-0 left-0 right-0 px-4 pt-6 pb-4 bg-slate-900 z-20 border-b border-slate-700">
         <div className="flex items-center gap-2">
           <div className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-400 to-purple-400 flex items-center justify-center">
             <Sparkles className="w-5 h-5 text-white" />
@@ -23,39 +23,39 @@ export default function AIChatView({ messages, input, onInputChange, onSend }) {
         </div>
       </div>
 
-      {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto px-4 space-y-4 mb-4 pb-24">
+      {/* Messages Area - Scrollable below header */}
+      <div className="flex-1 overflow-y-auto px-4 space-y-4 pt-24 pb-[88px]">
         {messages.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-full py-8">
-            <Sparkles className="w-16 h-16 text-cyan-400 mb-4" />
-            <p className="text-base font-semibold text-white mb-6 text-center">What would you like to know?</p>
-            <div className="grid grid-cols-1 gap-3 w-full">
+          <div className="flex flex-col items-center pt-8 pb-4">
+            <Sparkles className="w-12 h-12 text-cyan-400 mb-3" />
+            <p className="text-base font-semibold text-white mb-4 text-center">What would you like to know?</p>
+            <div className="grid grid-cols-1 gap-2 w-full">
               <button 
                 onClick={() => {
                   onInputChange('How can I save more money?');
                   setTimeout(onSend, 100);
                 }}
-                className="px-4 py-3 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 text-left transition"
+                className="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 text-left transition text-xs font-medium text-slate-300"
               >
-                <p className="text-sm font-medium text-white">How can I save more money?</p>
+                How can I save more money?
               </button>
               <button 
                 onClick={() => {
                   onInputChange('What is V2G and how does it work?');
                   setTimeout(onSend, 100);
                 }}
-                className="px-4 py-3 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 text-left transition"
+                className="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 text-left transition text-xs font-medium text-slate-300"
               >
-                <p className="text-sm font-medium text-white">What is V2G and how does it work?</p>
+                What is V2G and how does it work?
               </button>
               <button 
                 onClick={() => {
                   onInputChange('Explain my charging schedule');
                   setTimeout(onSend, 100);
                 }}
-                className="px-4 py-3 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 text-left transition"
+                className="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 text-left transition text-xs font-medium text-slate-300"
               >
-                <p className="text-sm font-medium text-white">Explain my charging schedule</p>
+                Explain my charging schedule
               </button>
             </div>
           </div>
@@ -71,22 +71,22 @@ export default function AIChatView({ messages, input, onInputChange, onSend }) {
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Input Area - Sticky */}
-      <div className="fixed bottom-24 left-0 right-0 px-4 border-t border-slate-700 pt-3 pb-2 bg-slate-900 z-10">
-        <div className="flex gap-2">
+      {/* Input Area - Fixed at bottom */}
+      <div className="fixed bottom-[72px] left-0 right-0 px-3 py-2 border-t border-slate-700 bg-slate-900 z-30 shadow-lg">
+        <div className="flex gap-2 items-center">
           <input 
             type="text" 
             value={input} 
             onChange={(e) => onInputChange(e.target.value)} 
             onKeyPress={(e) => e.key === 'Enter' && onSend()} 
             placeholder="Ask about charging..." 
-            className="flex-1 px-4 py-3 rounded-lg bg-slate-800 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500" 
+            className="flex-1 px-3 py-2 rounded-lg bg-slate-800 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500" 
           />
           <button 
             onClick={onSend} 
-            className="bg-cyan-500 hover:bg-cyan-600 text-white p-3 rounded-lg transition"
+            className="bg-cyan-500 hover:bg-cyan-600 text-white p-2 rounded-lg transition flex-shrink-0"
           >
-            <Send className="w-5 h-5" />
+            <Send className="w-4 h-4" />
           </button>
         </div>
       </div>
