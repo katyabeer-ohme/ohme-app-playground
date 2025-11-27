@@ -107,9 +107,9 @@ export default function DashboardView({ setScheduleOpen, setView, errorCardState
               <span className="text-slate-500 text-lg">→</span>
               <span>🏠</span>
             </div>
-            <span className="text-xs bg-emerald-500/40 text-emerald-300 px-3 py-1.5 rounded-full font-semibold flex items-center gap-2 border border-emerald-400/30 shadow-lg shadow-emerald-500/30">
+            <span className="text-xs bg-purple-500/40 text-purple-300 px-3 py-1.5 rounded-full font-semibold flex items-center gap-2 border border-purple-400/30 shadow-lg shadow-purple-500/30">
               <div className="flex items-center gap-1.5">
-                <Zap className="w-3.5 h-3.5 text-emerald-300" />
+                <Zap className="w-3.5 h-3.5 text-purple-300" />
                 <span className="text-xs font-semibold">Discharging at 2.1 kW</span>
               </div>
             </span>
@@ -162,7 +162,7 @@ export default function DashboardView({ setScheduleOpen, setView, errorCardState
                 onClick={() => setCarDetailOpen(true)}
                 className="bg-brand-accent/10 hover:bg-brand-accent/20 text-text-primary py-1.5 px-2 rounded-lg font-medium text-xs transition border border-brand-accent/20"
               >
-                Edit target
+                Edit session
               </button>
               <button className="bg-brand-accent/10 hover:bg-brand-accent/20 text-text-primary py-1.5 px-2 rounded-lg font-medium text-xs transition border border-brand-accent/20">
                 Stop
@@ -216,23 +216,23 @@ export default function DashboardView({ setScheduleOpen, setView, errorCardState
           </div>
 
           {/* Plan Summary */}
-          <div className="pt-4 mt-4 border-t border-border-light">
-            <div className="grid grid-cols-2 gap-3 text-xs mb-4">
-              <div>
-                <p className="text-text-tertiary mb-1">Estimated total cost</p>
-                <p className="text-text-primary font-semibold">£4.57</p>
-              </div>
-              <div>
-                <p className="text-text-tertiary mb-1">Total energy to use</p>
-                <p className="text-text-primary font-semibold">68 kWh</p>
+          <div className="pt-0 mt-0">
+            <button onClick={() => setScheduleOpen(true)} className="w-full bg-brand-accent/10 hover:bg-brand-accent/20 text-text-primary py-2.5 px-4 rounded-lg font-medium text-sm mb-4 transition">
+              View full schedule →
+            </button>
+            <div className="border-t border-border-light pt-4">
+              <div className="grid grid-cols-2 gap-3">
+                <div className="bg-slate-700/30 rounded-lg p-3 border border-slate-600/50">
+                  <p className="text-xs text-text-tertiary mb-2 font-medium">Estimated total cost</p>
+                  <p className="text-xl font-bold text-text-primary">£4.57</p>
+                </div>
+                <div className="bg-slate-700/30 rounded-lg p-3 border border-slate-600/50">
+                  <p className="text-xs text-text-tertiary mb-2 font-medium">Total energy to use</p>
+                  <p className="text-xl font-bold text-text-primary">68 kWh</p>
+                </div>
               </div>
             </div>
-            <div className="border-t border-border-light"></div>
           </div>
-
-          <button onClick={() => setScheduleOpen(true)} className="w-full text-brand-secondary hover:text-brand-secondary-300 font-medium text-sm mt-4">
-            View full schedule →
-          </button>
         </div>
       </div>
 

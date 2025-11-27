@@ -327,7 +327,7 @@ export default function AssetsView() {
 
         {/* Charge Settings */}
         <div className="bg-slate-800 rounded-xl p-4 mb-6 border border-slate-700">
-          <h3 className="text-sm font-bold text-white mb-4">Charge Settings</h3>
+          <h3 className="text-sm font-bold text-white mb-4">Default charge settings</h3>
           
           {/* Min and Max Charge Targets */}
           <div className="grid grid-cols-2 gap-4 mb-4">
@@ -937,8 +937,9 @@ export default function AssetsView() {
           </button>
         </div>
 
-        <button className="w-full text-sm text-cyan-400 hover:text-cyan-300 font-medium text-left">
-          + Add export tariff
+        <button className="w-full bg-slate-800 rounded-lg p-4 text-left hover:bg-slate-700 transition border-2 border-dashed border-slate-700 flex items-center justify-center gap-2">
+          <Plus className="w-5 h-5 text-slate-400" />
+          <span className="text-sm font-medium text-slate-400">Add export tariff</span>
         </button>
       </div>
     </div>

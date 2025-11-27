@@ -4,6 +4,7 @@ import WeekDayBox from '../components/WeekDayBox';
 import EditTargetDrawer from '../components/EditTargetDrawer';
 import UsageSavingsDrawer from '../components/UsageSavingsDrawer';
 import ImpactDrawer from '../components/ImpactDrawer';
+import EnergyTodayDrawer from '../components/EnergyTodayDrawer';
 import ErrorCard from '../components/ErrorCard';
 import { WEEK_DAYS, PLUG_IN_STREAK, todaySchedule } from '../constants/data';
 
@@ -17,6 +18,7 @@ export default function DashboardView({ setScheduleOpen, setView, errorCardState
   const [editTargetOpen, setEditTargetOpen] = useState(false);
   const [usageSavingsDrawerOpen, setUsageSavingsDrawerOpen] = useState(false);
   const [impactDrawerOpen, setImpactDrawerOpen] = useState(false);
+  const [energyTodayDrawerOpen, setEnergyTodayDrawerOpen] = useState(false);
   const batteryProgress = currentBattery;
   const gridPower = '3.1 kW';
   const solarPower = '1.6 kW';
@@ -206,43 +208,30 @@ export default function DashboardView({ setScheduleOpen, setView, errorCardState
           </div>
 
           {/* Plan Summary */}
-          <div className="pt-4 mt-4 border-t border-border-light">
-            <div className="grid grid-cols-2 gap-3 text-xs">
-              <div>
-                <p className="text-text-tertiary mb-1">Estimated total cost</p>
-                <p className="text-text-primary font-semibold">£4.57</p>
-              </div>
-              <div>
-                <p className="text-text-tertiary mb-1">Total energy to use</p>
-                <p className="text-text-primary font-semibold">68 kWh</p>
+          <div className="pt-4 mt-4">
+            <button onClick={() => setScheduleOpen(true)} className="w-full bg-brand-accent/10 hover:bg-brand-accent/20 text-text-primary py-2.5 px-4 rounded-lg font-medium text-sm mb-4 transition">
+              View full plan →
+            </button>
+            <div className="border-t border-border-light pt-4">
+              <div className="grid grid-cols-2 gap-3">
+                <div className="bg-slate-700/30 rounded-lg p-3 border border-slate-600/50">
+                  <p className="text-xs text-text-tertiary mb-2 font-medium">Estimated total cost</p>
+                  <p className="text-xl font-bold text-text-primary">£4.57</p>
+                </div>
+                <div className="bg-slate-700/30 rounded-lg p-3 border border-slate-600/50">
+                  <p className="text-xs text-text-tertiary mb-2 font-medium">Total energy to use</p>
+                  <p className="text-xl font-bold text-text-primary">68 kWh</p>
+                </div>
               </div>
             </div>
           </div>
-
-          <button onClick={() => setScheduleOpen(true)} className="w-full bg-brand-accent/10 hover:bg-brand-accent/20 text-text-primary py-2.5 px-4 rounded-lg font-medium text-sm mt-4 transition">
-          View full plan →
-        </button>
       </div>
     </div>
     )}
 
-    {/* CURRENT RATE & SESSION SAVINGS */}
+    {/* SESSION SAVINGS & CURRENT RATE */}
       <div className="px-4 mb-6">
         <div className="grid grid-cols-2 gap-3">
-          {/* Current Rate Card */}
-          <div className="bg-slate-800 rounded-md p-4 shadow-lg">
-            <div className="flex flex-col gap-2">
-              <div className="w-8 h-8 bg-brand-primary/20 rounded-full flex items-center justify-center">
-                <Zap className="w-4 h-4 text-brand-primary" />
-              </div>
-              <div>
-                <p className="text-xs text-text-tertiary mb-1">Current rate</p>
-                <p className="text-xl font-bold text-text-primary">7.5p</p>
-                <p className="text-xs text-text-tertiary mt-0.5">Until 04:00 AM</p>
-              </div>
-            </div>
-          </div>
-
           {/* Session Savings Card */}
           <button 
             onClick={() => setUsageSavingsDrawerOpen(true)}
@@ -256,6 +245,24 @@ export default function DashboardView({ setScheduleOpen, setView, errorCardState
                 <p className="text-xs text-emerald-300 mb-1 font-semibold">Session savings</p>
                 <p className="text-xl font-bold text-white">£1.57</p>
                 <p className="text-xs text-emerald-400 mt-0.5">Tap to view →</p>
+              </div>
+            </div>
+          </button>
+
+          {/* Current Rate Card */}
+          <button 
+            onClick={() => setEnergyTodayDrawerOpen(true)}
+            className="bg-slate-800 rounded-md p-4 shadow-lg hover:bg-slate-700 transition text-left"
+          >
+            <div className="flex flex-col gap-2">
+              <div className="w-8 h-8 bg-brand-primary/20 rounded-full flex items-center justify-center">
+                <Zap className="w-4 h-4 text-brand-primary" />
+              </div>
+              <div>
+                <p className="text-xs text-text-tertiary mb-1">Current rate</p>
+                <p className="text-xl font-bold text-text-primary">7.5p</p>
+                <p className="text-xs text-text-tertiary mt-0.5">Until 04:00 AM</p>
+                <p className="text-xs text-brand-primary mt-1.5 font-medium">View rates →</p>
               </div>
             </div>
           </button>
@@ -346,6 +353,12 @@ export default function DashboardView({ setScheduleOpen, setView, errorCardState
       <ImpactDrawer 
         isOpen={impactDrawerOpen}
         onClose={() => setImpactDrawerOpen(false)}
+      />
+
+      {/* ENERGY TODAY DRAWER */}
+      <EnergyTodayDrawer 
+        isOpen={energyTodayDrawerOpen}
+        onClose={() => setEnergyTodayDrawerOpen(false)}
       />
     </div>
   );

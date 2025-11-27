@@ -19,10 +19,7 @@ export default function ErrorCard({ state, onDismiss, isVisible, onOpenAITrouble
               </p>
               {onOpenAITroubleshoot && (
                 <button
-                  onClick={() => {
-                    console.log('Resolve Issue clicked');
-                    onOpenAITroubleshoot();
-                  }}
+                  onClick={onOpenAITroubleshoot}
                   className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-xs font-medium transition"
                 >
                   Resolve Issue

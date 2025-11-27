@@ -41,3 +41,31 @@ export const AI_RESPONSES = [
   'If you enable V2G, you could earn £2-3 during tonight\'s peak window.',
 ];
 
+// Energy Graph Data - 24 hour overview (rates matching tariff tiers)
+export const energyGraphData = [
+  { hour: 0, source: 'off-peak', cost: 0.15, rate: 24.8, power: 1.2 },
+  { hour: 1, source: 'off-peak', cost: 0.18, rate: 26.5, power: 1.5 },
+  { hour: 2, source: 'off-peak', cost: 0.14, rate: 25.2, power: 1.1 },
+  { hour: 3, source: 'off-peak', cost: 0.16, rate: 27.1, power: 1.3 },
+  { hour: 4, source: 'off-peak', cost: 0.19, rate: 28.5, power: 1.6 },
+  { hour: 5, source: 'off-peak', cost: 0.17, rate: 26.8, power: 1.4 },
+  { hour: 6, source: 'standard', cost: 0.22, rate: 35.2, power: 1.2 },
+  { hour: 7, source: 'standard', cost: 0.28, rate: 38.5, power: 1.5 },
+  { hour: 8, source: 'peak', cost: 0.42, rate: 48.5, power: 2.1 },
+  { hour: 9, source: 'peak', cost: 0.58, rate: 52.3, power: 3.8 },
+  { hour: 10, source: 'peak', cost: 0.62, rate: 55.8, power: 5.2 },
+  { hour: 11, source: 'peak', cost: 0.68, rate: 58.2, power: 6.4 },
+  { hour: 12, source: 'peak', cost: 0.72, rate: 60.5, power: 7.2 },
+  { hour: 13, source: 'peak', cost: 0.65, rate: 57.8, power: 6.8 },
+  { hour: 14, source: 'peak', cost: 0.58, rate: 54.2, power: 5.6 },
+  { hour: 15, source: 'peak', cost: 0.52, rate: 51.5, power: 4.2 },
+  { hour: 16, source: 'peak', cost: 0.48, rate: 49.8, power: 2.5 },
+  { hour: 17, source: 'peak', cost: 0.55, rate: 52.5, power: 3.0 },
+  { hour: 18, source: 'peak', cost: 0.62, rate: 58.3, power: 3.5 },
+  { hour: 19, source: 'peak', cost: 0.58, rate: 55.2, power: 3.3 },
+  { hour: 20, source: 'peak', cost: 0.48, rate: 50.5, power: 2.8 },
+  { hour: 21, source: 'standard', cost: 0.35, rate: 42.5, power: 1.2 },
+  { hour: 22, source: 'off-peak', cost: 0.18, rate: 26.8, power: 1.5 },
+  { hour: 23, source: 'off-peak', cost: 0.16, rate: 25.5, power: 1.3 },
+];
+

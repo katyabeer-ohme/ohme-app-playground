@@ -9,7 +9,7 @@ export default function CustomerServiceRatingDrawer({ isOpen, onClose, caseNumbe
 
   const handleSubmit = () => {
     // Handle rating submission
-    console.log('Rating submitted:', rating);
+    // TODO: Implement rating submission logic
     onClose();
   };
 
