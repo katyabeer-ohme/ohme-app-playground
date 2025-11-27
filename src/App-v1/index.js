@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { Bell } from 'lucide-react';
+import { Bell, User } from 'lucide-react';
 import DashboardView from './views/DashboardView';
 import UsageView from './views/UsageView';
 import AssetsView from './views/AssetsView';
@@ -94,8 +94,8 @@ export default function EnergyHub({ currentVersion, setCurrentVersion }) {
       <div className="bg-slate-900 fixed top-0 left-0 right-0 z-50 border-b border-slate-800">
         <div className="max-w-md mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <button onClick={() => setProfileOpen(true)} className="w-9 h-9 rounded-full bg-slate-700 flex items-center justify-center text-slate-300 hover:bg-slate-600 transition flex-shrink-0">
-              <span className="text-sm font-bold">K</span>
+            <button onClick={() => setProfileOpen(true)} className="w-9 h-9 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-300 hover:bg-cyan-500/30 hover:text-cyan-200 transition flex-shrink-0">
+              <User className="w-4 h-4" />
             </button>
             {/* Version Switcher */}
             <div className="flex gap-1 bg-slate-800 rounded-lg p-1">
@@ -125,10 +125,10 @@ export default function EnergyHub({ currentVersion, setCurrentVersion }) {
             <button onClick={handleErrorDemo} className="text-xs text-slate-500 hover:text-slate-400 transition">
               Error
             </button>
-            <button onClick={() => setActivityDrawerOpen(true)} className="flex items-center gap-1.5 hover:opacity-80 transition">
+            <button onClick={() => setActivityDrawerOpen(true)} className="flex items-center gap-1.5 transition">
               <div className="relative flex-shrink-0">
-                <div className="w-7 h-7 bg-slate-700 rounded-full flex items-center justify-center">
-                  <Bell className="w-4 h-4 text-slate-300" />
+                <div className="w-9 h-9 bg-cyan-500/20 rounded-full flex items-center justify-center text-cyan-300 hover:bg-cyan-500/30 hover:text-cyan-200 transition">
+                  <Bell className="w-4 h-4" />
                 </div>
                 <div className="absolute top-0 right-0 w-1.5 h-1.5 bg-red-400 rounded-full animate-pulse"></div>
               </div>
