@@ -26,7 +26,7 @@ export const rewardsData = {
 // Today's Schedule
 export const todaySchedule = [
   { timeSlot: 'Right now', action: 'Powering your home with Tesla', target: '-4%', cost: 'Save £0.80', reason: 'Saving on grid costs', icon: 'car', consumption: 4.2 },
-  { timeSlot: '3:45 - 5:00 PM (Predicted)', action: 'Charging your Tesla with solar', target: '~ +14%', cost: 'FREE', reason: 'Utilising free energy', icon: 'sun', consumption: 0 },
+  { timeSlot: '3:45 - 5:00 PM (Predicted)', action: '☀️ Charging your Tesla with solar', target: '~ +14%', cost: 'FREE', reason: 'Utilising free energy', icon: 'sun', consumption: 0 },
   { timeSlot: '5:00 - 10:30 PM', action: 'Paused', target: '0%', cost: '£0', reason: 'Peak rate avoidance', icon: 'v2h', consumption: 0.0 },
   { timeSlot: '10:30 PM - 6:00 AM', action: 'Off-peak charging', target: '+35%', cost: '£1.20', reason: 'Night rate advantage', icon: 'night', consumption: 11.2 },
   { timeSlot: '6:00 - 7:30 AM', action: 'Final top-up', target: '+8%', cost: '£0.30', reason: 'Ready for morning', icon: 'charge', consumption: 2.4 },

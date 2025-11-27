@@ -392,45 +392,6 @@ export default function AssetsView() {
         </div>
 
         <div className="bg-slate-800 rounded-xl p-4 mb-6 border border-slate-700">
-          <h3 className="text-sm font-bold text-white mb-4">Vehicle to Grid/Home</h3>
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-white font-medium">V2H (Vehicle to Home)</p>
-                <p className="text-xs text-slate-400 mt-0.5">Power your home during peak rates</p>
-              </div>
-              <ToggleSwitch on={v2hEnabled} onChange={setV2hEnabled} />
-            </div>
-            <div className="h-px bg-slate-700"></div>
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-white font-medium">V2G (Vehicle to Grid)</p>
-                <p className="text-xs text-slate-400 mt-0.5">Export to grid for earnings</p>
-              </div>
-              <ToggleSwitch on={v2gEnabled} onChange={setV2gEnabled} />
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-slate-800 rounded-xl p-4 mb-6 border border-slate-700">
-          <h3 className="text-sm font-bold text-white mb-4">Recent Charges</h3>
-          <div className="space-y-2">
-            {vehicle.recentCharges.map((charge, idx) => (
-              <div key={idx} className="bg-slate-700/50 rounded-lg p-3 flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-white font-medium">{charge.date}</p>
-                  <p className="text-xs text-slate-400 mt-0.5">{charge.location}</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-sm font-bold text-white">{charge.energy} kWh</p>
-                  <p className="text-xs text-slate-400">{charge.cost} • {charge.duration}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="bg-slate-800 rounded-xl p-4 mb-6 border border-slate-700">
           <h3 className="text-sm font-bold text-white mb-4">Details</h3>
           <div className="space-y-3">
             <div className="flex items-center justify-between">
@@ -596,8 +557,8 @@ export default function AssetsView() {
             <p className="text-lg font-bold text-blue-400">{charger.power}</p>
           </div>
           <div className="bg-slate-800 rounded-lg p-3">
-            <p className="text-xs text-slate-400 mb-1">Type</p>
-            <p className="text-lg font-bold text-white">{charger.type}</p>
+            <p className="text-xs text-slate-400 mb-1">Warranty</p>
+            <p className="text-lg font-bold text-white">3 years</p>
           </div>
           <div className="bg-slate-800 rounded-lg p-3">
             <p className="text-xs text-slate-400 mb-1">Connector</p>
@@ -608,35 +569,6 @@ export default function AssetsView() {
             <p className="text-lg font-bold text-white">{charger.totalSessions}</p>
           </div>
         </div>
-
-        {charger.currentSession && (
-          <div className="bg-slate-800 rounded-xl p-4 mb-6 border border-slate-700">
-            <h3 className="text-sm font-bold text-white mb-4">Current Session</h3>
-            <div className="bg-slate-700/50 rounded-lg p-3">
-              <div className="flex items-center justify-between mb-2">
-                <p className="text-sm text-white">{charger.currentSession.vehicle}</p>
-                <span className="text-sm font-bold text-blue-400">{charger.currentSession.progress}%</span>
-              </div>
-              <div className="w-full bg-slate-600 rounded-full h-2 mb-3">
-                <div className="bg-blue-500 h-2 rounded-full transition-all" style={{ width: `${charger.currentSession.progress}%` }}></div>
-              </div>
-              <div className="grid grid-cols-3 gap-2 text-xs">
-                <div>
-                  <p className="text-slate-400">Time Left</p>
-                  <p className="text-white font-semibold">{charger.currentSession.timeLeft}</p>
-                </div>
-                <div>
-                  <p className="text-slate-400">Power</p>
-                  <p className="text-white font-semibold">{charger.currentSession.power}</p>
-                </div>
-                <div>
-                  <p className="text-slate-400">Energy</p>
-                  <p className="text-white font-semibold">{charger.currentSession.energy} kWh</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
 
         <div className="bg-slate-800 rounded-xl p-4 mb-6 border border-slate-700">
           <h3 className="text-sm font-bold text-white mb-4">Usage</h3>
@@ -736,6 +668,60 @@ export default function AssetsView() {
           </div>
         </div>
 
+        {/* Solar Forecast */}
+        <div className="bg-slate-800 rounded-xl p-4 mb-6 border border-slate-700">
+          <h3 className="text-sm font-bold text-white mb-4">Solar Forecast</h3>
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-slate-300">Weather Service</p>
+                <p className="text-xs text-slate-400 mt-0.5">{solar.weatherService}</p>
+              </div>
+              <span className="text-sm font-bold text-white">{solar.forecastAccuracy}% accurate</span>
+            </div>
+            
+            {/* Forecast Graph */}
+            <div className="bg-slate-700/50 rounded-lg p-3">
+              <p className="text-xs text-slate-400 mb-3">Today's predicted solar generation</p>
+              <div className="h-32 flex items-end gap-1 mb-2">
+                {[0, 0.2, 0.8, 2.1, 3.5, 4.2, 4.8, 5.1, 4.5, 3.2, 2.1, 1.5, 1.2, 0.9, 0.6, 0.3, 0.1, 0, 0, 0, 0, 0, 0, 0].map((value, idx) => {
+                  const hour = idx;
+                  const maxValue = 5.5;
+                  const height = (value / maxValue) * 100;
+                  return (
+                    <div key={idx} className="flex-1 flex flex-col items-center justify-end relative group h-full">
+                      <div
+                        className="w-full rounded-t bg-gradient-to-t from-yellow-500 to-yellow-400 transition-opacity hover:opacity-80 cursor-pointer"
+                        style={{ height: `${height}%`, minHeight: '2px' }}
+                      >
+                        <div className="hidden group-hover:block absolute -top-6 left-1/2 -translate-x-1/2 bg-slate-950 text-white text-xs rounded px-2 py-1 whitespace-nowrap z-20">
+                          {hour.toString().padStart(2, '0')}:00 • {value.toFixed(1)} kW
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="flex justify-between text-xs text-slate-500 mt-1">
+                <span>00:00</span>
+                <span>12:00</span>
+                <span>23:00</span>
+              </div>
+            </div>
+
+            <div className="bg-slate-700/50 rounded-lg p-3 space-y-2 text-xs">
+              <div className="flex items-center justify-between">
+                <span className="text-slate-400">Tomorrow</span>
+                <span className="text-white font-medium">☀️ Sunny • 35 kWh expected</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-slate-400">Day after</span>
+                <span className="text-white font-medium">⛅ Partly cloudy • 22 kWh expected</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* System Details */}
         <div className="bg-slate-800 rounded-xl p-4 mb-6 border border-slate-700">
           <h3 className="text-sm font-bold text-white mb-4">System Details</h3>
@@ -763,30 +749,6 @@ export default function AssetsView() {
             <div className="flex items-center justify-between">
               <span className="text-slate-400">Installed</span>
               <span className="text-white font-medium">{solar.installedDate}</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Weather & Forecast */}
-        <div className="bg-slate-800 rounded-xl p-4 mb-6 border border-slate-700">
-          <h3 className="text-sm font-bold text-white mb-4">Forecast</h3>
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-slate-300">Weather Service</p>
-                <p className="text-xs text-slate-400 mt-0.5">{solar.weatherService}</p>
-              </div>
-              <span className="text-sm font-bold text-white">{solar.forecastAccuracy}% accurate</span>
-            </div>
-            <div className="bg-slate-700/50 rounded-lg p-3 space-y-2 text-xs">
-              <div className="flex items-center justify-between">
-                <span className="text-slate-400">Tomorrow</span>
-                <span className="text-white font-medium">☀️ Sunny • 35 kWh expected</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-slate-400">Day after</span>
-                <span className="text-white font-medium">⛅ Partly cloudy • 22 kWh expected</span>
-              </div>
             </div>
           </div>
         </div>
@@ -956,7 +918,7 @@ export default function AssetsView() {
             className="w-full text-left hover:opacity-80 transition"
           >
             <div className="mb-3">
-              <p className="text-sm font-semibold text-white mb-1">Octopus Energy - Agile</p>
+              <p className="text-sm font-semibold text-white mb-1">Octopus Go</p>
               <p className="text-xs text-slate-400">Octopus Energy</p>
             </div>
             
