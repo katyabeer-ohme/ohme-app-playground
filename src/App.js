@@ -10,56 +10,14 @@ export default function App() {
   return (
     <PasswordProtection>
       <div className="min-h-screen bg-slate-900">
-      {/* Version Switcher Header */}
-      <div className="bg-slate-800 fixed top-0 left-0 right-0 z-[100] border-b border-slate-700 h-[56px]">
-        <div className="max-w-md mx-auto px-4 h-full flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            
-            <div>
-              <p className="text-xs font-bold text-white">OhmeFlo Prototype</p>
-            </div>
-          </div>
-          
-          {/* Version Switcher */}
-          <div className="flex gap-1 bg-slate-900 rounded-lg p-1">
-            <button
-              onClick={() => setCurrentVersion('v1')}
-              className={`px-2.5 py-1 rounded-md text-xs font-semibold transition ${
-                currentVersion === 'v1'
-                  ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/50'
-                  : 'text-slate-400 hover:text-white'
-              }`}
-            >
-              V1
-            </button>
-            <button
-              onClick={() => setCurrentVersion('v2')}
-              className={`px-2.5 py-1 rounded-md text-xs font-semibold transition ${
-                currentVersion === 'v2'
-                  ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/50'
-                  : 'text-slate-400 hover:text-white'
-              }`}
-            >
-              V2
-            </button>
-            {/* V3 - Hidden for now
-            <button
-              onClick={() => setCurrentVersion('v3')}
-              className={`px-2.5 py-1 rounded-md text-xs font-semibold transition ${
-                currentVersion === 'v3'
-                  ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/50'
-                  : 'text-slate-400 hover:text-white'
-              }`}
-            >
-              V3
-            </button>
-            */}
-          </div>
-        </div>
-      </div>
-
       {/* Render the selected version */}
-      {currentVersion === 'v1' ? <AppV1 /> : currentVersion === 'v2' ? <AppV2 /> : <AppV3 />}
+      {currentVersion === 'v1' ? (
+        <AppV1 currentVersion={currentVersion} setCurrentVersion={setCurrentVersion} />
+      ) : currentVersion === 'v2' ? (
+        <AppV2 currentVersion={currentVersion} setCurrentVersion={setCurrentVersion} />
+      ) : (
+        <AppV3 currentVersion={currentVersion} setCurrentVersion={setCurrentVersion} />
+      )}
       </div>
     </PasswordProtection>
   );

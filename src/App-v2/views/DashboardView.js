@@ -380,6 +380,50 @@ export default function DashboardView({ setScheduleOpen, setView, errorCardState
         onClose={() => setEnergyTodayDrawerOpen(false)}
       />
 
+      {/* WEATHER WIDGET */}
+      <div className="px-4 mb-6">
+        <div className="p-5">
+          <div className="mb-4">
+            <p className="text-xs text-slate-400 mb-1">Weather Forecast</p>
+            <p className="text-sm font-semibold text-white">123 Oak Street, London, SW1A 1AA</p>
+          </div>
+          
+          {/* Horizontally Scrollable Weather Forecast */}
+          <div className="overflow-x-auto -mx-5 px-5">
+            <div className="flex gap-4 pb-2">
+              {/* Today */}
+              <div className="flex-shrink-0 border border-slate-700 rounded-lg p-3 min-w-[80px] text-center">
+                <p className="text-xs text-slate-400 mb-1">Now</p>
+                <div className="text-2xl mb-1">⛅</div>
+                <p className="text-lg font-bold text-white">17°</p>
+                <p className="text-xs text-slate-400 mt-1">Cloudy</p>
+              </div>
+              
+              {/* Hourly Forecast */}
+              {[
+                { time: '2PM', icon: '☀️', temp: '19°', condition: 'Sunny' },
+                { time: '3PM', icon: '☀️', temp: '20°', condition: 'Sunny' },
+                { time: '4PM', icon: '⛅', temp: '19°', condition: 'Partly Cloudy' },
+                { time: '5PM', icon: '⛅', temp: '18°', condition: 'Cloudy' },
+                { time: '6PM', icon: '🌧️', temp: '16°', condition: 'Light Rain' },
+                { time: '7PM', icon: '🌧️', temp: '15°', condition: 'Rain' },
+                { time: '8PM', icon: '🌧️', temp: '14°', condition: 'Rain' },
+                { time: '9PM', icon: '☁️', temp: '13°', condition: 'Cloudy' },
+                { time: '10PM', icon: '☁️', temp: '12°', condition: 'Cloudy' },
+                { time: '11PM', icon: '☁️', temp: '11°', condition: 'Cloudy' },
+              ].map((forecast, idx) => (
+                <div key={idx} className="flex-shrink-0 border border-slate-700 rounded-lg p-3 min-w-[80px] text-center">
+                  <p className="text-xs text-slate-400 mb-1">{forecast.time}</p>
+                  <div className="text-2xl mb-1">{forecast.icon}</div>
+                  <p className="text-lg font-bold text-white">{forecast.temp}</p>
+                  <p className="text-xs text-slate-400 mt-1">{forecast.condition}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   );
 }

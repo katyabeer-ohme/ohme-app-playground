@@ -11,7 +11,7 @@ import BottomNavigation from './components/BottomNavigation';
 import MaxChargeDrawer from './components/MaxChargeDrawer';
 import { AI_RESPONSES } from './constants/data';
 
-export default function EnergyHub() {
+export default function EnergyHub({ currentVersion, setCurrentVersion }) {
   const [view, setView] = useState('dashboard');
   const [usagePeriod, setUsagePeriod] = useState('today');
   const [usageType, setUsageType] = useState('cost');
@@ -89,16 +89,41 @@ export default function EnergyHub() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 pt-[112px]">
+    <div className="min-h-screen bg-slate-900 pt-[56px]">
       {/* Header */}
-      <div className="bg-slate-900 fixed top-[56px] left-0 right-0 z-50 border-b border-slate-800">
+      <div className="bg-slate-900 fixed top-0 left-0 right-0 z-50 border-b border-slate-800">
         <div className="max-w-md mx-auto px-4 py-3 flex items-center justify-between">
-          <button onClick={() => setProfileOpen(true)} className="w-9 h-9 rounded-full bg-slate-700 flex items-center justify-center text-slate-300 hover:bg-slate-600 transition flex-shrink-0">
-            <span className="text-sm font-bold">K</span>
-          </button>
+          <div className="flex items-center gap-3">
+            <button onClick={() => setProfileOpen(true)} className="w-9 h-9 rounded-full bg-slate-700 flex items-center justify-center text-slate-300 hover:bg-slate-600 transition flex-shrink-0">
+              <span className="text-sm font-bold">K</span>
+            </button>
+            {/* Version Switcher */}
+            <div className="flex gap-1 bg-slate-800 rounded-lg p-1">
+              <button
+                onClick={() => setCurrentVersion('v1')}
+                className={`px-2.5 py-1 rounded-md text-xs font-semibold transition ${
+                  currentVersion === 'v1'
+                    ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/50'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                V1
+              </button>
+              <button
+                onClick={() => setCurrentVersion('v2')}
+                className={`px-2.5 py-1 rounded-md text-xs font-semibold transition ${
+                  currentVersion === 'v2'
+                    ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/50'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                V2
+              </button>
+            </div>
+          </div>
           <div className="flex items-center gap-3">
             <button onClick={handleErrorDemo} className="text-xs text-slate-500 hover:text-slate-400 transition">
-              Error demo
+              Error
             </button>
             <button onClick={() => setActivityDrawerOpen(true)} className="flex items-center gap-1.5 hover:opacity-80 transition">
               <div className="relative flex-shrink-0">
