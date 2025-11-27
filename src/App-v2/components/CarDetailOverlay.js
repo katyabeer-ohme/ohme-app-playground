@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Minus, Plus } from 'lucide-react';
+import { X, Minus, Plus, Sparkles } from 'lucide-react';
 
 export default function CarDetailOverlay({ isOpen, onClose, currentTarget, currentMinBattery, currentDate, currentTime, onSave }) {
   const [target, setTarget] = useState(currentTarget || 80);
@@ -77,6 +77,10 @@ export default function CarDetailOverlay({ isOpen, onClose, currentTarget, curre
     onClose();
   };
 
+  const handleUpdateTo70 = () => {
+    setTarget(70);
+  };
+
   return (
     <div className="fixed inset-0 z-[110] animate-in fade-in duration-200">
       <div className="fixed inset-0 bg-black/60 animate-in fade-in duration-300" onClick={handleCancel}></div>
@@ -96,6 +100,26 @@ export default function CarDetailOverlay({ isOpen, onClose, currentTarget, curre
         {/* Scrollable Content */}
         <div className="flex-1 overflow-y-auto px-6 py-6">
           <div className="space-y-6">
+            {/* AI Insight */}
+            <div className="bg-gradient-to-r from-cyan-500/20 to-purple-500/20 rounded-lg p-4 border border-cyan-500/30">
+              <div className="flex items-start gap-3 mb-3">
+                <div className="w-6 h-6 rounded-full bg-gradient-to-br from-cyan-400 to-purple-400 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <Sparkles className="w-3.5 h-3.5 text-white" />
+                </div>
+                <div className="flex-1">
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    You usually use 10% between charges. Target 70% to save money and be greener.
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={handleUpdateTo70}
+                className="w-full bg-cyan-500 hover:bg-cyan-600 text-white py-2 px-4 rounded-lg font-medium text-sm transition"
+              >
+                Update target to 70%
+              </button>
+            </div>
+
             {/* Charge Target Section */}
             <div>
               <label className="text-sm font-semibold text-text-primary mb-3 block">

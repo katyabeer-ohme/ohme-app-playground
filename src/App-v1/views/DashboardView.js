@@ -67,7 +67,6 @@ export default function DashboardView({ setScheduleOpen, setView, errorCardState
             </div>
             {isMaxCharging ? (
               <span key="max-power-stats" className="text-xs bg-red-500/40 text-red-300 px-3 py-1.5 rounded-full font-semibold flex items-center gap-2 border border-red-400/30 shadow-lg shadow-red-500/30 animate-in fade-in zoom-in-95 duration-500">
-                <div className="w-2 h-2 bg-red-400 rounded-full animate-pulse"></div>
                 <div className="flex items-center gap-1.5">
                   <Zap className="w-3.5 h-3.5 text-red-300" />
                   <span className="text-xs font-semibold">Max Charging</span>
@@ -75,7 +74,6 @@ export default function DashboardView({ setScheduleOpen, setView, errorCardState
               </span>
             ) : (
               <span key="power-stats" className="text-xs bg-emerald-500/40 text-emerald-300 px-3 py-1.5 rounded-full font-semibold flex items-center gap-2 border border-emerald-400/30 shadow-lg shadow-emerald-500/30 animate-in fade-in zoom-in-95 duration-500">
-                <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
                 <div className="flex items-center gap-1.5">
                   <Zap className="w-3.5 h-3.5 text-emerald-300" />
                   <span className="text-xs font-semibold">{gridPower}</span>

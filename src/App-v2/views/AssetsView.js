@@ -828,13 +828,12 @@ export default function AssetsView() {
     <div className="pb-24">
       <div className="px-4 pt-6 pb-2">
         <h2 className="text-xl font-bold text-white">My Hub</h2>
-        <p className="text-sm text-slate-400 mt-1">Manage your EV, battery, and solar system</p>
       </div>
 
       {/* Hero Image Card */}
       <div className="px-4 pt-4 pb-4">
         <div className="rounded-md overflow-hidden">
-          <div className="relative w-full" style={{ paddingBottom: '100%' }}>
+          <div className="relative w-full" style={{ paddingBottom: '75%' }}>
             <img
               src="/images/hero-home-energy.png"
               alt="Smart home energy ecosystem with EV charging and solar panels"
@@ -848,11 +847,11 @@ export default function AssetsView() {
         {/* Tesla */}
         <button
           onClick={() => setActiveAsset('tesla')}
-          className="w-full bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-lg p-4 text-left hover:from-cyan-500/30 hover:to-blue-500/30 transition border border-cyan-500/30"
+          className="w-full bg-gradient-to-br from-blue-500/20 to-indigo-500/20 rounded-lg p-4 text-left hover:from-blue-500/30 hover:to-indigo-500/30 transition border border-blue-500/30"
         >
           <div className="flex items-start justify-between mb-3">
             <div className="flex items-center gap-3 flex-1">
-              <div className="w-10 h-10 rounded-lg bg-cyan-500/20 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center">
                 <span className="text-lg">🚗</span>
               </div>
               <div>
@@ -863,20 +862,20 @@ export default function AssetsView() {
             <ChevronRight className="w-5 h-5 text-slate-500 flex-shrink-0" />
           </div>
           <div className="flex gap-2">
-            <span className="text-xs bg-cyan-500/20 text-cyan-300 px-2 py-1 rounded-full">V2H</span>
-            <span className="text-xs bg-cyan-500/20 text-cyan-300 px-2 py-1 rounded-full">V2G</span>
-            <span className="text-xs bg-emerald-500/20 text-emerald-300 px-2 py-1 rounded-full">● Connected</span>
+            <span className="text-xs bg-blue-500/20 text-blue-300 px-2 py-1 rounded-full">V2H</span>
+            <span className="text-xs bg-blue-500/20 text-blue-300 px-2 py-1 rounded-full">V2G</span>
+            <span className="text-xs bg-blue-500/20 text-blue-300 px-2 py-1 rounded-full">● Connected</span>
           </div>
         </button>
 
         {/* Home Battery */}
         <button
           onClick={() => setActiveAsset('battery')}
-          className="w-full bg-gradient-to-br from-emerald-500/20 to-teal-500/20 rounded-lg p-4 text-left hover:from-emerald-500/30 hover:to-teal-500/30 transition border border-emerald-500/30"
+          className="w-full bg-gradient-to-br from-blue-500/20 to-indigo-500/20 rounded-lg p-4 text-left hover:from-blue-500/30 hover:to-indigo-500/30 transition border border-blue-500/30"
         >
           <div className="flex items-start justify-between mb-3">
             <div className="flex items-center gap-3 flex-1">
-              <div className="w-10 h-10 rounded-lg bg-emerald-500/20 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center">
                 <span className="text-lg">🔋</span>
               </div>
               <div>
@@ -887,18 +886,18 @@ export default function AssetsView() {
             <ChevronRight className="w-5 h-5 text-slate-500 flex-shrink-0" />
           </div>
           <div className="flex gap-2">
-            <span className="text-xs bg-emerald-500/20 text-emerald-300 px-2 py-1 rounded-full">● Online</span>
+            <span className="text-xs bg-blue-500/20 text-blue-300 px-2 py-1 rounded-full">● Online</span>
           </div>
         </button>
 
         {/* Solar */}
         <button
           onClick={() => setActiveAsset('solar')}
-          className="w-full bg-gradient-to-br from-yellow-500/20 to-orange-500/20 rounded-lg p-4 text-left hover:from-yellow-500/30 hover:to-orange-500/30 transition border border-yellow-500/30"
+          className="w-full bg-gradient-to-br from-blue-500/20 to-indigo-500/20 rounded-lg p-4 text-left hover:from-blue-500/30 hover:to-indigo-500/30 transition border border-blue-500/30"
         >
           <div className="flex items-start justify-between mb-3">
             <div className="flex items-center gap-3 flex-1">
-              <div className="w-10 h-10 rounded-lg bg-yellow-500/20 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center">
                 <span className="text-lg">☀️</span>
               </div>
               <div>
@@ -909,7 +908,7 @@ export default function AssetsView() {
             <ChevronRight className="w-5 h-5 text-slate-500 flex-shrink-0" />
           </div>
           <div className="flex gap-2">
-            <span className="text-xs bg-yellow-500/20 text-yellow-300 px-2 py-1 rounded-full">📤 Exporting</span>
+            <span className="text-xs bg-blue-500/20 text-blue-300 px-2 py-1 rounded-full">📤 Exporting</span>
           </div>
         </button>
 

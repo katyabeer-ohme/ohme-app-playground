@@ -106,12 +106,10 @@ export default function DashboardView({ setScheduleOpen, setView, errorCardState
               <span>🏠</span>
             </div>
             <span className="text-xs bg-emerald-500/40 text-emerald-300 px-3 py-1.5 rounded-full font-semibold flex items-center gap-2 border border-emerald-400/30 shadow-lg shadow-emerald-500/30">
-              <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
               <div className="flex items-center gap-1.5">
                 <Zap className="w-3.5 h-3.5 text-emerald-300" />
                 <span className="text-xs font-semibold">Discharging at 2.1 kW</span>
               </div>
-          
             </span>
           </div>
           <div className="flex items-start justify-between mb-4">

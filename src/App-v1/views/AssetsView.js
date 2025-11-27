@@ -789,6 +789,7 @@ export default function AssetsView() {
   const renderAssetsList = () => (
     <div className="pb-24">
       <div className="px-4 mb-4 pt-4">
+        <h2 className="text-xl font-bold text-white">My Hub</h2>
       </div>
 
       {/* HOME ENERGY VISUALIZATION */}
@@ -841,7 +842,7 @@ export default function AssetsView() {
           <button
             key={vehicle.id}
             onClick={() => setActiveAsset(vehicle.id)}
-            className="w-full bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-lg p-4 text-left hover:from-cyan-500/30 hover:to-blue-500/30 transition border border-cyan-500/30"
+            className="w-full bg-gradient-to-br from-blue-500/20 to-indigo-500/20 rounded-lg p-4 text-left hover:from-blue-500/30 hover:to-indigo-500/30 transition border border-blue-500/30"
           >
             <div className="flex items-start justify-between mb-3">
               <div className="flex items-center gap-3 flex-1">
@@ -879,11 +880,11 @@ export default function AssetsView() {
         {/* Solar */}
         <button
           onClick={() => setActiveAsset('solar')}
-          className="w-full bg-gradient-to-br from-yellow-500/20 to-orange-500/20 rounded-lg p-4 text-left hover:from-yellow-500/30 hover:to-orange-500/30 transition border border-yellow-500/30"
+          className="w-full bg-gradient-to-br from-blue-500/20 to-indigo-500/20 rounded-lg p-4 text-left hover:from-blue-500/30 hover:to-indigo-500/30 transition border border-blue-500/30"
         >
           <div className="flex items-start justify-between mb-3">
             <div className="flex items-center gap-3 flex-1">
-              <div className="w-10 h-10 rounded-lg bg-yellow-500/20 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center">
                 <span className="text-lg">☀️</span>
               </div>
               <div>
@@ -894,8 +895,7 @@ export default function AssetsView() {
             <ChevronRight className="w-5 h-5 text-slate-500 flex-shrink-0" />
           </div>
           <div className="flex gap-2">
-            <span className="text-xs bg-yellow-500/20 text-yellow-300 px-2 py-1 rounded-full">📤 Exporting</span>
-            <span className="text-xs bg-yellow-500/20 text-yellow-300 px-2 py-1 rounded-full">{solar.panelCount} panels</span>
+            <span className="text-xs bg-blue-500/20 text-blue-300 px-2 py-1 rounded-full">📤 Exporting</span>
           </div>
         </button>
 
