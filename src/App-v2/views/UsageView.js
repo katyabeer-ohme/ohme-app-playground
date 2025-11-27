@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { usageData } from '../constants/data';
-import { ChevronRight, Zap, Battery, Home } from 'lucide-react';
+import { ChevronRight, Zap, Battery, Home, Sparkles } from 'lucide-react';
 
 export default function UsageView({ usagePeriod, setUsagePeriod, usageType, setUsageType, usageAsset, setUsageAsset, hoveredBar, setHoveredBar }) {
   const [activeTab, setActiveTab] = useState('usage');
@@ -192,10 +192,17 @@ export default function UsageView({ usagePeriod, setUsagePeriod, usageType, setU
             </div>
           </div>
 
-          {/* Smart Suggestion */}
-          <div className="bg-slate-800/50 rounded-lg p-3 mb-4">
-            <p className="text-xs font-semibold text-white mb-2">💡 Smart Suggestion</p>
-            <p className="text-xs text-slate-300 leading-relaxed">Lower home consumption 5-6 PM and enable V2G to earn £1.50 more today.</p>
+          {/* AI Insight */}
+          <div className="bg-gradient-to-r from-cyan-500/20 to-purple-500/20 rounded-lg p-3 border border-cyan-500/30 mb-4">
+            <div className="flex items-start gap-2">
+              <div className="w-6 h-6 rounded-full bg-gradient-to-br from-cyan-400 to-purple-400 flex items-center justify-center flex-shrink-0">
+                <Sparkles className="w-3.5 h-3.5 text-white" />
+              </div>
+              <div className="flex-1">
+                <p className="text-xs font-semibold text-cyan-300 mb-1">AI Insight</p>
+                <p className="text-xs text-slate-300 leading-relaxed">Lower home consumption 5-6 PM and enable V2G to earn £1.50 more today.</p>
+              </div>
+            </div>
           </div>
 
           {/* 24-Hour Cost Breakdown */}
