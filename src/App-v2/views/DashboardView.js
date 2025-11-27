@@ -86,19 +86,6 @@ export default function DashboardView({ setScheduleOpen, setView, errorCardState
                 </div>
               </div>
             </div>
-
-            {/* AI Insight */}
-            <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-lg p-3 border border-purple-500/30">
-              <div className="flex items-start gap-2">
-                <div className="w-6 h-6 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0 animate-pulse">
-                  <Sparkles className="w-3.5 h-3.5 text-white" />
-                </div>
-                <div className="flex-1">
-                  <p className="text-xs font-semibold text-purple-300 mb-1">AI Insight</p>
-                  <p className="text-xs text-slate-300 leading-relaxed">Based on your usage history, you can get paid to charge your car and save up to £3.20 per charge with a dynamic tariff.</p>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
