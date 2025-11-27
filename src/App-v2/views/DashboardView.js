@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
-import { Zap, Home, Car, Sparkles } from 'lucide-react';
+import { Zap, Home, Car, Sparkles, TrendingDown, Leaf } from 'lucide-react';
 import WeekDayBox from '../components/WeekDayBox';
 import CarDetailOverlay from '../components/CarDetailOverlay';
+import UsageSavingsDrawer from '../components/UsageSavingsDrawer';
+import ImpactDrawer from '../components/ImpactDrawer';
+import EnergyTodayDrawer from '../components/EnergyTodayDrawer';
 import ErrorCard from '../components/ErrorCard';
 import { WEEK_DAYS, PLUG_IN_STREAK, todaySchedule } from '../constants/data';
 
@@ -13,6 +16,9 @@ export default function DashboardView({ setScheduleOpen, setView, errorCardState
   const [readyByDate, setReadyByDate] = useState('');
   const [readyByTime, setReadyByTime] = useState('08:00');
   const [readyByDay, setReadyByDay] = useState('Wed');
+  const [usageSavingsDrawerOpen, setUsageSavingsDrawerOpen] = useState(false);
+  const [impactDrawerOpen, setImpactDrawerOpen] = useState(false);
+  const [energyTodayDrawerOpen, setEnergyTodayDrawerOpen] = useState(false);
 
   const handleSaveTarget = (values) => {
     setTargetBattery(values.target);
@@ -236,6 +242,83 @@ export default function DashboardView({ setScheduleOpen, setView, errorCardState
         </div>
       </div>
 
+      {/* SESSION SAVINGS & CURRENT RATE */}
+      <div className="px-4 mb-6">
+        <div className="grid grid-cols-2 gap-3">
+          {/* Session Savings Card */}
+          <button 
+            onClick={() => setUsageSavingsDrawerOpen(true)}
+            className="bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 rounded-md p-4 shadow-lg hover:from-emerald-500/25 hover:to-cyan-500/25 transition text-left"
+          >
+            <div className="flex flex-col gap-2">
+              <div className="w-8 h-8 bg-emerald-500/20 rounded-full flex items-center justify-center">
+                <TrendingDown className="w-4 h-4 text-emerald-400" />
+              </div>
+              <div>
+                <p className="text-xs text-emerald-300 mb-1 font-semibold">Session savings</p>
+                <p className="text-xl font-bold text-white">£1.57</p>
+                <p className="text-xs text-emerald-400 mt-0.5">Tap to view →</p>
+              </div>
+            </div>
+          </button>
+
+          {/* Current Rate Card */}
+          <button 
+            onClick={() => setEnergyTodayDrawerOpen(true)}
+            className="bg-slate-800 rounded-md p-4 shadow-lg hover:bg-slate-700 transition text-left"
+          >
+            <div className="flex flex-col gap-2">
+              <div className="w-8 h-8 bg-brand-primary/20 rounded-full flex items-center justify-center">
+                <Zap className="w-4 h-4 text-brand-primary" />
+              </div>
+              <div>
+                <p className="text-xs text-text-tertiary mb-1">Current rate</p>
+                <p className="text-xl font-bold text-text-primary">7.5p</p>
+                <p className="text-xs text-text-tertiary mt-0.5">Until 04:00 AM</p>
+                <p className="text-xs text-brand-primary mt-1.5 font-medium">View rates →</p>
+              </div>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      {/* YOUR IMPACT CARD */}
+      <div className="px-4 mb-6">
+        <button 
+          onClick={() => setImpactDrawerOpen(true)}
+          className="w-full bg-gradient-to-br from-emerald-500/20 to-green-500/20 rounded-md p-5 shadow-lg hover:from-emerald-500/25 hover:to-green-500/25 transition text-left"
+        >
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-emerald-500/20 rounded-full flex items-center justify-center">
+                <Leaf className="w-6 h-6 text-emerald-400" />
+              </div>
+              <div>
+                <h3 className="text-base font-bold text-white">Your Impact</h3>
+                <p className="text-xs text-emerald-300 font-semibold">Eco Champion</p>
+              </div>
+            </div>
+            <div className="text-right">
+              <div className="inline-flex items-baseline gap-1 bg-emerald-500/30 border border-emerald-400/50 rounded-lg px-3 py-1.5">
+                <span className="text-3xl font-bold text-white">3</span>
+                <span className="text-lg text-slate-300">/5</span>
+              </div>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-3 text-xs">
+            <div className="pl-3 border-l-2 border-emerald-500 py-2">
+              <p className="text-slate-400 mb-0.5">Trees saved</p>
+              <p className="text-white font-semibold">2.3 trees</p>
+            </div>
+            <div className="pl-3 border-l-2 border-emerald-500 py-2">
+              <p className="text-slate-400 mb-0.5">CO₂ offset</p>
+              <p className="text-white font-semibold">45.2 kg</p>
+            </div>
+          </div>
+          <p className="text-xs text-emerald-400 mt-3 text-center">Tap to see full impact report →</p>
+        </button>
+      </div>
+
       {/* PLUG-IN STREAK SECTION */}
       <div className="px-4 mb-6">
         <div className="bg-slate-800 rounded-md p-5 shadow-lg">
@@ -276,6 +359,25 @@ export default function DashboardView({ setScheduleOpen, setView, errorCardState
         currentDate={readyByDate}
         currentTime={readyByTime}
         onSave={handleSaveTarget}
+      />
+
+      {/* USAGE SAVINGS DRAWER */}
+      <UsageSavingsDrawer 
+        isOpen={usageSavingsDrawerOpen}
+        onClose={() => setUsageSavingsDrawerOpen(false)}
+        setView={setView}
+      />
+
+      {/* IMPACT DRAWER */}
+      <ImpactDrawer 
+        isOpen={impactDrawerOpen}
+        onClose={() => setImpactDrawerOpen(false)}
+      />
+
+      {/* ENERGY TODAY DRAWER */}
+      <EnergyTodayDrawer 
+        isOpen={energyTodayDrawerOpen}
+        onClose={() => setEnergyTodayDrawerOpen(false)}
       />
 
     </div>
