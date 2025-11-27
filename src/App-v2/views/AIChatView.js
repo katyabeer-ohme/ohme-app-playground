@@ -24,9 +24,9 @@ export default function AIChatView({ messages, input, onInputChange, onSend }) {
       </div>
 
       {/* Messages Area - Scrollable below header */}
-      <div className="flex-1 overflow-y-auto px-4 space-y-4 pt-28 pb-[88px]">
+      <div className="flex-1 overflow-y-auto px-4 space-y-4 pt-28">
         {messages.length === 0 ? (
-          <div className="flex flex-col items-center pt-4 pb-4">
+          <div className="flex flex-col items-center justify-center min-h-[calc(100vh-200px)] pb-32">
             <Sparkles className="w-12 h-12 text-cyan-400 mb-3" />
             <p className="text-base font-semibold text-white mb-4 text-center">What would you like to know?</p>
             <div className="grid grid-cols-1 gap-2 w-full">
@@ -69,6 +69,7 @@ export default function AIChatView({ messages, input, onInputChange, onSend }) {
           ))
         )}
         <div ref={messagesEndRef} />
+        <div className="pb-[88px]"></div>
       </div>
 
       {/* Input Area - Fixed at bottom */}
