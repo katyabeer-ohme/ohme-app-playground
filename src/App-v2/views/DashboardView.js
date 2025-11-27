@@ -30,14 +30,16 @@ export default function DashboardView({ setScheduleOpen, setView, errorCardState
   return (
     <div className="pb-24">
       {/* ERROR CARD */}
-      <div className="pt-3">
-        <ErrorCard 
-          state={errorCardState}
-          isVisible={showErrorCard}
-          onOpenAITroubleshoot={onOpenAITroubleshoot}
-          onDismiss={onDismissError}
-        />
-      </div>
+      {showErrorCard && (
+        <div className="pt-3">
+          <ErrorCard 
+            state={errorCardState}
+            isVisible={showErrorCard}
+            onOpenAITroubleshoot={onOpenAITroubleshoot}
+            onDismiss={onDismissError}
+          />
+        </div>
+      )}
 
       {/* Today So Far */}
       <div className="mb-6">
