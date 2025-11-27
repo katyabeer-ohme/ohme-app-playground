@@ -192,14 +192,14 @@ export default function DashboardView({ setScheduleOpen, setView, errorCardState
             {todaySchedule.slice(0, 3).map((item, idx) => (
               <div key={idx} className="relative pb-6 last:pb-0">
                 <div className="absolute -left-6 top-1 w-3 h-3 rounded-full bg-brand-primary border-2 border-brand-dark"></div>
-                <div className="flex items-start justify-between gap-3">
-                  <div className="flex-1">
-                    <p className="text-xs text-text-tertiary mb-1 font-medium">{item.timeSlot}</p>
-                    <p className="text-sm font-semibold text-text-primary mb-1">{item.action}</p>
-                    <p className="text-xs text-text-tertiary">{item.reason}</p>
+                <div className="flex flex-col gap-1">
+                  <p className="text-xs text-text-tertiary font-medium">{item.timeSlot}</p>
+                  <div className="flex items-start justify-between gap-3">
+                    <p className="text-sm font-semibold text-text-primary flex-1">{item.action}</p>
+                    <p className="text-sm font-bold text-brand-primary">{item.power}</p>
                   </div>
-                  <div className="text-right">
-                    <p className="text-sm font-bold text-brand-primary mb-0.5">{item.power}</p>
+                  <div className="flex items-start justify-between gap-3">
+                    <p className="text-xs text-text-tertiary flex-1">{item.reason}</p>
                     <p className="text-xs text-text-tertiary">{item.cost}</p>
                   </div>
                 </div>
