@@ -953,11 +953,10 @@ export default function AssetsView() {
             className="w-full text-left hover:opacity-80 transition"
           >
             <div className="mb-3">
-              <p className="text-sm font-semibold text-white mb-1">Octopus Energy - Agile</p>
-              <p className="text-xs text-slate-400">Octopus Energy</p>
+              <p className="text-sm font-semibold text-white mb-1">Octopus Energy - Agile by Octopus Energy</p>
             </div>
             
-            <div className="mb-3 p-3 bg-slate-700/30 rounded border border-slate-700">
+            <div className="mb-3">
               <p className="text-xs text-slate-300 mb-1">Current rate</p>
               <div className="flex items-baseline gap-2">
                 <p className="text-lg font-bold text-white">28.5p</p>

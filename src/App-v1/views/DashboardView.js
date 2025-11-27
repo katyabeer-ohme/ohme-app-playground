@@ -200,7 +200,7 @@ export default function DashboardView({ setScheduleOpen, setView, errorCardState
                   </div>
                   <div className="flex items-start justify-between gap-3">
                     <p className="text-xs text-text-tertiary flex-1">{item.reason}</p>
-                    <p className="text-xs text-text-tertiary">{item.cost}</p>
+                    <p className={`text-xs ${item.cost.includes('Saving') ? 'text-emerald-400' : 'text-text-tertiary'}`}>{item.cost}</p>
                   </div>
                 </div>
               </div>

@@ -4,7 +4,7 @@ export const PLUG_IN_STREAK = [true, true, true, false, true, false, false];
 
 // Today's Schedule
 export const todaySchedule = [
-  { timeSlot: 'Righ now until 16:40 PM', action: 'Charging from solar and grid', rate: '£0.00', cost: '£0.00', reason: 'Utilising free energy', power: '+4%' },
+  { timeSlot: 'Righ now until 16:40 PM', action: 'Charging from solar and grid', rate: '£0.00', cost: 'Saving £0.37', reason: 'Utilising free energy', power: '+4%' },
   { timeSlot: '16:40 PM - 22:00 PM', action: 'Paused', rate: 'Peak', cost: '£0.00', reason: 'Waiting for off-peak', power: '+0%' },
   { timeSlot: '22:00 PM - 6:00 AM', action: 'Charging at off-peak rate', rate: '£1.20', cost: '£1.20', reason: 'Cheapest window', power: '+23%' },
   { timeSlot: '6:00 - 7:30 AM', action: 'Final top-up', rate: '£0.97', cost: '£0.30', reason: 'Ready for morning', power: '+11%' },
