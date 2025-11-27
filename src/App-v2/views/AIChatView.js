@@ -24,7 +24,7 @@ export default function AIChatView({ messages, input, onInputChange, onSend }) {
       </div>
 
       {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto px-4 space-y-4 mb-4">
+      <div className="flex-1 overflow-y-auto px-4 space-y-4 mb-4 pb-24">
         {messages.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full py-8">
             <Sparkles className="w-16 h-16 text-cyan-400 mb-4" />
@@ -71,8 +71,8 @@ export default function AIChatView({ messages, input, onInputChange, onSend }) {
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Input Area */}
-      <div className="px-4 border-t border-slate-700 pt-3 pb-2 flex-shrink-0">
+      {/* Input Area - Sticky */}
+      <div className="fixed bottom-24 left-0 right-0 px-4 border-t border-slate-700 pt-3 pb-2 bg-slate-900 z-10">
         <div className="flex gap-2">
           <input 
             type="text" 
