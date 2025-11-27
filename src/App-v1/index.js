@@ -190,7 +190,14 @@ export default function EnergyHub({ currentVersion, setCurrentVersion }) {
       <ActivityDrawer isOpen={activityDrawerOpen} onClose={() => setActivityDrawerOpen(false)} />
 
       {/* PROFILE DRAWER */}
-      <ProfileDrawer isOpen={profileOpen} onClose={() => setProfileOpen(false)} />
+      <ProfileDrawer 
+        isOpen={profileOpen} 
+        onClose={() => setProfileOpen(false)}
+        onLogout={() => {
+          sessionStorage.removeItem('ohmeFloAuth');
+          window.location.reload();
+        }}
+      />
 
       {/* MAX CHARGE DRAWER */}
       <MaxChargeDrawer

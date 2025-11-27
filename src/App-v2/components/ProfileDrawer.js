@@ -1,7 +1,7 @@
 import React from 'react';
 import { ChevronRight, X } from 'lucide-react';
 
-export default function ProfileDrawer({ isOpen, onClose }) {
+export default function ProfileDrawer({ isOpen, onClose, onLogout }) {
   if (!isOpen) return null;
 
   return (
@@ -121,7 +121,15 @@ export default function ProfileDrawer({ isOpen, onClose }) {
             </button>
           </div>
           <div className="space-y-2 pt-4 border-t border-red-900/30">
-            <button className="w-full flex items-center justify-between px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition">
+            <button 
+              onClick={() => {
+                onClose();
+                if (onLogout) {
+                  onLogout();
+                }
+              }}
+              className="w-full flex items-center justify-between px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition"
+            >
               <p className="text-sm text-slate-300">Logout</p>
               <svg className="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />

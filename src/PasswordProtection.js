@@ -34,16 +34,16 @@ export default function PasswordProtection({ children }) {
   }
 
   return (
-    <div className="min-h-screen bg-slate-900 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-slate-900 flex items-center justify-center px-4 py-8">
       <div className="max-w-md w-full">
-        <div className="bg-slate-800 rounded-2xl p-8 shadow-2xl border border-slate-700">
+        <div className="bg-slate-800 rounded-2xl p-6 sm:p-8 shadow-2xl border border-slate-700">
           {/* Logo/Header */}
-          <div className="flex flex-col items-center mb-8">
-            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center shadow-lg mb-4">
-              <Lock className="w-8 h-8 text-white" />
+          <div className="flex flex-col items-center mb-6 sm:mb-8">
+            <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center shadow-lg mb-3 sm:mb-4">
+              <Lock className="w-7 h-7 sm:w-8 sm:h-8 text-white" />
             </div>
-            <h1 className="text-2xl font-bold text-white mb-2">OhmeFlo Prototype</h1>
-            <p className="text-sm text-slate-400 text-center">
+            <h1 className="text-xl sm:text-2xl font-bold text-white mb-2">OhmeFlo Prototype</h1>
+            <p className="text-xs sm:text-sm text-slate-400 text-center px-2">
               This prototype is password protected
             </p>
           </div>
@@ -51,7 +51,7 @@ export default function PasswordProtection({ children }) {
           {/* Password Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-slate-300 mb-2">
+              <label htmlFor="password" className="block text-xs sm:text-sm font-medium text-slate-300 mb-2">
                 Password
               </label>
               <input
@@ -63,25 +63,25 @@ export default function PasswordProtection({ children }) {
                   setError('');
                 }}
                 placeholder="Enter password"
-                className="w-full px-4 py-3 rounded-lg bg-slate-900 border border-slate-600 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition"
+                className="w-full px-4 py-3 text-base sm:text-lg rounded-lg bg-slate-900 border border-slate-600 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition"
                 autoFocus
               />
               {error && (
-                <p className="mt-2 text-sm text-red-400">{error}</p>
+                <p className="mt-2 text-xs sm:text-sm text-red-400">{error}</p>
               )}
             </div>
 
             <button
               type="submit"
-              className="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-3 rounded-lg transition shadow-lg shadow-cyan-500/50"
+              className="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-3 sm:py-3.5 text-sm sm:text-base rounded-lg transition shadow-lg shadow-cyan-500/50"
             >
               Access Prototype
             </button>
           </form>
 
           {/* Info */}
-          <div className="mt-6 pt-6 border-t border-slate-700">
-            <p className="text-xs text-slate-500 text-center">
+          <div className="mt-5 sm:mt-6 pt-5 sm:pt-6 border-t border-slate-700">
+            <p className="text-xs text-slate-500 text-center px-2">
               Your session will remain active until you close the browser
             </p>
           </div>
