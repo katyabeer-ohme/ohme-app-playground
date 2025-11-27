@@ -1,4 +1,12 @@
 /* Custom styles for the OhmeFlo app */
 
-/* You can add any custom CSS styles here if needed */
+/* Fix for sticky bottom navigation on mobile browsers */
+.fixed.bottom-0 {
+  transform: translateZ(0);
+  will-change: transform;
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
 /* The app primarily uses Tailwind CSS utility classes */

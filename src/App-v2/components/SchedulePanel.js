@@ -24,7 +24,7 @@ export default function SchedulePanel({ isOpen, onClose }) {
                     <p className="text-xs text-slate-400 font-medium">{item.timeSlot}</p>
                     <p className="text-sm font-semibold text-white">{item.action}</p>
                   </div>
-                  <p className="text-sm font-bold text-cyan-400">{item.target}</p>
+                  <p className={`text-sm font-bold ${item.target.startsWith('-') ? 'text-purple-300' : 'text-cyan-400'}`}>{item.target}</p>
                 </div>
                 <p className="text-xs text-slate-400 mb-3">{item.reason}</p>
                 <div className="flex items-center justify-between">

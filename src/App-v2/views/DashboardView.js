@@ -200,7 +200,7 @@ export default function DashboardView({ setScheduleOpen, setView, errorCardState
                     <p className="text-xs text-text-tertiary">{item.reason}</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm font-bold text-brand-primary mb-0.5">{item.target}</p>
+                    <p className={`text-sm font-bold mb-0.5 ${item.target.startsWith('-') ? 'text-purple-300' : 'text-brand-primary'}`}>{item.target}</p>
                     <p className={`text-xs ${item.cost.includes('Save') ? 'text-emerald-400' : 'text-text-tertiary'}`}>{item.cost}</p>
                   </div>
                 </div>
