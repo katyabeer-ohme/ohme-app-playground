@@ -4,7 +4,22 @@ import NavButton from './NavButton';
 
 export default function BottomNavigation({ view, setView }) {
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-slate-800 border-t border-slate-700 z-40" style={{ paddingBottom: 'env(safe-area-inset-bottom)', transform: 'translateZ(0)', willChange: 'transform' }}>
+    <div 
+      className="fixed bottom-0 left-0 right-0 bg-slate-800 border-t border-slate-700 z-40" 
+      style={{ 
+        paddingBottom: 'max(env(safe-area-inset-bottom), 0px)',
+        transform: 'translateZ(0)',
+        willChange: 'transform',
+        position: 'fixed',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        WebkitTransform: 'translateZ(0)',
+        WebkitBackfaceVisibility: 'hidden',
+        backfaceVisibility: 'hidden',
+        isolation: 'isolate'
+      }}
+    >
       <div className="max-w-md mx-auto flex">
         <NavButton id="dashboard" icon={Home} label="Home" onClick={() => setView('dashboard')} view={view} />
         <NavButton id="settings" icon={Zap} label="My Hub" onClick={() => setView('settings')} view={view} />
